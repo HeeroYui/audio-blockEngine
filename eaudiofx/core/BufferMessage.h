@@ -21,7 +21,7 @@ namespace eaudiofx {
 	};
 	class BufferMessage : public eaudiofx::Buffer {
 		public:
-			BufferMessage(int32_t _message = bufferMessageEndOfStream) {};
+			BufferMessage(eaudiofx::Block& _parent, int32_t _message = eaudiofx::bufferMessageEndOfStream);
 			~BufferMessage(void) {};
 		protected:
 			int32_t m_messageId; //!< message ID
@@ -37,7 +37,7 @@ namespace eaudiofx {
 			 * @brief Set the message.
 			 * @param[in] _message The ID of the message (if value is < 0 : custom message ...)
 			 */
-			int32_t getMessage(int32_t _messageId) {
+			void getMessage(int32_t _messageId) {
 				m_messageId = _messageId;
 			}
 		private:

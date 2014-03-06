@@ -6,20 +6,20 @@
  * @license BSD v3 (see license file)
  */
 
-#ifndef __EAUDIOFX_PROCESSING_H__
-#define __EAUDIOFX_PROCESSING_H__
+#ifndef __EAUDIOFX_BLOCK_META_H__
+#define __EAUDIOFX_BLOCK_META_H__
 
-#include <eaudiofx/core/audio.h>
-#include <eaudiofx/core/Buffer.h>
 #include <eaudiofx/core/Block.h>
 #include <vector>
 
 namespace eaudiofx {
-	class Processing {
+	class BlockMeta : public eaudiofx::Block {
 		public:
-			Processing(void) {};
-			~Processing(void) {};
+			BlockMeta(void);
+			~BlockMeta(void);
 		private:
+			std::vector<eaudiofx::Block*> m_list; //!< list of all block to process.
+			
 	};
 };
 

@@ -9,3 +9,9 @@
 #include <eaudiofx/core/BufferMessage.h>
 
 
+
+eaudiofx::BufferMessage::BufferMessage(eaudiofx::Block& _parent, int32_t _message) :
+  eaudiofx::Buffer(_parent),
+  m_messageId(_message) {
+	
+}

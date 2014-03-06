@@ -8,7 +8,8 @@
 
 #include <eaudiofx/core/BufferStream.h>
 
-eaudiofx::BufferStream::BufferStream(void) {
+eaudiofx::BufferStream::BufferStream(eaudiofx::Block& _parent) :
+  eaudiofx::Buffer(_parent) {
 	
 }
 eaudiofx::BufferStream::~BufferStream(void) {

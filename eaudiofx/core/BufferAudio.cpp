@@ -9,7 +9,8 @@
 #include <eaudiofx/core/BufferAudio.h>
 #include <eaudiofx/debug.h>
 
-eaudiofx::BufferAudio::BufferAudio(void) :
+eaudiofx::BufferAudio::BufferAudio(eaudiofx::Block& _parent) :
+  eaudiofx::Buffer(_parent),
   m_frequency(0),
   m_nbChannel(0),
   m_data(0),
@@ -24,12 +25,12 @@ eaudiofx::BufferAudio::~BufferAudio(void) {
 	}
 }
 
-void eaudiofx::BufferAudio::resize(size_t _newSizeByte) {
+void eaudiofx::BufferAudio::resize(size_t _newSize) {
 	if (m_data != NULL) {
 		delete[] m_data;
 		m_data = NULL;
 	}
-	m_data = new uint8_t[_newSizeByte];
+	m_data = new float[_newSize];
 	if (m_data == NULL) {
 		EAUDIOFX_ERROR("Can not allocate Buffer Audio");
 	}

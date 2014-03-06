@@ -14,20 +14,28 @@
 namespace eaudiofx {
 	class BufferAudio : public eaudiofx::Buffer {
 		public:
-			BufferAudio(void);
+			BufferAudio(eaudiofx::Block& _parent);
 			~BufferAudio(void);
 		protected:
 			int32_t m_frequency;
 			int32_t m_nbChannel;
 			enum channelPosition m_channelType[MAX_NUMBER_OF_SIMULTANEOUS_CHANNEL];
 		protected:
-			uint8_t* m_data; //!< pointer on the data.
-			size_t m_allocated; //!< number of byte allocated
+			float* m_data; //!< pointer on the data.
+			size_t m_allocated; //!< number of sample allocated
 		protected:
 			/**
 			 * @brief Reallocate the Buffer data.
 			 */
-			virtual void resize(size_t _newSizeByte);
+			virtual void resize(size_t _newSize);
+		public:
+			/**
+			 * @brief Get the buffer casted in float*
+			 * @return Pointer on the buffer with correct cast.
+			 */
+			float* getData(void) {
+				return m_data;
+			}
 	};
 };
 

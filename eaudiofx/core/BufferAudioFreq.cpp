@@ -9,3 +9,8 @@
 #include <eaudiofx/core/BufferAudioFreq.h>
 
 
+eaudiofx::BufferAudioFreq::BufferAudioFreq(eaudiofx::Block& _parent) :
+  eaudiofx::BufferAudio(_parent) {
+	
+}
+

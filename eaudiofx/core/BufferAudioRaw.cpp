@@ -9,3 +9,8 @@
 #include <eaudiofx/core/BufferAudioRaw.h>
 
 
+eaudiofx::BufferAudioRaw::BufferAudioRaw(eaudiofx::Block& _parent) :
+  eaudiofx::BufferAudio(_parent) {
+	
+}
+

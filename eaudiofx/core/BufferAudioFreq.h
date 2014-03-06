@@ -14,7 +14,7 @@
 namespace eaudiofx {
 	class BufferAudioFreq : public eaudiofx::BufferAudio {
 		public:
-			BufferAudioFreq(void) {};
+			BufferAudioFreq(eaudiofx::Block& _parent);
 			~BufferAudioFreq(void) {};
 	};
 };

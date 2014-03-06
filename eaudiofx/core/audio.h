@@ -74,26 +74,11 @@ namespace eaudiofx {
 	#define CHANNEL_HEIGHT_TOP    0x04
 	#define CHANNEL_HEIGHT_BOTTOM 0x08
 	
-	enum audioRawFormat {
-		// fix-point mode
-		audioRawFormatS8,
-		audioRawFormatS16,
-		audioRawFormatS32,
-		audioRawFormatS64,
-		audioRawFormatU8,
-		audioRawFormatU16,
-		audioRawFormatU32,
-		audioRawFormatU64,
-		// float mode
-		audioRawFormatFloat,
-		audioRawFormatDouble
+	enum {
+		ERR_NONE = 0,
+		ERR_FORBIDEN,
+		ERR_NO_IO,
 	};
-	
-	
-	
-	
-	
-	
 };
 
 #endif
