@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class GeneratorRtAudio : public eaudiofx::BlockGenerator {
 		public:
-			GeneratorRtAudio(void) {};
-			~GeneratorRtAudio(void) {};
+			GeneratorRtAudio(void);
+			virtual ~GeneratorRtAudio(void) {};
 	};
 };
 

@@ -7,6 +7,6 @@
  */
 
 
-#include <appl/debug.h>
+#include <test/debug.h>
 
-const char * applLogName = "example  ";
+const char * applLogName = "ea-fx TT ";

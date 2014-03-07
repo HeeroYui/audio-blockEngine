@@ -9,3 +9,10 @@
 #include <eaudiofx/core/Buffer.h>
 
 
+
+eaudiofx::Buffer::Buffer(eaudiofx::Block& _parent) :
+  m_parent(_parent),
+  m_timestamp(0),
+  m_time(0) {
+	
+}

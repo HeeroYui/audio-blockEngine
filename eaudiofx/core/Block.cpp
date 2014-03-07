@@ -59,32 +59,35 @@ void eaudiofx::Block::onRemoveBuffer(const eaudiofx::Buffer* _buffer) {
 	}
 }
 
-void eaudiofx::Block::linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name) {
+int32_t eaudiofx::Block::linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name) {
 	for (auto &it : m_io) {
 		if (it.first == _name) {
 			if (it.second.m_type == ioOutput) {
-				throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "Can not overwrite output buffer");
+				EAUDIOFX_ERROR("[" << getUID() << "Can not overwrite output buffer...");
+				return eaudiofx::ERR_FORBIDEN;
 			}
 			it.second.m_buffer = _buffer;
-			return;
+			return eaudiofx::ERR_NONE;
 		}
 	}
-	throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "Input or buffer does not existed");
+	return eaudiofx::ERR_NO_IO;
 }
 
-void eaudiofx::Block::getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name) {
+int32_t eaudiofx::Block::getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name) {
 	for (auto &it : m_io) {
 		if (it.first == _name) {
 			if (it.second.m_type == ioInput) {
-				throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "Can not Request Input buffer...");
+				EAUDIOFX_ERROR("[" << getUID() << "Can not Request Input buffer...");
+				return eaudiofx::ERR_FORBIDEN;
 			}
 			if (it.second.m_type == ioParameter) {
-				throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "Can not Request Parameter buffer...");
+				EAUDIOFX_ERROR("[" << getUID() << "Can not Request Parameter buffer...");
+				return eaudiofx::ERR_FORBIDEN;
 			}
 			_buffer = it.second.m_buffer;
-			return;
+			return eaudiofx::ERR_NONE;
 		}
 	}
-	throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "Input or buffer does not existed");
+	return eaudiofx::ERR_NO_IO;
 }
 

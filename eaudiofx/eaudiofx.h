@@ -6,10 +6,14 @@
  * @license BSD v3 (see license file)
  */
 
+#ifndef __EAUDIOFX_H__
+#define __EAUDIOFX_H__
+
+#include <eaudiofx/core/audio.h>
+#include <eaudiofx/core/Block.h>
+#include <eaudiofx/core/Buffer.h>
 #include <eaudiofx/core/Processing.h>
 
 
-int32_t eaudiofx::Processing::process(void) {
-	
-	return eaudiofx::ERR_NONE;
-}
+#endif
+

@@ -12,14 +12,17 @@
 #include <eaudiofx/core/audio.h>
 #include <eaudiofx/core/Buffer.h>
 #include <eaudiofx/core/Block.h>
+#include <eaudiofx/core/BlockMeta.h>
 #include <vector>
 
 namespace eaudiofx {
-	class Processing {
+	class Processing : public eaudiofx::BlockMeta {
 		public:
 			Processing(void) {};
-			~Processing(void) {};
-		private:
+			virtual ~Processing(void) {};
+		public:
+			int32_t process(void);
+			
 	};
 };
 

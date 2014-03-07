@@ -6,11 +6,13 @@
  * @license BSD v3 (see license file)
  */
 
-#include <eaudiofx/base/GeneratorRtAudio.h>
+#include <eaudiofx/base/GeneratorSignal.h>
 #include <eaudiofx/core/BufferAudioRaw.h>
-#include <rtaudio/RtAudio.h>
 
-eaudiofx::GeneratorRtAudio::GeneratorRtAudio(void) {
+
+
+eaudiofx::GeneratorSignal::GeneratorSignal(void) :
+  m_phase(0) {
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(
@@ -21,6 +23,5 @@ eaudiofx::GeneratorRtAudio::GeneratorRtAudio(void) {
 	      new eaudiofx::BufferAudioRaw(*this, 48000, 2)
 	    ) ) );
 	
-};
-
+}
 

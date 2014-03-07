@@ -8,4 +8,8 @@
 
 #include <eaudiofx/core/BlockReceiver.h>
 
+eaudiofx::BlockReceiver::BlockReceiver(void) {
+	setType(eaudiofx::blockTypeReceiver);
+}
+
 

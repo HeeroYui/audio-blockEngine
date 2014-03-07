@@ -15,7 +15,8 @@ namespace eaudiofx {
 	class BufferAudio : public eaudiofx::Buffer {
 		public:
 			BufferAudio(eaudiofx::Block& _parent);
-			~BufferAudio(void);
+			BufferAudio(eaudiofx::Block& _parent, int32_t _frequency, int32_t _nbChannel);
+			virtual ~BufferAudio(void);
 		protected:
 			int32_t m_frequency;
 			int32_t m_nbChannel;

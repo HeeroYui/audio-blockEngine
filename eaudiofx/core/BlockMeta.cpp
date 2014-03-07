@@ -6,6 +6,7 @@
  * @license BSD v3 (see license file)
  */
 
+#include <eaudiofx/debug.h>
 #include <eaudiofx/core/BlockMeta.h>
 
 
@@ -27,9 +28,10 @@ eaudiofx::BlockMeta::~BlockMeta(void) {
 	m_list.clear();
 }
 
-void eaudiofx::BlockMeta::addBlock(eaudiofx::Block* _block) {
+int32_t eaudiofx::BlockMeta::addBlock(eaudiofx::Block* _block) {
 	if (_block == NULL) {
-		throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "] Add NULL block");
+		EAUDIOFX_ERROR("[" << getUID() << "] Add NULL block");
+		return eaudiofx::ERR_INPUT_NULL;
 	}
 	if (_block->getName().size() > 0 ) {
 		// Check if name exist :
@@ -38,37 +40,45 @@ void eaudiofx::BlockMeta::addBlock(eaudiofx::Block* _block) {
 				continue;
 			}
 			if (it->getName() == _block->getName()) {
-				throw eaudiofx::exeption::StdExeption(std::string("[") + std::to_string(getUID()) + "] Add block name '" + _block->getName() + "' already exist");
+				EAUDIOFX_ERROR("[" << getUID() << "] Add block name '" << _block->getName() << "' already exist");
+				return eaudiofx::ERR_ALREADY_EXIST;
 			}
 		}
 	}
 	m_list.push_back(_block);
+	return eaudiofx::ERR_NONE;
 }
 
-void eaudiofx::BlockMeta::addBlock(const std::string& _blockType, const std::string& _name) {
-	throw eaudiofx::exeption::StdExeption("NOT IMPLEMENTED");
+int32_t eaudiofx::BlockMeta::addBlock(const std::string& _blockType, const std::string& _name) {
+	EAUDIOFX_ERROR("NOT IMPLEMENTED");
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-void eaudiofx::BlockMeta::removeBlock(const std::string& _name) {
-	throw eaudiofx::exeption::StdExeption("NOT IMPLEMENTED");
+int32_t eaudiofx::BlockMeta::removeBlock(const std::string& _name) {
+	EAUDIOFX_ERROR("NOT IMPLEMENTED");
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-void eaudiofx::BlockMeta::replaceFilter(const std::string& _nameUnLink, const std::string& _nameLink) {
-	throw eaudiofx::exeption::StdExeption("NOT IMPLEMENTED");
+int32_t eaudiofx::BlockMeta::replaceFilter(const std::string& _nameUnLink, const std::string& _nameLink) {
+	EAUDIOFX_ERROR("NOT IMPLEMENTED");
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-void eaudiofx::BlockMeta::linkBlock(const std::string& _generatorBlockName,
-                                    const std::string& _generatorIoName,
-                                    const std::string& _receiverBlockName,
-                                    const std::string& _receiverIoName) {
+int32_t eaudiofx::BlockMeta::linkBlock(const std::string& _generatorBlockName,
+                                       const std::string& _generatorIoName,
+                                       const std::string& _receiverBlockName,
+                                       const std::string& _receiverIoName) {
 	
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-void eaudiofx::BlockMeta::openFile(const std::string& _fileName) {
-	throw eaudiofx::exeption::StdExeption("NOT IMPLEMENTED");
+int32_t eaudiofx::BlockMeta::openFile(const std::string& _fileName) {
+	EAUDIOFX_ERROR("NOT IMPLEMENTED");
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-void eaudiofx::BlockMeta::openStream(const std::string& _stream) {
-	throw eaudiofx::exeption::StdExeption("NOT IMPLEMENTED");
+int32_t eaudiofx::BlockMeta::openStream(const std::string& _stream) {
+	EAUDIOFX_ERROR("NOT IMPLEMENTED");
+	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 

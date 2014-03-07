@@ -9,3 +9,8 @@
 #include <eaudiofx/core/BlockGenerator.h>
 
 
+
+eaudiofx::BlockGenerator::BlockGenerator(void) {
+	setType(eaudiofx::blockTypeGenerator);
+}
+

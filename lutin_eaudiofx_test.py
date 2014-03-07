@@ -12,8 +12,8 @@ def create(target):
 	# basic GUI :
 	myModule.add_src_file([
 		'test/debug.cpp',
-		'test/main.cpp',
-		'test/windows.cpp',
+		'test/Main.cpp',
+		'test/Windows.cpp',
 		])
 	
 	# name of the dependency

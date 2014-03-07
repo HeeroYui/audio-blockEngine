@@ -9,3 +9,7 @@
 #include <eaudiofx/core/BlockEncoder.h>
 
 
+
+eaudiofx::BlockEncoder::BlockEncoder(void) {
+	setType(eaudiofx::blockTypeEncoder);
+}

@@ -6,10 +6,6 @@
  * @license BSD v3 (see license file)
  */
 
-#include <eaudiofx/core/Processing.h>
+#include <eaudiofx/core/audio.h>
 
 
-int32_t eaudiofx::Processing::process(void) {
-	
-	return eaudiofx::ERR_NONE;
-}

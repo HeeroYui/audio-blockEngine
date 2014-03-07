@@ -11,6 +11,9 @@
 #include <test/Windows.h>
 #include <ewol/widget/Label.h>
 #include <etk/tool.h>
+#include <eaudiofx/eaudiofx.h>
+#include <eaudiofx/base/GeneratorSignal.h>
+#include <eaudiofx/base/ReceiverRtAudio.h>
 
 #undef __class__
 #define __class__ "Windows"
@@ -59,11 +62,33 @@ void appl::Windows::onObjectRemove(ewol::Object * _removeObject) {
 
 
 void appl::Windows::onReceiveMessage(const ewol::object::Message& _msg) {
-	if (_msg.getMessage() == g_eventChangeValues) {
-		
+	if (_msg.getMessage() == g_eventPlay1) {
+		APPL_ERROR("Play Requested ...");
+		eaudiofx::Processing* process = new eaudiofx::Processing();
+		if (process == NULL) {
+			APPL_ERROR("can not create processing ...");
+			return;
+		}
+		APPL_ERROR("Create Generator ...");
+		eaudiofx::GeneratorSignal* generator = new eaudiofx::GeneratorSignal();
+		if (generator == NULL) {
+			APPL_ERROR("can not create Generator ...");
+			return;
+		}
+		generator->setName("myGenerator");
+		process->addBlock(generator);
+		APPL_ERROR("Create Receiver ...");
+		eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
+		if (receiver == NULL) {
+			APPL_ERROR("can not create Receiver ...");
+			return;
+		}
+		receiver->setName("myReceiver");
+		process->addBlock(receiver);
+		process->process();
 		return;
 	}
-	if (_msg.getMessage() == g_eventAutoMode) {
+	if (_msg.getMessage() == g_eventPlay2) {
 		
 		return;
 	}

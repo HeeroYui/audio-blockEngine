@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class BlockGenerator : public eaudiofx::Block {
 		public:
-			BlockGenerator(void) {};
-			~BlockGenerator(void) {};
+			BlockGenerator(void);
+			virtual ~BlockGenerator(void) {};
 	};
 };
 

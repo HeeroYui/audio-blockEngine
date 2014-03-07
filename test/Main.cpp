@@ -11,12 +11,11 @@
 #include <ewol/ewol.h>
 #include <ewol/context/commandLine.h>
 
-#include <appl/debug.h>
-#include <appl/Windows.h>
+#include <test/debug.h>
+#include <test/Windows.h>
 #include <ewol/object/Object.h>
 #include <ewol/widget/Manager.h>
 #include <ewol/context/Context.h>
-#include <appl/widget/VectorDisplay.h>
 
 
 /**
@@ -41,8 +40,6 @@ bool APP_Init(ewol::Context& _context) {
 	// select internal data for font ...
 	_context.getFontDefault().setUseExternal(true);
 	_context.getFontDefault().set("FreeSerif;DejaVuSansMono", 19);
-	
-	appl::widget::VectorDisplay::init(_context.getWidgetManager());
 	
 	ewol::widget::Windows* basicWindows = new appl::Windows();
 	// create the specific windows

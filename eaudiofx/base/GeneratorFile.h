@@ -15,7 +15,7 @@ namespace eaudiofx {
 	class GeneratorFile : public eaudiofx::BlockGenerator {
 		public:
 			GeneratorFile(void) {};
-			~GeneratorFile(void) {};
+			virtual ~GeneratorFile(void) {};
 	};
 };
 

@@ -22,7 +22,7 @@ namespace eaudiofx {
 	class BufferMessage : public eaudiofx::Buffer {
 		public:
 			BufferMessage(eaudiofx::Block& _parent, int32_t _message = eaudiofx::bufferMessageEndOfStream);
-			~BufferMessage(void) {};
+			virtual ~BufferMessage(void) {};
 		protected:
 			int32_t m_messageId; //!< message ID
 		public:

@@ -33,11 +33,12 @@ def create(target):
 		'eaudiofx/base/GeneratorFile.cpp',
 		'eaudiofx/base/ReceiverFile.cpp',
 		'eaudiofx/base/GeneratorRtAudio.cpp',
-		'eaudiofx/base/ReceiverRtAudio.cpp'
+		'eaudiofx/base/ReceiverRtAudio.cpp',
+		'eaudiofx/base/GeneratorSignal.cpp'
 		])
 	
 	# name of the dependency
-	myModule.add_module_depend(['etk', 'rtaudio'])
+	myModule.add_module_depend(['ewol', 'rtaudio'])
 	
 	myModule.add_export_path(tools.get_current_path(__file__))
 	

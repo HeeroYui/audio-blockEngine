@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class BlockEncoder : public eaudiofx::Block {
 		public:
-			BlockEncoder(void) {};
-			~BlockEncoder(void) {};
+			BlockEncoder(void);
+			virtual ~BlockEncoder(void) {};
 	};
 	
 };

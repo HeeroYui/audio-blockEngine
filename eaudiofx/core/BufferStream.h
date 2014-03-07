@@ -15,7 +15,7 @@ namespace eaudiofx {
 	class BufferStream : public eaudiofx::Buffer {
 		public:
 			BufferStream(eaudiofx::Block& _parent);
-			~BufferStream(void);
+			virtual ~BufferStream(void);
 		protected:
 			void*  m_data; //!< buffer data
 			size_t m_allocated; //!< number of byte allocated

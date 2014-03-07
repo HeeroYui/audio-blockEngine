@@ -9,3 +9,7 @@
 #include <eaudiofx/core/BlockDecoder.h>
 
 
+
+eaudiofx::BlockDecoder::BlockDecoder(void) {
+	setType(eaudiofx::blockTypeDecoder);
+}

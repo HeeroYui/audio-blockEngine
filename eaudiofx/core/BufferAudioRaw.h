@@ -15,7 +15,8 @@ namespace eaudiofx {
 	class BufferAudioRaw : public eaudiofx::BufferAudio {
 		public:
 			BufferAudioRaw(eaudiofx::Block& _parent);
-			~BufferAudioRaw(void) {};
+			BufferAudioRaw(eaudiofx::Block& _parent, int32_t _frequency, int32_t _nbChannel, int32_t _nbSample = -1);
+			virtual ~BufferAudioRaw(void) {};
 		protected:
 			size_t m_allocatedSample; //!< generate with m_allocatedBytes/sizeof(**m_audioFormat**) / m_nbChannel;
 		protected:

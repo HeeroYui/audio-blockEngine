@@ -16,11 +16,8 @@ namespace eaudiofx {
 	class Block;
 	class Buffer {
 		public:
-			Buffer(eaudiofx::Block& _parent) :
-			  m_parent(_parent) {
-				
-			};
-			~Buffer(void) {};
+			Buffer(eaudiofx::Block& _parent);
+			virtual ~Buffer(void) {};
 		protected:
 			eaudiofx::Block& m_parent; //!< parrent Block of this Buffer
 		protected:

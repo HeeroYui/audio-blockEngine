@@ -28,7 +28,7 @@ namespace eaudiofx {
 	class Block {
 		public:
 			Block(void);
-			~Block(void);
+			virtual ~Block(void);
 		protected:
 			std::mutex m_mutex; //!< Block mutex access
 		private:
@@ -106,34 +106,62 @@ namespace eaudiofx {
 			};
 		public:
 			/**
+			 * @brief Init the block with the properties
+			 * @return A generic error.
+			 */
+			virtual int32_t Init(void) {
+				return eaudiofx::ERR_NONE;
+			};
+			/**
+			 * @brief UnInit the block with the properties
+			 * @return A generic error.
+			 */
+			virtual int32_t UnInit(void) {
+				return eaudiofx::ERR_NONE;
+			};
+			/**
 			 * @brief Call by downstream to request some data
 			 * @param[in] _currentTime Current stream time (in second)
 			 * @param[in] _requestTime Data requested (can be chunk number 256 samples, or data byte for stream) (-1 for automatic)
 			 * @param[in] _timeout system time to be obsolet (for realTime streaming) (-1 for no realTime streaming)
+			 * @return generic error
 			 */
-			virtual void pull(double _currentTime, int32_t _request, float _timeout) {};
+			virtual int32_t pull(double _currentTime, int32_t _request, float _timeout) {
+				return eaudiofx::ERR_NONE;
+			};
 			/**
 			 * @brief Get The total stream size (in byte for streaming byte element, in second for time streaming)
-			 * @return Get total streaming time (-1 for unknown)
+			 * @param[out] _value Get total streaming time (-1 for unknown)
+			 * @return generic error
 			 */
-			virtual double getTotal(void) {
-				return -1.0;
+			virtual int32_t getTotal(double& _value) {
+				_value = -1;
+				return eaudiofx::ERR_NONE;
 			};
 			/**
 			 * @brief Seek to a specific position in the stream (in byte for streaming byte element, in second for time streaming)
 			 * @param[out] _pos position to seek (0 for starting)
+			 * @return generic error
 			 */
-			virtual void seekTo(double _pos) {};
+			virtual int32_t seekTo(double _pos) {
+				return eaudiofx::ERR_NONE;
+			};
 			/**
 			 * @brief Request a flush of the current buffer
 			 * @param[in] _currentTime Current stream time (in second)
 			 * @param[in] _timeout system time to be obsolet (for realTime streaming) (-1 for no realTime streaming)
+			 * @return generic error
 			 */
-			virtual void flush(double _currentTime, float _timeout) {};
+			virtual int32_t flush(double _currentTime, float _timeout) {
+				return eaudiofx::ERR_NONE;
+			};
 			/**
 			 * @brief Reset the block
+			 * @return generic error
 			 */
-			virtual void reset(void) {};
+			virtual int32_t reset(void) {
+				return eaudiofx::ERR_NONE;
+			};
 		public:
 			/**
 			 * @brief Call when a buffer is removed from the system (current).
@@ -158,6 +186,17 @@ namespace eaudiofx {
 					std::string m_description;
 					bool m_internal;
 					eaudiofx::Buffer* m_buffer;
+					IOProperty(enum typeIO _type,
+					           const std::string& _description="",
+					           eaudiofx::Buffer* _buffer = NULL) :
+					  m_type(_type),
+					  m_description(_description),
+					  m_internal(true),
+					  m_buffer(_buffer) {
+						if (m_type == ioParameter) {
+							// TODO : Autogenerate buffer for parameter ...
+						}
+					}
 					IOProperty(void) :
 					  m_type(ioUnknow),
 					  m_internal(false),
@@ -170,15 +209,16 @@ namespace eaudiofx {
 			 * @brief Link the provided buffer to the IO name.
 			 * @param[in] _buffer Pointer on the buffer to link.
 			 * @param[in] _name Name of the IO;
+			 * @return A generic error.
 			 */
-			virtual void linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name);
+			virtual int32_t linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name);
 			/**
 			 * @brief Request a buffer pointer on the IO named.
 			 * @param[out] _buffer Pointer on the buffer to link.
 			 * @param[in] _name Name of the IO;
+			 * @return A generic error.
 			 */
-			virtual void getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name);
-			
+			virtual int32_t getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name);
 	};
 };
 
