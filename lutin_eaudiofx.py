@@ -12,12 +12,15 @@ def create(target):
 	# System core
 	myModule.add_src_file([
 		'eaudiofx/debug.cpp',
+		'eaudiofx/core/audio.cpp',
 		'eaudiofx/core/Processing.cpp',
 		'eaudiofx/core/Block.cpp',
 		'eaudiofx/core/BlockMeta.cpp',
 		'eaudiofx/core/BlockGenerator.cpp',
 		'eaudiofx/core/BlockReceiver.cpp',
 		'eaudiofx/core/BlockFilter.cpp',
+		'eaudiofx/core/BlockDecoder.cpp',
+		'eaudiofx/core/BlockEncoder.cpp',
 		'eaudiofx/core/Buffer.cpp',
 		'eaudiofx/core/BufferMessage.cpp',
 		'eaudiofx/core/BufferStream.cpp',

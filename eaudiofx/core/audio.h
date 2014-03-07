@@ -74,10 +74,33 @@ namespace eaudiofx {
 	#define CHANNEL_HEIGHT_TOP    0x04
 	#define CHANNEL_HEIGHT_BOTTOM 0x08
 	
-	enum {
-		ERR_NONE = 0,
-		ERR_FORBIDEN,
-		ERR_NO_IO,
+	namespace exeption {
+		class StdExeption: public std::exception {
+			private:
+				std::string m_comment;
+			public:
+				StdExeption(const char* _comment) :
+				  m_comment(_comment) {
+					
+				}
+				StdExeption(const std::string& _comment) :
+				  m_comment(_comment) {
+					
+				}
+				virtual const char* what() const throw() {
+					if (m_comment.size() == 0) {
+						return "No exeption comment define ...";
+					} else {
+						return m_comment.c_str();
+					}
+				};
+		};
+		extern const StdExeption g_nullInput;
+		extern const StdExeption g_blockAlreadyExist;
+		extern const StdExeption g_blockHasNoInput;
+		extern const StdExeption g_blockHasNoOuput;
+		extern const StdExeption g_blockHasNoParameter;
+		extern const StdExeption g_forbiden;
 	};
 };
 
