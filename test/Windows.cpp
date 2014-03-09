@@ -12,6 +12,9 @@
 #include <ewol/widget/Label.h>
 #include <etk/tool.h>
 #include <eaudiofx/eaudiofx.h>
+
+#include <eaudiofx/base/GeneratorFile.h>
+#include <eaudiofx/core/BlockDecoder.h>
 #include <eaudiofx/base/GeneratorSignal.h>
 #include <eaudiofx/base/ReceiverRtAudio.h>
 
@@ -60,36 +63,84 @@ void appl::Windows::onObjectRemove(ewol::Object * _removeObject) {
 	}
 }
 
+eaudiofx::Processing* process = NULL;
 
 void appl::Windows::onReceiveMessage(const ewol::object::Message& _msg) {
 	if (_msg.getMessage() == g_eventPlay1) {
-		APPL_ERROR("Play Requested ...");
-		eaudiofx::Processing* process = new eaudiofx::Processing();
-		if (process == NULL) {
-			APPL_ERROR("can not create processing ...");
+		#if 0
+			APPL_INFO("Play Requested ...");
+			process = new eaudiofx::Processing();
+			if (process == NULL) {
+				APPL_ERROR("can not create processing ...");
+				return;
+			}
+			APPL_INFO("Create Generator ...");
+			eaudiofx::GeneratorSignal* generator = new eaudiofx::GeneratorSignal();
+			if (generator == NULL) {
+				APPL_ERROR("can not create Generator ...");
+				return;
+			}
+			generator->setName("myGenerator");
+			process->addBlock(generator);
+			APPL_INFO("Create Receiver ...");
+			eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
+			if (receiver == NULL) {
+				APPL_ERROR("can not create Receiver ...");
+				return;
+			}
+			receiver->setName("myReceiver");
+			process->addBlock(receiver);
+			
+			process->linkBlock("myGenerator", "out","myReceiver", "in");
+			
+			process->start();
 			return;
-		}
-		APPL_ERROR("Create Generator ...");
-		eaudiofx::GeneratorSignal* generator = new eaudiofx::GeneratorSignal();
-		if (generator == NULL) {
-			APPL_ERROR("can not create Generator ...");
+		#else
+			
+			APPL_INFO("Play Requested ...");
+			process = new eaudiofx::Processing();
+			if (process == NULL) {
+				APPL_ERROR("can not create processing ...");
+				return;
+			}
+			APPL_INFO("Create Generator ...");
+			eaudiofx::GeneratorFile* generator = new eaudiofx::GeneratorFile();
+			if (generator == NULL) {
+				APPL_ERROR("can not create Generator ...");
+				return;
+			}
+			generator->setName("myGenerator");
+			process->addBlock(generator);
+			
+			APPL_INFO("Create DECODER ...");
+			eaudiofx::BlockDecoder* decoder = new eaudiofx::BlockDecoder();
+			if (decoder == NULL) {
+				APPL_ERROR("can not create Generator ...");
+				return;
+			}
+			decoder->setName("myDecoder");
+			process->addBlock(decoder);
+			
+			APPL_INFO("Create Receiver ...");
+			eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
+			if (receiver == NULL) {
+				APPL_ERROR("can not create Receiver ...");
+				return;
+			}
+			receiver->setName("myReceiver");
+			process->addBlock(receiver);
+			
+			process->linkBlock("myGenerator", "out","myDecoder", "in");
+			process->linkBlock("myDecoder", "out","myReceiver", "in");
+			
+			process->start();
 			return;
-		}
-		generator->setName("myGenerator");
-		process->addBlock(generator);
-		APPL_ERROR("Create Receiver ...");
-		eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
-		if (receiver == NULL) {
-			APPL_ERROR("can not create Receiver ...");
-			return;
-		}
-		receiver->setName("myReceiver");
-		process->addBlock(receiver);
-		process->process();
-		return;
+		#endif
 	}
 	if (_msg.getMessage() == g_eventPlay2) {
-		
+		if (process != NULL) {
+			process->stop();
+		}
 		return;
 	}
 }

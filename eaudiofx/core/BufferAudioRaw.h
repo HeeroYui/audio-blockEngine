@@ -23,6 +23,8 @@ namespace eaudiofx {
 			size_t m_size; //!< number of sample for each channels provided in this buffer ... (write by the upstream (can be 0))
 		protected:
 			size_t m_sizeRequested; //!< in pull mode, number of sample for each channels requested by the next Filter
+		public:
+			void setProperty(int32_t _frequency, int32_t _nbChannel, int32_t _nbSample);
 	};
 };
 

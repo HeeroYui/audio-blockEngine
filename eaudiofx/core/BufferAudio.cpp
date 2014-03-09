@@ -31,17 +31,25 @@ eaudiofx::BufferAudio::~BufferAudio(void) {
 	if (m_data != NULL) {
 		delete[] m_data;
 		m_data = NULL;
+		m_allocated = 0;
 	}
 }
 
 void eaudiofx::BufferAudio::resize(size_t _newSize) {
+	if (m_allocated >= _newSize) {
+		// nothing to do, enought data ...
+		return;
+	}
 	if (m_data != NULL) {
 		delete[] m_data;
 		m_data = NULL;
+		m_allocated = 0;
 	}
 	EAUDIOFX_ERROR("Request allocate of " << _newSize << " samples");
 	m_data = new float[_newSize];
 	if (m_data == NULL) {
 		EAUDIOFX_ERROR("Can not allocate Buffer Audio");
+	} else {
+		m_allocated = _newSize;
 	}
 }

@@ -39,6 +39,24 @@ eaudiofx::Block::~Block(void) {
 	}
 }
 
+int32_t eaudiofx::Block::pull(double _currentTime, int32_t _request, float _timeout) {
+	int32_t ret = eaudiofx::ERR_NONE;
+	for (auto &it : m_io) {
+		if (it.second.m_buffer == NULL) {
+			continue;
+		}
+		if (    it.second.m_type != eaudiofx::Block::ioInput
+		     && it.second.m_type != eaudiofx::Block::ioParameter) {
+			continue;
+		}
+		if (it.second.m_buffer->pull(_currentTime, _request, _timeout) != eaudiofx::ERR_NONE) {
+			ret = eaudiofx::ERR_FAIL;
+		}
+	}
+	return ret;
+};
+
+
 void eaudiofx::Block::subRemoveBuffer(const eaudiofx::Buffer* _buffer) {
 	if (_buffer == NULL) {
 		return;
@@ -51,6 +69,33 @@ void eaudiofx::Block::subRemoveBuffer(const eaudiofx::Buffer* _buffer) {
 }
 
 void eaudiofx::Block::onRemoveBuffer(const eaudiofx::Buffer* _buffer) {
+	unLinkBuffer(_buffer);
+}
+
+int32_t eaudiofx::Block::linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name) {
+	if (    _buffer == NULL
+	     || _name.size() == 0) {
+		return eaudiofx::ERR_INPUT_NULL;
+	}
+	for (auto &it : m_io) {
+		if (it.first == _name) {
+			if (it.second.m_type == ioOutput) {
+				EAUDIOFX_ERROR("[" << getUID() << "Can not overwrite output buffer...");
+				return eaudiofx::ERR_FORBIDEN;
+			}
+			it.second.m_buffer = _buffer;
+			// TODO : Negiciate ???
+			return eaudiofx::ERR_NONE;
+		}
+	}
+	return eaudiofx::ERR_NO_IO;
+}
+
+
+int32_t eaudiofx::Block::unLinkBuffer(const eaudiofx::Buffer* _buffer) {
+	if (_buffer == NULL) {
+		return eaudiofx::ERR_INPUT_NULL;
+	}
 	// For every buffer, remove internal reference...
 	for (auto &it : m_io) {
 		if (it.second.m_buffer == _buffer) {
@@ -59,14 +104,20 @@ void eaudiofx::Block::onRemoveBuffer(const eaudiofx::Buffer* _buffer) {
 	}
 }
 
-int32_t eaudiofx::Block::linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name) {
+int32_t eaudiofx::Block::unLinkBuffer(const std::string& _name) {
+	if (_name.size() == 0) {
+		return eaudiofx::ERR_INPUT_NULL;
+	}
 	for (auto &it : m_io) {
 		if (it.first == _name) {
 			if (it.second.m_type == ioOutput) {
 				EAUDIOFX_ERROR("[" << getUID() << "Can not overwrite output buffer...");
 				return eaudiofx::ERR_FORBIDEN;
 			}
-			it.second.m_buffer = _buffer;
+			it.second.m_buffer = NULL;
+			if (it.second.m_type == ioParameter) {
+				// TODO : Re-create the basic input buffer ... (Or duplicate the last one???
+			}
 			return eaudiofx::ERR_NONE;
 		}
 	}
@@ -74,6 +125,9 @@ int32_t eaudiofx::Block::linkBuffer(eaudiofx::Buffer* _buffer, const std::string
 }
 
 int32_t eaudiofx::Block::getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name) {
+	if (_name.size() == 0) {
+		return eaudiofx::ERR_INPUT_NULL;
+	}
 	for (auto &it : m_io) {
 		if (it.first == _name) {
 			if (it.second.m_type == ioInput) {

@@ -109,14 +109,14 @@ namespace eaudiofx {
 			 * @brief Init the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t Init(void) {
+			virtual int32_t init(void) {
 				return eaudiofx::ERR_NONE;
 			};
 			/**
 			 * @brief UnInit the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t UnInit(void) {
+			virtual int32_t unInit(void) {
 				return eaudiofx::ERR_NONE;
 			};
 			/**
@@ -126,9 +126,7 @@ namespace eaudiofx {
 			 * @param[in] _timeout system time to be obsolet (for realTime streaming) (-1 for no realTime streaming)
 			 * @return generic error
 			 */
-			virtual int32_t pull(double _currentTime, int32_t _request, float _timeout) {
-				return eaudiofx::ERR_NONE;
-			};
+			virtual int32_t pull(double _currentTime, int32_t _request, float _timeout);
 			/**
 			 * @brief Get The total stream size (in byte for streaming byte element, in second for time streaming)
 			 * @param[out] _value Get total streaming time (-1 for unknown)
@@ -205,6 +203,7 @@ namespace eaudiofx {
 					}
 			};
 			std::map<std::string, eaudiofx::Block::IOProperty> m_io; //!< All IO in the Block
+		public:
 			/**
 			 * @brief Link the provided buffer to the IO name.
 			 * @param[in] _buffer Pointer on the buffer to link.
@@ -213,12 +212,28 @@ namespace eaudiofx {
 			 */
 			virtual int32_t linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name);
 			/**
+			 * @brief Un link a speific buffer to the IO name.
+			 * @param[in] _buffer Pointer on the buffer to unlink.
+			 * @param[in] _name Name of the IO to unlink;
+			 * @return A generic error.
+			 */
+			virtual int32_t unLinkBuffer(const eaudiofx::Buffer* _buffer);
+			//! @previous
+			virtual int32_t unLinkBuffer(const std::string& _name);
+			/**
 			 * @brief Request a buffer pointer on the IO named.
 			 * @param[out] _buffer Pointer on the buffer to link.
 			 * @param[in] _name Name of the IO;
 			 * @return A generic error.
 			 */
 			virtual int32_t getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name);
+			/**
+			 * @brief Update the IO property
+			 * @return A generic error.
+			 */
+			virtual int32_t UpdateIOProperty(void) {
+				return eaudiofx::ERR_NONE;
+			};
 	};
 };
 

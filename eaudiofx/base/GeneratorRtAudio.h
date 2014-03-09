@@ -16,6 +16,8 @@ namespace eaudiofx {
 		public:
 			GeneratorRtAudio(void);
 			virtual ~GeneratorRtAudio(void) {};
+		public:
+			int32_t pull(double _currentTime, int32_t _request, float _timeout);
 	};
 };
 

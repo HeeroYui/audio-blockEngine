@@ -30,9 +30,9 @@ namespace eaudiofx {
 			ReceiverRtAudio(void);
 			virtual ~ReceiverRtAudio(void) {};
 		public: // herieted function :
-			virtual int32_t Init(void);
-			virtual int32_t UnInit(void);
-		private:
+			virtual int32_t init(void);
+			virtual int32_t unInit(void);
+		protected:
 			RtAudio m_dac;
 			RtAudio::StreamParameters m_parameters;
 	};

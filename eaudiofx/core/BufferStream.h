@@ -17,12 +17,32 @@ namespace eaudiofx {
 			BufferStream(eaudiofx::Block& _parent);
 			virtual ~BufferStream(void);
 		protected:
-			void*  m_data; //!< buffer data
+			uint8_t* m_data; //!< buffer data
 			size_t m_allocated; //!< number of byte allocated
 		protected:
 			size_t m_size; //!< number of byte provided in this buffer ... (write by the upstream (can be 0))
+		public:
+			void setAvaillableSize(size_t _availlableSize) {
+				m_size = _availlableSize;
+			}
+			size_t setAvaillableSize(void) {
+				return m_size;
+			}
+		public:
+			void setProperty(int32_t _dataSize);
 		protected:
-			size_t m_sizeRequested; //!< in pull mode, number of byte requested by the next Filter
+			/**
+			 * @brief Reallocate the Buffer data.
+			 */
+			virtual void resize(size_t _newSize);
+		public:
+			/**
+			 * @brief Get the buffer casted in float*
+			 * @return Pointer on the buffer with correct cast.
+			 */
+			uint8_t* getData(void) {
+				return m_data;
+			}
 	};
 };
 

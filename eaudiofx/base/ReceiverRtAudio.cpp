@@ -38,39 +38,53 @@ int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
                                             size_t _nBufferFrames,
                                             double _streamTime,
                                             RtAudioStreamStatus _status) {
-	// TODO: reset output:
 	// Request block input:
-	int32_t nbSampleOne = _nBufferFrames/2;
-	int32_t ret = eaudiofx::Block::pull(_streamTime, nbSampleOne, (float)nbSampleOne/48000.0f);
+	int32_t ret = eaudiofx::Block::pull(_streamTime, _nBufferFrames, (float)_nBufferFrames/48000.0f);
 	if (ret != eaudiofx::ERR_NONE) {
+		EAUDIOFX_ERROR("wan not get data ...");
 		return -1;
 	}
 	auto it = m_io.find("in");
 	if (it == m_io.end()) {
+		EAUDIOFX_WARNING("Request an un-existing IO");
+		return 0;
+	}
+	eaudiofx::BufferAudioRaw* buffer = dynamic_cast<eaudiofx::BufferAudioRaw*>(it->second.m_buffer);
+	if (buffer == NULL) {
 		EAUDIOFX_WARNING("no IO plugged");
 		return 0;
 	}
-	// TODO : Do the copy of data ...
+	float* data = buffer->getData();
+	for (int32_t iii=0; iii<_nBufferFrames*2; ++iii) {
+		_outputBuffer[iii] = data[iii]*0.05f;
+	}
+	/*
+	FILE* plopppp = fopen("plopout.raw", "a");
+	fwrite(_outputBuffer, sizeof(float), _nBufferFrames, plopppp);
+	fflush(plopppp);
+	fclose(plopppp);
+	*/
 	return 0;
 }
 
 
 
 eaudiofx::ReceiverRtAudio::ReceiverRtAudio(void) {
+	setLive(true);
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(
 	    "in",
 	    eaudiofx::Block::IOProperty(
 	      eaudiofx::Block::ioInput,
-	      "",
-	      new eaudiofx::BufferAudioRaw(*this, 48000, 2)
+	      "{ type:'audio', compression:'raw', frequency:48000, channel:2, format:'float' }",
+	      NULL
 	    ) ) );
 	
 };
 
 
-int32_t eaudiofx::ReceiverRtAudio::Init(void) {
+int32_t eaudiofx::ReceiverRtAudio::init(void) {
 	EAUDIOFX_DEBUG("Create RTAudio generator ...");
 	if ( m_dac.getDeviceCount() < 1 ) {
 		EAUDIOFX_ERROR("No audio devices found!");
@@ -84,7 +98,7 @@ int32_t eaudiofx::ReceiverRtAudio::Init(void) {
 	unsigned int bufferFrames = 256;
 	try {
 		EAUDIOFX_DEBUG("OPEN Stream ...");
-		m_dac.openStream( &m_parameters, NULL, RTAUDIO_FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this );
+		m_dac.openStream(&m_parameters, NULL, RTAUDIO_FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
 		m_dac.startStream();
 	}catch ( RtError& e ) {
 		e.printMessage();
@@ -93,7 +107,7 @@ int32_t eaudiofx::ReceiverRtAudio::Init(void) {
 	return eaudiofx::ERR_NONE;
 };
 
-int32_t eaudiofx::ReceiverRtAudio::UnInit(void) {
+int32_t eaudiofx::ReceiverRtAudio::unInit(void) {
 	try {
 		EAUDIOFX_DEBUG("STOP Stream ...");
 		// Stop the stream

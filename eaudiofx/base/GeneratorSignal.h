@@ -18,6 +18,8 @@ namespace eaudiofx {
 		public:
 			GeneratorSignal(void);
 			virtual ~GeneratorSignal(void) {};
+		public:
+			int32_t pull(double _currentTime, int32_t _request, float _timeout);
 	};
 };
 

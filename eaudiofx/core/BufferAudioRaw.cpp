@@ -25,3 +25,21 @@ eaudiofx::BufferAudioRaw::BufferAudioRaw(eaudiofx::Block& _parent, int32_t _freq
 	EAUDIOFX_INFO("Resize the buffer : " << m_frequency << "Hz, " << m_nbChannel << " channel(s), " << m_allocatedSample << " sample(s)");
 	resize(m_nbChannel*m_allocatedSample);
 }
+
+
+void eaudiofx::BufferAudioRaw::setProperty(int32_t _frequency, int32_t _nbChannel, int32_t _nbSample) {
+	bool increaseSize = false;
+	if (_nbSample > m_allocatedSample) {
+		m_allocatedSample = _nbSample;
+		increaseSize = true;
+	}
+	if (_nbChannel > m_nbChannel) {
+		increaseSize = true;
+	}
+	m_nbChannel = _nbChannel;
+	m_frequency = _frequency;
+	if (increaseSize == true) {
+		EAUDIOFX_INFO("Resize the buffer : " << m_frequency << "Hz, " << m_nbChannel << " channel(s), " << m_allocatedSample << " sample(s)");
+		resize(m_nbChannel*m_allocatedSample);
+	}
+}

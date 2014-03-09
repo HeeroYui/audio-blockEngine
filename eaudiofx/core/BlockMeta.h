@@ -19,6 +19,13 @@ namespace eaudiofx {
 			virtual ~BlockMeta(void);
 		private:
 			std::vector<eaudiofx::Block*> m_list; //!< list of all block to process.
+		protected:
+			/**
+			 * @brief Get a pointer on a specific block.
+			 * @param[in] _name Name of the block.
+			 * @return generic error
+			 */
+			eaudiofx::Block* getBlock(const std::string& _name);
 		public:
 			/**
 			 * @brief Add a block in the Meta-block
@@ -72,6 +79,9 @@ namespace eaudiofx {
 			 * @return generic error
 			 */
 			int32_t openStream(const std::string& _stream);
+		public: // herited function
+			virtual int32_t init(void);
+			virtual int32_t unInit(void);
 	};
 };
 

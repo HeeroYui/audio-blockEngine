@@ -77,6 +77,7 @@ namespace eaudiofx {
 	enum {
 		ERR_NONE = 0,
 		ERR_NOT_IMPLEMENTED,
+		ERR_FAIL,
 		ERR_ALREADY_EXIST,
 		ERR_INPUT_NULL,
 		ERR_FORBIDEN,

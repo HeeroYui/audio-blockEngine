@@ -23,6 +23,25 @@ namespace eaudiofx {
 		protected:
 			double m_timestamp; //!< current buffer time;
 			double m_time; //!< current buffer data time size;
+		public:
+			int32_t pull(double _currentTime, int32_t _request, float _timeout);
+		protected:
+			bool m_negociated; //!< negiciation status.
+		public:
+			/**
+			 * @brief Get if the IO buffer status is negociated.
+			 * @return true if buffer is negosiated.
+			 * @return false Not negociated.
+			 */
+			bool isNegociated(void) {
+				return m_negociated;
+			}
+			/**
+			 * @brief uset the negociation status of the buffer.
+			 */
+			void requestNewNegociation(void) {
+				m_negociated = false;
+			}
 	};
 };
 

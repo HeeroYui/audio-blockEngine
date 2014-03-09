@@ -11,6 +11,7 @@
 #include <rtaudio/RtAudio.h>
 
 eaudiofx::GeneratorRtAudio::GeneratorRtAudio(void) {
+	setLive(true);
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(

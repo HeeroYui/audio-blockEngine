@@ -22,6 +22,12 @@ namespace eaudiofx {
 			virtual ~Processing(void) {};
 		public:
 			int32_t process(void);
+			int32_t start(void);
+			int32_t stop(void);
+			int32_t waitEndOfProcess(void);
+			bool isLiveStream(void) {
+				return false;
+			}
 			
 	};
 };
