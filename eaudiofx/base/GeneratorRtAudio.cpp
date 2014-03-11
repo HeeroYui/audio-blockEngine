@@ -8,7 +8,7 @@
 
 #include <eaudiofx/base/GeneratorRtAudio.h>
 #include <eaudiofx/core/BufferAudioRaw.h>
-#include <rtaudio/RtAudio.h>
+#include <airtaudio/Interface.h>
 
 eaudiofx::GeneratorRtAudio::GeneratorRtAudio(void) {
 	setLive(true);

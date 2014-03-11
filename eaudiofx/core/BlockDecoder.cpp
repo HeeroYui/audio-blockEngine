@@ -125,11 +125,13 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 
 int32_t eaudiofx::BlockDecoder::init(void) {
 	
+	return eaudiofx::ERR_NONE;
 }
 
 
 int32_t eaudiofx::BlockDecoder::unInit(void) {
 	
+	return eaudiofx::ERR_NONE;
 }
 
 

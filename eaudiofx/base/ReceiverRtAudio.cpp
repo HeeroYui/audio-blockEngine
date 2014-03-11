@@ -9,13 +9,13 @@
 #include <eaudiofx/base/ReceiverRtAudio.h>
 #include <eaudiofx/core/BufferAudioRaw.h>
 #include <eaudiofx/debug.h>
-#include <rtaudio/RtAudio.h>
+#include <airtaudio/Interface.h>
 
 int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
                                                void *_inputBuffer,
                                                unsigned int _nBufferFrames,
                                                double _streamTime,
-                                               RtAudioStreamStatus _status,
+                                               airtaudio::streamStatus _status,
                                                void* _userData) {
 	if (_userData == NULL) {
 		EAUDIOFX_ERROR("Null class pointer");
@@ -37,7 +37,7 @@ int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
 int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
                                             size_t _nBufferFrames,
                                             double _streamTime,
-                                            RtAudioStreamStatus _status) {
+                                            airtaudio::streamStatus _status) {
 	// Request block input:
 	int32_t ret = eaudiofx::Block::pull(_streamTime, _nBufferFrames, (float)_nBufferFrames/48000.0f);
 	if (ret != eaudiofx::ERR_NONE) {
@@ -85,40 +85,35 @@ eaudiofx::ReceiverRtAudio::ReceiverRtAudio(void) {
 
 
 int32_t eaudiofx::ReceiverRtAudio::init(void) {
+	m_dac.instanciate();
 	EAUDIOFX_DEBUG("Create RTAudio generator ...");
 	if ( m_dac.getDeviceCount() < 1 ) {
 		EAUDIOFX_ERROR("No audio devices found!");
 		exit( 0 );
 	}
 	EAUDIOFX_DEBUG("nb devices :" << m_dac.getDeviceCount() << " default device ID : " << m_dac.getDefaultOutputDevice());
-	RtAudio::StreamParameters parameters;
 	m_parameters.deviceId = m_dac.getDefaultOutputDevice();
 	m_parameters.nChannels = 2;
 	m_parameters.firstChannel = 0;
 	unsigned int bufferFrames = 256;
-	try {
-		EAUDIOFX_DEBUG("OPEN Stream ...");
-		m_dac.openStream(&m_parameters, NULL, RTAUDIO_FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
-		m_dac.startStream();
-	}catch ( RtError& e ) {
-		e.printMessage();
-		exit( 0 );
-	}
+	EAUDIOFX_DEBUG("OPEN Stream ...");
+	// TODO : Check return error
+	m_dac.openStream(&m_parameters, NULL, airtaudio::FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
+	// TODO : Check return error
+	m_dac.startStream();
+	
 	return eaudiofx::ERR_NONE;
 };
 
 int32_t eaudiofx::ReceiverRtAudio::unInit(void) {
-	try {
-		EAUDIOFX_DEBUG("STOP Stream ...");
-		// Stop the stream
-		m_dac.stopStream();
-	} catch (RtError& e) {
-		e.printMessage();
-		return eaudiofx::ERR_NONE;
-	}
+	EAUDIOFX_DEBUG("STOP Stream ...");
+	// Stop the stream
+	m_dac.stopStream();
+	// TODO : Check return error
 	if ( m_dac.isStreamOpen() ) {
 		m_dac.closeStream();
 	}
+	
 	return eaudiofx::ERR_NONE;
 };
 

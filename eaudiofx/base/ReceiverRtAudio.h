@@ -10,7 +10,7 @@
 #define __EAUDIOFX_RECEIVER_RTAUDIO_H__
 
 #include <eaudiofx/core/BlockReceiver.h>
-#include <rtaudio/RtAudio.h>
+#include <airtaudio/Interface.h>
 
 namespace eaudiofx {
 	class ReceiverRtAudio : public eaudiofx::BlockReceiver {
@@ -19,13 +19,13 @@ namespace eaudiofx {
 			                           void *_inputBuffer,
 			                           unsigned int _nBufferFrames,
 			                           double _streamTime,
-			                           RtAudioStreamStatus _status,
+			                           airtaudio::streamStatus _status,
 			                           void* _userData);
 			// class callback
 			int32_t needData(float* _outputBuffer,
 			                 size_t _nBufferFrames,
 			                 double _streamTime,
-			                 RtAudioStreamStatus _status);
+			                 airtaudio::streamStatus _status);
 		public:
 			ReceiverRtAudio(void);
 			virtual ~ReceiverRtAudio(void) {};
@@ -33,8 +33,8 @@ namespace eaudiofx {
 			virtual int32_t init(void);
 			virtual int32_t unInit(void);
 		protected:
-			RtAudio m_dac;
-			RtAudio::StreamParameters m_parameters;
+			airtaudio::Interface m_dac;
+			airtaudio::StreamParameters m_parameters;
 	};
 };
 

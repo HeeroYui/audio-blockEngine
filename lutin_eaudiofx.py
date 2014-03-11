@@ -38,7 +38,7 @@ def create(target):
 		])
 	
 	# name of the dependency
-	myModule.add_module_depend(['ewol', 'rtaudio'])
+	myModule.add_module_depend(['ewol', 'airtaudio'])
 	
 	myModule.add_export_path(tools.get_current_path(__file__))
 	

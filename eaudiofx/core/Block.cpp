@@ -102,6 +102,7 @@ int32_t eaudiofx::Block::unLinkBuffer(const eaudiofx::Buffer* _buffer) {
 			it.second.m_buffer = NULL;
 		}
 	}
+	return eaudiofx::ERR_NONE;
 }
 
 int32_t eaudiofx::Block::unLinkBuffer(const std::string& _name) {

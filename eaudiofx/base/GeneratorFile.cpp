@@ -62,7 +62,7 @@ int32_t eaudiofx::GeneratorFile::init(void) {
 		EAUDIOFX_ERROR("Can not open the input file ...");
 		return eaudiofx::ERR_FAIL;
 	}
-	
+	return eaudiofx::ERR_NONE;
 }
 
 
@@ -74,7 +74,7 @@ int32_t eaudiofx::GeneratorFile::unInit(void) {
 		EAUDIOFX_ERROR("Can not close the input file ...");
 		return eaudiofx::ERR_FAIL;
 	}
-	
+	return eaudiofx::ERR_NONE;
 }
 
 
