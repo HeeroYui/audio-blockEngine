@@ -32,6 +32,11 @@ namespace eaudiofx {
 		public: // herieted function :
 			virtual int32_t init(void);
 			virtual int32_t unInit(void);
+		private:
+			bool m_processStarted;
+		public:
+			virtual int32_t start(void);
+			virtual int32_t stop(void);
 		protected:
 			airtaudio::Interface m_dac;
 			airtaudio::StreamParameters m_parameters;

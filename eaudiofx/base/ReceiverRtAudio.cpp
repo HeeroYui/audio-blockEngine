@@ -38,10 +38,16 @@ int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
                                             size_t _nBufferFrames,
                                             double _streamTime,
                                             airtaudio::streamStatus _status) {
+	if (m_processStarted == false) {
+		for (int32_t iii=0; iii<_nBufferFrames*2; ++iii) {
+			_outputBuffer[iii] = 0;
+		}
+		return 0;
+	}
 	// Request block input:
 	int32_t ret = eaudiofx::Block::pull(_streamTime, _nBufferFrames, (float)_nBufferFrames/48000.0f);
 	if (ret != eaudiofx::ERR_NONE) {
-		EAUDIOFX_ERROR("wan not get data ...");
+		EAUDIOFX_ERROR("can not get data ...");
 		return -1;
 	}
 	auto it = m_io.find("in");
@@ -56,7 +62,8 @@ int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
 	}
 	float* data = buffer->getData();
 	for (int32_t iii=0; iii<_nBufferFrames*2; ++iii) {
-		_outputBuffer[iii] = data[iii]*0.05f;
+		_outputBuffer[iii] = data[iii]*0.5f;
+		//EAUDIOFX_ERROR("write : " << data[iii]);
 	}
 	/*
 	FILE* plopppp = fopen("plopout.raw", "a");
@@ -69,7 +76,8 @@ int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
 
 
 
-eaudiofx::ReceiverRtAudio::ReceiverRtAudio(void) {
+eaudiofx::ReceiverRtAudio::ReceiverRtAudio(void) :
+  m_processStarted(false) {
 	setLive(true);
 	// set output :
 	m_io.insert(
@@ -85,18 +93,19 @@ eaudiofx::ReceiverRtAudio::ReceiverRtAudio(void) {
 
 
 int32_t eaudiofx::ReceiverRtAudio::init(void) {
+	EAUDIOFX_DEBUG("Intanciat AirTAudio Interface ...");
 	m_dac.instanciate();
-	EAUDIOFX_DEBUG("Create RTAudio generator ...");
+	EAUDIOFX_DEBUG("Create RTAudio receiver ...");
 	if ( m_dac.getDeviceCount() < 1 ) {
 		EAUDIOFX_ERROR("No audio devices found!");
-		exit( 0 );
+		return eaudiofx::ERR_FAIL;
 	}
 	EAUDIOFX_DEBUG("nb devices :" << m_dac.getDeviceCount() << " default device ID : " << m_dac.getDefaultOutputDevice());
 	m_parameters.deviceId = m_dac.getDefaultOutputDevice();
 	m_parameters.nChannels = 2;
 	m_parameters.firstChannel = 0;
 	unsigned int bufferFrames = 256;
-	EAUDIOFX_DEBUG("OPEN Stream ...");
+	EAUDIOFX_DEBUG("init Stream ...");
 	// TODO : Check return error
 	m_dac.openStream(&m_parameters, NULL, airtaudio::FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
 	// TODO : Check return error
@@ -106,7 +115,7 @@ int32_t eaudiofx::ReceiverRtAudio::init(void) {
 };
 
 int32_t eaudiofx::ReceiverRtAudio::unInit(void) {
-	EAUDIOFX_DEBUG("STOP Stream ...");
+	EAUDIOFX_DEBUG("un-init Stream ...");
 	// Stop the stream
 	m_dac.stopStream();
 	// TODO : Check return error
@@ -117,4 +126,15 @@ int32_t eaudiofx::ReceiverRtAudio::unInit(void) {
 	return eaudiofx::ERR_NONE;
 };
 
+int32_t eaudiofx::ReceiverRtAudio::start(void) {
+	EAUDIOFX_DEBUG("Start stream ...");
+	m_processStarted = true;
+	return eaudiofx::ERR_NONE;
+};
+
+int32_t eaudiofx::ReceiverRtAudio::stop(void) {
+	EAUDIOFX_DEBUG("Stop Stream ...");
+	m_processStarted = false;
+	return eaudiofx::ERR_NONE;
+};
 

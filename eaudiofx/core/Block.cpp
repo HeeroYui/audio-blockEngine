@@ -41,8 +41,10 @@ eaudiofx::Block::~Block(void) {
 
 int32_t eaudiofx::Block::pull(double _currentTime, int32_t _request, float _timeout) {
 	int32_t ret = eaudiofx::ERR_NONE;
+	//EAUDIOFX_DEBUG("Pull request for " << m_io.size() << " IO(s)");
 	for (auto &it : m_io) {
 		if (it.second.m_buffer == NULL) {
+			EAUDIOFX_DEBUG("    ==> null buffer");
 			continue;
 		}
 		if (    it.second.m_type != eaudiofx::Block::ioInput

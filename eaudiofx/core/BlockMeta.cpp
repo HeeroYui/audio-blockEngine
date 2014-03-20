@@ -151,3 +151,38 @@ int32_t eaudiofx::BlockMeta::unInit(void) {
 	return ret;
 };
 
+
+int32_t eaudiofx::BlockMeta::start(void) {
+	EAUDIOFX_INFO("[" << getUID() << "] Start Meta block : '" << getName() << "'");
+	int32_t ret = eaudiofx::ERR_NONE;
+	for (auto &it : m_list) {
+		if (it == NULL) {
+			continue;
+		}
+		if (it->start() != eaudiofx::ERR_NONE) {
+			ret = eaudiofx::ERR_FAIL;
+		}
+	}
+	if (ret != eaudiofx::ERR_NONE) {
+		EAUDIOFX_WARNING("Pb when start the Meta-block '" << getName() << "' ");
+	}
+	return ret;
+};
+
+int32_t eaudiofx::BlockMeta::stop(void) {
+	EAUDIOFX_INFO("[" << getUID() << "] Stop Meta block : '" << getName() << "'");
+	int32_t ret = eaudiofx::ERR_NONE;
+	for (auto &it : m_list) {
+		if (it == NULL) {
+			continue;
+		}
+		if (it->stop() != eaudiofx::ERR_NONE) {
+			ret = eaudiofx::ERR_FAIL;
+		}
+	}
+	if (ret != eaudiofx::ERR_NONE) {
+		EAUDIOFX_WARNING("Pb when stop the Meta-block '" << getName() << "' ");
+	}
+	return ret;
+};
+

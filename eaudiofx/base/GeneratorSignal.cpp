@@ -42,7 +42,6 @@ int32_t eaudiofx::GeneratorSignal::pull(double _currentTime, int32_t _request, f
 	//request outpuffer needed size :
 	buffer->setProperty(48000, 2, _request);
 	float* data = buffer->getData();
-	
 	for (int32_t iii=0; iii<_request; ++iii) {
 		for (int32_t jjj=0; jjj<2; ++jjj) {
 			*data++ = cos(m_phase)*0.5f;

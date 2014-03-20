@@ -37,7 +37,6 @@ eaudiofx::BlockDecoder::BlockDecoder(void) :
 }
 
 int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, float _timeout) {
-	
 	auto itOut = m_io.find("out");
 	if (itOut == m_io.end()) {
 		EAUDIOFX_WARNING("request to pull data with no output !!!");
@@ -58,7 +57,7 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 	bufferOut->setProperty(48000, 2, _request);
 	float* dataOut = bufferOut->getData();
 	int32_t offset = 0;
-	EAUDIOFX_DEBUG("Request data : " << (_request*2) );
+	//EAUDIOFX_DEBUG("Request data : " << (_request*2) );
 	while (1) {
 		int32_t nbSampleToCopy = etk_min(m_nbSampleIn, _request*2 - offset);
 		if (m_nbSampleIn > 0) {
@@ -73,12 +72,10 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 				for (int32_t iii=0; iii < MAX_DATA_IN_BUFFER-nbSampleToCopy; ++iii) {
 					m_tmpBuffer[iii] = m_tmpBuffer[nbSampleToCopy+iii];
 				}
+			} else {
+				m_nbSampleIn = 0;
 			}
 			if (offset == _request*2) {
-				FILE* plopppp = fopen("plopDEC.raw", "a");
-				fwrite(dataOut, sizeof(float), _request*2, plopppp);
-				fflush(plopppp);
-				fclose(plopppp);
 				// putput have enought data
 				return eaudiofx::ERR_NONE;
 			}
@@ -117,7 +114,7 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 				m_nbSampleIn++;
 			}
 		}
-		EAUDIOFX_DEBUG("internal FIFO : " << m_nbSampleIn );
+		//EAUDIOFX_DEBUG("internal FIFO : " << m_nbSampleIn );
 	}
 	return eaudiofx::ERR_NONE;
 }

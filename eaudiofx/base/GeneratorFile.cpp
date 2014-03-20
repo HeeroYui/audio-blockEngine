@@ -44,6 +44,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 	buffer->setProperty(_request);
 	uint8_t* data = buffer->getData();
 	if (m_file == NULL) {
+		EAUDIOFX_ERROR("Buffer output error ==> !!ERROR!!");
 		return eaudiofx::ERR_FAIL;
 	}
 	int64_t nbRead = m_file->fileRead(data, sizeof(uint8_t), _request);
@@ -53,7 +54,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 
 
 int32_t eaudiofx::GeneratorFile::init(void) {
-	m_file = new etk::FSNode("./menu.wav");
+	m_file = new etk::FSNode("DATA:menu.wav");
 	if (m_file == NULL) {
 		EAUDIOFX_ERROR("Can not allocate the input file ...");
 		return eaudiofx::ERR_FAIL;
@@ -72,8 +73,12 @@ int32_t eaudiofx::GeneratorFile::unInit(void) {
 	}
 	if (m_file->fileClose() == false) {
 		EAUDIOFX_ERROR("Can not close the input file ...");
+		delete(m_file);
+		m_file = NULL;
 		return eaudiofx::ERR_FAIL;
 	}
+	delete(m_file);
+	m_file = NULL;
 	return eaudiofx::ERR_NONE;
 }
 

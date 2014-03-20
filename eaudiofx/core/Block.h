@@ -119,6 +119,12 @@ namespace eaudiofx {
 			virtual int32_t unInit(void) {
 				return eaudiofx::ERR_NONE;
 			};
+			virtual int32_t start(void) {
+				return eaudiofx::ERR_NONE;
+			};
+			virtual int32_t stop(void) {
+				return eaudiofx::ERR_NONE;
+			};
 			/**
 			 * @brief Call by downstream to request some data
 			 * @param[in] _currentTime Current stream time (in second)

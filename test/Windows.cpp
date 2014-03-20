@@ -96,7 +96,6 @@ void appl::Windows::onReceiveMessage(const ewol::object::Message& _msg) {
 			process->start();
 			return;
 		#else
-			
 			APPL_INFO("Play Requested ...");
 			process = new eaudiofx::Processing();
 			if (process == NULL) {

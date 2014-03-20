@@ -17,11 +17,19 @@ int32_t eaudiofx::Processing::process(void) {
 
 int32_t eaudiofx::Processing::start(void) {
 	EAUDIOFX_INFO("Start Processing : '" << getName() << "'");
-	return init();
+	int32_t ret = init();
+	if (ret != eaudiofx::ERR_NONE) {
+		return ret;
+	}
+	return eaudiofx::BlockMeta::start();
 }
 
 int32_t eaudiofx::Processing::stop(void) {
 	EAUDIOFX_INFO("Stop Processing : '" << getName() << "'");
+	int32_t ret = eaudiofx::BlockMeta::stop();
+	if (ret != eaudiofx::ERR_NONE) {
+		return ret;
+	}
 	return unInit();
 }
 

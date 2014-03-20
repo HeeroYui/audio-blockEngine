@@ -38,8 +38,8 @@ bool APP_Init(ewol::Context& _context) {
 	_context.setSize(vec2(800, 600));
 	
 	// select internal data for font ...
-	_context.getFontDefault().setUseExternal(true);
-	_context.getFontDefault().set("FreeSerif;DejaVuSansMono", 19);
+	_context.getFontDefault().setUseExternal(false);
+	_context.getFontDefault().set("FreeSerif", 30);
 	
 	ewol::widget::Windows* basicWindows = new appl::Windows();
 	// create the specific windows

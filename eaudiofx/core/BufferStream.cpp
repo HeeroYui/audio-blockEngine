@@ -34,8 +34,8 @@ void eaudiofx::BufferStream::resize(size_t _newSize) {
 		m_data = NULL;
 		m_allocated = 0;
 	}
-	EAUDIOFX_ERROR("Request allocate of " << _newSize << " samples");
-	m_data = new uint8_t[_newSize];
+	EAUDIOFX_ERROR("Request allocate of " << _newSize << " bytes");
+	m_data = new uint8_t[_newSize*2];
 	if (m_data == NULL) {
 		EAUDIOFX_ERROR("Can not allocate Buffer Audio");
 	} else {

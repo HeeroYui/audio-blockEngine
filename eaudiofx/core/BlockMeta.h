@@ -82,6 +82,8 @@ namespace eaudiofx {
 		public: // herited function
 			virtual int32_t init(void);
 			virtual int32_t unInit(void);
+			virtual int32_t start(void);
+			virtual int32_t stop(void);
 	};
 };
 
