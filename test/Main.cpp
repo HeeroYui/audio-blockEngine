@@ -31,7 +31,8 @@ int main(int argc, const char *argv[]) {
 /**
  * @brief main application function Initialisation
  */
-bool APP_Init(ewol::Context& _context) {
+bool APP_Init(ewol::Context& _context, size_t _initId, size_t& _nbInitStep) {
+	_nbInitStep = 1;
 	APPL_INFO("==> Init APPL (START) [" << ewol::getBoardType() << "] (" << ewol::getCompilationMode() << ")");
 	
 	// TODO : Remove this : Move if in the windows properties
