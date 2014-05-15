@@ -17,7 +17,7 @@ namespace eaudiofx {
 	class Buffer {
 		public:
 			Buffer(eaudiofx::Block& _parent);
-			virtual ~Buffer(void) {};
+			virtual ~Buffer() {};
 		protected:
 			eaudiofx::Block& m_parent; //!< parrent Block of this Buffer
 		protected:
@@ -33,13 +33,13 @@ namespace eaudiofx {
 			 * @return true if buffer is negosiated.
 			 * @return false Not negociated.
 			 */
-			bool isNegociated(void) {
+			bool isNegociated() {
 				return m_negociated;
 			}
 			/**
 			 * @brief uset the negociation status of the buffer.
 			 */
-			void requestNewNegociation(void) {
+			void requestNewNegociation() {
 				m_negociated = false;
 			}
 	};

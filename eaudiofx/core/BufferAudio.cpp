@@ -27,7 +27,7 @@ eaudiofx::BufferAudio::BufferAudio(eaudiofx::Block& _parent, int32_t _frequency,
 	memset(m_channelType, 0, sizeof(m_channelType));
 }
 
-eaudiofx::BufferAudio::~BufferAudio(void) {
+eaudiofx::BufferAudio::~BufferAudio() {
 	if (m_data != NULL) {
 		delete[] m_data;
 		m_data = NULL;

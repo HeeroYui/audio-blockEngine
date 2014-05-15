@@ -27,8 +27,8 @@ namespace eaudiofx {
 	};
 	class Block {
 		public:
-			Block(void);
-			virtual ~Block(void);
+			Block();
+			virtual ~Block();
 		protected:
 			std::mutex m_mutex; //!< Block mutex access
 		private:
@@ -38,7 +38,7 @@ namespace eaudiofx {
 			 * @brief Get the Block Unique ID
 			 * @return the UID
 			 */
-			size_t getUID(void) {
+			size_t getUID() {
 				return m_uid;
 			}
 		private:
@@ -55,7 +55,7 @@ namespace eaudiofx {
 			 * @brief Set the block name.
 			 * @return The block name.
 			 */
-			virtual const std::string& getName(void) {
+			virtual const std::string& getName() {
 				return m_name;
 			}
 		private:
@@ -64,7 +64,7 @@ namespace eaudiofx {
 			/**
 			 * @brief Get block type
 			 */
-			virtual enum blockType getType(void) {
+			virtual enum blockType getType() {
 				return m_type;
 			};
 		protected:
@@ -81,7 +81,7 @@ namespace eaudiofx {
 			 * @brief Get parrent ob this block
 			 * @return Pointer on the parrent if one is set.
 			 */
-			virtual eaudiofx::BlockMeta* getParrent(void) {
+			virtual eaudiofx::BlockMeta* getParrent() {
 				return m_parent;
 			};
 			/**
@@ -109,20 +109,20 @@ namespace eaudiofx {
 			 * @brief Init the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t init(void) {
+			virtual int32_t init() {
 				return eaudiofx::ERR_NONE;
 			};
 			/**
 			 * @brief UnInit the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t unInit(void) {
+			virtual int32_t unInit() {
 				return eaudiofx::ERR_NONE;
 			};
-			virtual int32_t start(void) {
+			virtual int32_t start() {
 				return eaudiofx::ERR_NONE;
 			};
-			virtual int32_t stop(void) {
+			virtual int32_t stop() {
 				return eaudiofx::ERR_NONE;
 			};
 			/**
@@ -163,7 +163,7 @@ namespace eaudiofx {
 			 * @brief Reset the block
 			 * @return generic error
 			 */
-			virtual int32_t reset(void) {
+			virtual int32_t reset() {
 				return eaudiofx::ERR_NONE;
 			};
 		public:
@@ -201,7 +201,7 @@ namespace eaudiofx {
 							// TODO : Autogenerate buffer for parameter ...
 						}
 					}
-					IOProperty(void) :
+					IOProperty() :
 					  m_type(ioUnknow),
 					  m_internal(false),
 					  m_buffer(NULL) {
@@ -237,7 +237,7 @@ namespace eaudiofx {
 			 * @brief Update the IO property
 			 * @return A generic error.
 			 */
-			virtual int32_t UpdateIOProperty(void) {
+			virtual int32_t UpdateIOProperty() {
 				return eaudiofx::ERR_NONE;
 			};
 	};

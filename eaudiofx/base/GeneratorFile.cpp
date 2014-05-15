@@ -13,7 +13,7 @@
 
 
 
-eaudiofx::GeneratorFile::GeneratorFile(void) :
+eaudiofx::GeneratorFile::GeneratorFile() :
   m_file(NULL) {
 	// set output :
 	m_io.insert(
@@ -53,7 +53,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 }
 
 
-int32_t eaudiofx::GeneratorFile::init(void) {
+int32_t eaudiofx::GeneratorFile::init() {
 	m_file = new etk::FSNode("DATA:menu.wav");
 	if (m_file == NULL) {
 		EAUDIOFX_ERROR("Can not allocate the input file ...");
@@ -67,7 +67,7 @@ int32_t eaudiofx::GeneratorFile::init(void) {
 }
 
 
-int32_t eaudiofx::GeneratorFile::unInit(void) {
+int32_t eaudiofx::GeneratorFile::unInit() {
 	if (m_file == NULL) {
 		return eaudiofx::ERR_NONE;
 	}

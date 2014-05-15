@@ -10,6 +10,6 @@
 
 
 
-eaudiofx::BlockEncoder::BlockEncoder(void) {
+eaudiofx::BlockEncoder::BlockEncoder() {
 	setType(eaudiofx::blockTypeEncoder);
 }

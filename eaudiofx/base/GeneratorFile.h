@@ -15,14 +15,14 @@
 namespace eaudiofx {
 	class GeneratorFile : public eaudiofx::BlockGenerator {
 		public:
-			GeneratorFile(void);
-			virtual ~GeneratorFile(void) {};
+			GeneratorFile();
+			virtual ~GeneratorFile() {};
 		protected:
 			etk::FSNode* m_file;
 		public: // herieted function :
 			virtual int32_t pull(double _currentTime, int32_t _request, float _timeout);
-			virtual int32_t init(void);
-			virtual int32_t unInit(void);
+			virtual int32_t init();
+			virtual int32_t unInit();
 	};
 };
 

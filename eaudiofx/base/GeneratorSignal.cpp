@@ -12,7 +12,7 @@
 #include <math.h>
 
 
-eaudiofx::GeneratorSignal::GeneratorSignal(void) :
+eaudiofx::GeneratorSignal::GeneratorSignal() :
   m_phase(0) {
 	// set output :
 	m_io.insert(

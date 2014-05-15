@@ -22,7 +22,7 @@ namespace eaudiofx {
 	class BufferMessage : public eaudiofx::Buffer {
 		public:
 			BufferMessage(eaudiofx::Block& _parent, int32_t _message = eaudiofx::bufferMessageEndOfStream);
-			virtual ~BufferMessage(void) {};
+			virtual ~BufferMessage() {};
 		protected:
 			int32_t m_messageId; //!< message ID
 		public:
@@ -30,7 +30,7 @@ namespace eaudiofx {
 			 * @brief Get the message.
 			 * @return The ID of the message (if value is < 0 : custom message ...)
 			 */
-			int32_t getMessage(void) {
+			int32_t getMessage() {
 				return m_messageId;
 			}
 			/**
@@ -47,7 +47,7 @@ namespace eaudiofx {
 			 * @brief get the query complete message
 			 * @return The requested data
 			 */
-			const std::string& getQuery(void) {
+			const std::string& getQuery() {
 				return m_query;
 			}
 			/**
@@ -68,7 +68,7 @@ namespace eaudiofx {
 			 * @brief get the answer of the query
 			 * @return The requested data
 			 */
-			const std::string& getAnswer(void) {
+			const std::string& getAnswer() {
 				return m_answer;
 			}
 			/**

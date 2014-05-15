@@ -27,16 +27,16 @@ namespace eaudiofx {
 			                 double _streamTime,
 			                 airtaudio::streamStatus _status);
 		public:
-			ReceiverRtAudio(void);
-			virtual ~ReceiverRtAudio(void) {};
+			ReceiverRtAudio();
+			virtual ~ReceiverRtAudio() {};
 		public: // herieted function :
-			virtual int32_t init(void);
-			virtual int32_t unInit(void);
+			virtual int32_t init();
+			virtual int32_t unInit();
 		private:
 			bool m_processStarted;
 		public:
-			virtual int32_t start(void);
-			virtual int32_t stop(void);
+			virtual int32_t start();
+			virtual int32_t stop();
 		protected:
 			airtaudio::Interface m_dac;
 			airtaudio::StreamParameters m_parameters;

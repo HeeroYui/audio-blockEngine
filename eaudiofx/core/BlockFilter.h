@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class BlockFilter : public eaudiofx::Block {
 		public:
-			BlockFilter(void);
-			virtual ~BlockFilter(void) {};
+			BlockFilter();
+			virtual ~BlockFilter() {};
 	};
 };
 

@@ -16,7 +16,7 @@ namespace eaudiofx {
 		public:
 			BufferAudio(eaudiofx::Block& _parent);
 			BufferAudio(eaudiofx::Block& _parent, int32_t _frequency, int32_t _nbChannel);
-			virtual ~BufferAudio(void);
+			virtual ~BufferAudio();
 		protected:
 			int32_t m_frequency;
 			int32_t m_nbChannel;
@@ -34,7 +34,7 @@ namespace eaudiofx {
 			 * @brief Get the buffer casted in float*
 			 * @return Pointer on the buffer with correct cast.
 			 */
-			float* getData(void) {
+			float* getData() {
 				return m_data;
 			}
 	};

@@ -10,12 +10,12 @@
 #include <eaudiofx/core/Processing.h>
 
 
-int32_t eaudiofx::Processing::process(void) {
+int32_t eaudiofx::Processing::process() {
 	EAUDIOFX_INFO("Start process : '" << getName() << "'");
 	return eaudiofx::ERR_NONE;
 }
 
-int32_t eaudiofx::Processing::start(void) {
+int32_t eaudiofx::Processing::start() {
 	EAUDIOFX_INFO("Start Processing : '" << getName() << "'");
 	int32_t ret = init();
 	if (ret != eaudiofx::ERR_NONE) {
@@ -24,7 +24,7 @@ int32_t eaudiofx::Processing::start(void) {
 	return eaudiofx::BlockMeta::start();
 }
 
-int32_t eaudiofx::Processing::stop(void) {
+int32_t eaudiofx::Processing::stop() {
 	EAUDIOFX_INFO("Stop Processing : '" << getName() << "'");
 	int32_t ret = eaudiofx::BlockMeta::stop();
 	if (ret != eaudiofx::ERR_NONE) {
@@ -33,7 +33,7 @@ int32_t eaudiofx::Processing::stop(void) {
 	return unInit();
 }
 
-int32_t eaudiofx::Processing::waitEndOfProcess(void) {
+int32_t eaudiofx::Processing::waitEndOfProcess() {
 	EAUDIOFX_INFO("wait end of Processing : '" << getName() << "'");
 	return eaudiofx::ERR_NONE;
 }

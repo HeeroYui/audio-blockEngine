@@ -17,7 +17,7 @@ namespace appl {
 		private:
 			ewol::widget::Composer* m_composer;
 		public:
-			Windows(void);
+			Windows();
 		public: // herited functions
 			virtual void onObjectRemove(ewol::Object * _removeObject);
 			virtual void onReceiveMessage(const ewol::object::Message& _msg);

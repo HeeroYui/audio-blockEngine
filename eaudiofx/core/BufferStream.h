@@ -15,7 +15,7 @@ namespace eaudiofx {
 	class BufferStream : public eaudiofx::Buffer {
 		public:
 			BufferStream(eaudiofx::Block& _parent);
-			virtual ~BufferStream(void);
+			virtual ~BufferStream();
 		protected:
 			uint8_t* m_data; //!< buffer data
 			size_t m_allocated; //!< number of byte allocated
@@ -25,7 +25,7 @@ namespace eaudiofx {
 			void setAvaillableSize(size_t _availlableSize) {
 				m_size = _availlableSize;
 			}
-			size_t setAvaillableSize(void) {
+			size_t setAvaillableSize() {
 				return m_size;
 			}
 		public:
@@ -40,7 +40,7 @@ namespace eaudiofx {
 			 * @brief Get the buffer casted in float*
 			 * @return Pointer on the buffer with correct cast.
 			 */
-			uint8_t* getData(void) {
+			uint8_t* getData() {
 				return m_data;
 			}
 	};

@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class BlockReceiver : public eaudiofx::Block {
 		public:
-			BlockReceiver(void);
-			virtual ~BlockReceiver(void) {};
+			BlockReceiver();
+			virtual ~BlockReceiver() {};
 		private:
 			bool m_isLive; //!< a generator mark as a live element is manage by an external event system like IO interuption
 		public:
@@ -24,7 +24,7 @@ namespace eaudiofx {
 			 * @return true This is a live stream
 			 * @return false This is not a live stream
 			 */
-			bool getLive(void) {
+			bool getLive() {
 				return m_isLive;
 			}
 			/**

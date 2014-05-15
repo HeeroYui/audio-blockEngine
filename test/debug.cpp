@@ -9,7 +9,7 @@
 
 #include <test/debug.h>
 
-int32_t appl::getLogId(void) {
+int32_t appl::getLogId() {
 	static int32_t g_val = etk::log::registerInstance("ea-fx TT");
 	return g_val;
 }

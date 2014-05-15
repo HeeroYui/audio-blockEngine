@@ -8,6 +8,6 @@
 
 #include <eaudiofx/core/BlockFilter.h>
 
-eaudiofx::BlockFilter::BlockFilter(void) {
+eaudiofx::BlockFilter::BlockFilter() {
 	setType(eaudiofx::blockTypeFilter);
 }

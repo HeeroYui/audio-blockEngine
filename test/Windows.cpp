@@ -24,7 +24,7 @@
 static const char* const g_eventPlay1 = "appl-play-1";
 static const char* const g_eventPlay2 = "appl-play-2";
 
-appl::Windows::Windows(void) :
+appl::Windows::Windows() :
   m_composer(NULL) {
 	setTitle("example 001_HelloWord");
 	std::string composition = std::string("");

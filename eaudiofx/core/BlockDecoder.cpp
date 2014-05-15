@@ -14,7 +14,7 @@
 
 
 
-eaudiofx::BlockDecoder::BlockDecoder(void) :
+eaudiofx::BlockDecoder::BlockDecoder() :
   m_nbSampleIn(0) {
 	setType(eaudiofx::blockTypeDecoder);
 	// set input :
@@ -120,13 +120,13 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 }
 
 
-int32_t eaudiofx::BlockDecoder::init(void) {
+int32_t eaudiofx::BlockDecoder::init() {
 	
 	return eaudiofx::ERR_NONE;
 }
 
 
-int32_t eaudiofx::BlockDecoder::unInit(void) {
+int32_t eaudiofx::BlockDecoder::unInit() {
 	
 	return eaudiofx::ERR_NONE;
 }

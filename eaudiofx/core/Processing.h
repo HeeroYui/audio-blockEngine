@@ -18,14 +18,14 @@
 namespace eaudiofx {
 	class Processing : public eaudiofx::BlockMeta {
 		public:
-			Processing(void) {};
-			virtual ~Processing(void) {};
+			Processing() {};
+			virtual ~Processing() {};
 		public:
-			int32_t process(void);
-			int32_t start(void);
-			int32_t stop(void);
-			int32_t waitEndOfProcess(void);
-			bool isLiveStream(void) {
+			int32_t process();
+			int32_t start();
+			int32_t stop();
+			int32_t waitEndOfProcess();
+			bool isLiveStream() {
 				return false;
 			}
 			

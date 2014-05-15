@@ -16,7 +16,7 @@ eaudiofx::BufferStream::BufferStream(eaudiofx::Block& _parent) :
   m_size(0) {
 	
 }
-eaudiofx::BufferStream::~BufferStream(void) {
+eaudiofx::BufferStream::~BufferStream() {
 	if (m_data != NULL) {
 		delete[] m_data;
 		m_data = NULL;

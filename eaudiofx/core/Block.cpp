@@ -13,7 +13,7 @@
 
 
 
-eaudiofx::Block::Block(void) :
+eaudiofx::Block::Block() :
   m_uid(0),
   m_type(),
   m_parent(NULL) {
@@ -22,7 +22,7 @@ eaudiofx::Block::Block(void) :
 	id++;
 }
 
-eaudiofx::Block::~Block(void) {
+eaudiofx::Block::~Block() {
 	for (auto &it : m_io) {
 		if (it.second.m_buffer == NULL) {
 			continue;

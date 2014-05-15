@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class ReceiverFile : public eaudiofx::BlockReceiver {
 		public:
-			ReceiverFile(void) {};
-			virtual ~ReceiverFile(void) {};
+			ReceiverFile() {};
+			virtual ~ReceiverFile() {};
 	};
 };
 

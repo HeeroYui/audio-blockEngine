@@ -15,8 +15,8 @@
 namespace eaudiofx {
 	class BlockMeta : public eaudiofx::Block {
 		public:
-			BlockMeta(void);
-			virtual ~BlockMeta(void);
+			BlockMeta();
+			virtual ~BlockMeta();
 		private:
 			std::vector<eaudiofx::Block*> m_list; //!< list of all block to process.
 		protected:
@@ -80,10 +80,10 @@ namespace eaudiofx {
 			 */
 			int32_t openStream(const std::string& _stream);
 		public: // herited function
-			virtual int32_t init(void);
-			virtual int32_t unInit(void);
-			virtual int32_t start(void);
-			virtual int32_t stop(void);
+			virtual int32_t init();
+			virtual int32_t unInit();
+			virtual int32_t start();
+			virtual int32_t stop();
 	};
 };
 

@@ -14,8 +14,8 @@
 namespace eaudiofx {
 	class BlockGenerator : public eaudiofx::Block {
 		public:
-			BlockGenerator(void);
-			virtual ~BlockGenerator(void) {};
+			BlockGenerator();
+			virtual ~BlockGenerator() {};
 		private:
 			bool m_isLive; //!< a generator mark as a live element is manage by an external event system like IO interuption
 		public:
@@ -24,7 +24,7 @@ namespace eaudiofx {
 			 * @return true This is a live stream
 			 * @return false This is not a live stream
 			 */
-			bool getLive(void) {
+			bool getLive() {
 				return m_isLive;
 			}
 			/**

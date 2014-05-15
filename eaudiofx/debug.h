@@ -12,7 +12,7 @@
 #include <etk/log.h>
 
 namespace eaudiofx {
-	int32_t getLogId(void);
+	int32_t getLogId();
 };
 // TODO : Review this problem of multiple intanciation of "std::stringbuf sb"
 #define EAUDIOFX_BASE(info,data) \

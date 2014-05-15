@@ -11,11 +11,11 @@
 
 
 
-eaudiofx::BlockMeta::BlockMeta(void) {
+eaudiofx::BlockMeta::BlockMeta() {
 	
 }
 
-eaudiofx::BlockMeta::~BlockMeta(void) {
+eaudiofx::BlockMeta::~BlockMeta() {
 	// TODO : Unlink all ...
 	for (auto &it : m_list) {
 		if (it == NULL) {
@@ -118,7 +118,7 @@ int32_t eaudiofx::BlockMeta::openStream(const std::string& _stream) {
 }
 
 
-int32_t eaudiofx::BlockMeta::init(void) {
+int32_t eaudiofx::BlockMeta::init() {
 	EAUDIOFX_INFO("[" << getUID() << "]Init Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
@@ -135,7 +135,7 @@ int32_t eaudiofx::BlockMeta::init(void) {
 	return ret;
 };
 
-int32_t eaudiofx::BlockMeta::unInit(void) {
+int32_t eaudiofx::BlockMeta::unInit() {
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
 		if (it == NULL) {
@@ -152,7 +152,7 @@ int32_t eaudiofx::BlockMeta::unInit(void) {
 };
 
 
-int32_t eaudiofx::BlockMeta::start(void) {
+int32_t eaudiofx::BlockMeta::start() {
 	EAUDIOFX_INFO("[" << getUID() << "] Start Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
@@ -169,7 +169,7 @@ int32_t eaudiofx::BlockMeta::start(void) {
 	return ret;
 };
 
-int32_t eaudiofx::BlockMeta::stop(void) {
+int32_t eaudiofx::BlockMeta::stop() {
 	EAUDIOFX_INFO("[" << getUID() << "] Stop Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {

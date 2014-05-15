@@ -8,7 +8,7 @@
 
 #include <eaudiofx/core/BlockGenerator.h>
 
-eaudiofx::BlockGenerator::BlockGenerator(void) :
+eaudiofx::BlockGenerator::BlockGenerator() :
   m_isLive(false) {
 	setType(eaudiofx::blockTypeGenerator);
 }

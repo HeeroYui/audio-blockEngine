@@ -8,7 +8,7 @@
 
 #include <eaudiofx/debug.h>
 
-int32_t eaudiofx::getLogId(void) {
+int32_t eaudiofx::getLogId() {
 	static int32_t g_val = etk::log::registerInstance("eaudiofx");
 	return g_val;
 }
