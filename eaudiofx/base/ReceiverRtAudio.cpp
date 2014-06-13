@@ -6,9 +6,9 @@
  * @license BSD v3 (see license file)
  */
 
+#include <eaudiofx/debug.h>
 #include <eaudiofx/base/ReceiverRtAudio.h>
 #include <eaudiofx/core/BufferAudioRaw.h>
-#include <eaudiofx/debug.h>
 #include <airtaudio/Interface.h>
 
 int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,

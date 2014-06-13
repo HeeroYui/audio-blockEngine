@@ -17,51 +17,39 @@
 #include <ewol/widget/Manager.h>
 #include <ewol/context/Context.h>
 
+class MainApplication : public ewol::context::Application {
+	public:
+		bool init(ewol::Context& _context, size_t _initId) {
+			APPL_INFO("==> Init APPL (START) [" << ewol::getBoardType() << "] (" << ewol::getCompilationMode() << ")");
+			
+			// TODO : Remove this : Move if in the windows properties
+			_context.setSize(vec2(800, 600));
+			
+			// select internal data for font ...
+			_context.getFontDefault().setUseExternal(false);
+			_context.getFontDefault().set("FreeSerif", 30);
+			
+			ewol::object::Shared<ewol::widget::Windows> basicWindows = ewol::object::makeShared(new appl::Windows());
+			// create the specific windows
+			_context.setWindows(basicWindows);
+			APPL_INFO("==> Init APPL (END)");
+			return true;
+		}
+		
+		void unInit(ewol::Context& _context) {
+			APPL_INFO("==> Un-Init APPL (START)");
+			// nothing to do ...
+			APPL_INFO("==> Un-Init APPL (END)");
+		}
+};
+
 
 /**
  * @brief Main of the program (This can be set in every case, but it is not used in Andoid...).
  * @param std IO
  * @return std IO
  */
-int main(int argc, const char *argv[]) {
-	// only one things to do : 
-	return ewol::run(argc, argv);
+int main(int _argc, const char *_argv[]) {
+	// second possibility
+	return ewol::run(new MainApplication(), _argc, _argv);
 }
-
-/**
- * @brief main application function Initialisation
- */
-bool APP_Init(ewol::Context& _context, size_t _initId, size_t& _nbInitStep) {
-	_nbInitStep = 1;
-	APPL_INFO("==> Init APPL (START) [" << ewol::getBoardType() << "] (" << ewol::getCompilationMode() << ")");
-	
-	// TODO : Remove this : Move if in the windows properties
-	_context.setSize(vec2(800, 600));
-	
-	// select internal data for font ...
-	_context.getFontDefault().setUseExternal(false);
-	_context.getFontDefault().set("FreeSerif", 30);
-	
-	ewol::widget::Windows* basicWindows = new appl::Windows();
-	// create the specific windows
-	_context.setWindows(basicWindows);
-	APPL_INFO("==> Init APPL (END)");
-	return true;
-}
-
-/**
- * @brief main application function Un-Initialisation
- */
-void APP_UnInit(ewol::Context& _context) {
-	APPL_INFO("==> Un-Init APPL (START)");
-	// Nothing to do (main windows will be remove after this call if not done...
-	ewol::widget::Windows* basicWindows = _context.getWindows();
-	
-	if (NULL != basicWindows) {
-		basicWindows->removeObject();
-		basicWindows = NULL;
-	}
-	_context.setWindows(NULL);
-	APPL_INFO("==> Un-Init APPL (END)");
-}
-
