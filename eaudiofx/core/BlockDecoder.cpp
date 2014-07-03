@@ -59,7 +59,7 @@ int32_t eaudiofx::BlockDecoder::pull(double _currentTime, int32_t _request, floa
 	int32_t offset = 0;
 	//EAUDIOFX_DEBUG("Request data : " << (_request*2) );
 	while (1) {
-		int32_t nbSampleToCopy = etk_min(m_nbSampleIn, _request*2 - offset);
+		int32_t nbSampleToCopy = std::min(m_nbSampleIn, _request*2 - offset);
 		if (m_nbSampleIn > 0) {
 			// no pull needed ==> just copy data to output ...
 			for (int32_t iii=0; iii < nbSampleToCopy; ++iii) {
