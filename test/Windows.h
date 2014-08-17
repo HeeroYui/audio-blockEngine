@@ -19,7 +19,6 @@ namespace appl {
 		public:
 			Windows();
 		public: // herited functions
-			virtual void onObjectRemove(ewol::Object * _removeObject);
 			virtual void onReceiveMessage(const ewol::object::Message& _msg);
 	};
 };

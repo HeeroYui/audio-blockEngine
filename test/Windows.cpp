@@ -54,15 +54,6 @@ appl::Windows::Windows() :
 	m_composer->registerOnEventNameWidget(this, "bt-play2", "pressed", g_eventPlay2);
 }
 
-
-void appl::Windows::onObjectRemove(ewol::Object * _removeObject) {
-	if (_removeObject == m_composer) {
-		m_composer = NULL;
-		markToRedraw();
-		return;
-	}
-}
-
 eaudiofx::Processing* process = NULL;
 
 void appl::Windows::onReceiveMessage(const ewol::object::Message& _msg) {
