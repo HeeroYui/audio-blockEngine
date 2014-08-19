@@ -15,9 +15,12 @@
 namespace appl {
 	class Windows : public ewol::widget::Windows {
 		private:
-			ewol::widget::Composer* m_composer;
-		public:
+			std::shared_ptr<ewol::widget::Composer> m_composer;
+		protected:
 			Windows();
+			void init();
+		public:
+			DECLARE_FACTORY(Windows);
 		public: // herited functions
 			virtual void onReceiveMessage(const ewol::object::Message& _msg);
 	};

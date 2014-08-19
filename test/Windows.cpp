@@ -24,8 +24,11 @@
 static const char* const g_eventPlay1 = "appl-play-1";
 static const char* const g_eventPlay2 = "appl-play-2";
 
-appl::Windows::Windows() :
-  m_composer(NULL) {
+appl::Windows::Windows() {
+	addObjectType("appl::Windows");
+}
+
+void appl::Windows::init() {
 	setTitle("example 001_HelloWord");
 	std::string composition = std::string("");
 	composition += "<sizer mode='vert'>\n";
@@ -44,14 +47,14 @@ appl::Windows::Windows() :
 	composition += "	<spacer expand='true' fill='true'/>\n";
 	composition += "</sizer>\n";
 	
-	m_composer = new ewol::widget::Composer(ewol::widget::Composer::String, composition);
+	m_composer = ewol::widget::Composer::create(ewol::widget::Composer::String, composition);
 	if (m_composer == NULL) {
 		APPL_CRITICAL(" An error occured ... in the windows creatrion ...");
 		return;
 	}
 	setSubWidget(m_composer);
-	m_composer->registerOnEventNameWidget(this, "bt-play1", "pressed", g_eventPlay1);
-	m_composer->registerOnEventNameWidget(this, "bt-play2", "pressed", g_eventPlay2);
+	m_composer->registerOnEventNameWidget(shared_from_this(), "bt-play1", "pressed", g_eventPlay1);
+	m_composer->registerOnEventNameWidget(shared_from_this(), "bt-play2", "pressed", g_eventPlay2);
 }
 
 eaudiofx::Processing* process = NULL;
