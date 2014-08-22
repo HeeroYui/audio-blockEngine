@@ -21,8 +21,10 @@ namespace appl {
 			void init();
 		public:
 			DECLARE_FACTORY(Windows);
-		public: // herited functions
-			virtual void onReceiveMessage(const ewol::object::Message& _msg);
+		public: // callback functions
+			void onCallbackPlay();
+			void onCallbackStop();
+			
 	};
 };
 
