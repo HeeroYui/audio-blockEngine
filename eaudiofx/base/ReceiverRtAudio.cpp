@@ -8,7 +8,7 @@
 
 #include <eaudiofx/debug.h>
 #include <eaudiofx/base/ReceiverRtAudio.h>
-#include <eaudiofx/core/BufferAudioRaw.h>
+#include <eaudiofx/core/BufferAudio.h>
 #include <airtaudio/Interface.h>
 
 int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
@@ -33,7 +33,7 @@ int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
 	
 	return classPointer->needData((float*)_outputBuffer, _nBufferFrames, _streamTime, _status);
 }
-
+#if 0
 int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
                                             size_t _nBufferFrames,
                                             double _streamTime,
@@ -73,12 +73,21 @@ int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
 	*/
 	return 0;
 }
+#endif
+int32_t eaudiofx::GeneratorSignal::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
+	
+	return eaudiofx::ERR_NONE;
+}
 
 
+void eaudiofx::ReceiverRtAudio::init() {
+	eaudiofx::Block::init();
+	
+}
 
 eaudiofx::ReceiverRtAudio::ReceiverRtAudio() :
   m_processStarted(false) {
-	setLive(true);
+	/*
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(
@@ -88,11 +97,11 @@ eaudiofx::ReceiverRtAudio::ReceiverRtAudio() :
 	      "{ type:'audio', compression:'raw', frequency:48000, channel:2, format:'float' }",
 	      NULL
 	    ) ) );
-	
+	*/
 };
 
 
-int32_t eaudiofx::ReceiverRtAudio::init() {
+int32_t eaudiofx::ReceiverRtAudio::algoInit() {
 	EAUDIOFX_DEBUG("Intanciat AirTAudio Interface ...");
 	m_dac.instanciate();
 	EAUDIOFX_DEBUG("Create RTAudio receiver ...");
@@ -114,7 +123,7 @@ int32_t eaudiofx::ReceiverRtAudio::init() {
 	return eaudiofx::ERR_NONE;
 };
 
-int32_t eaudiofx::ReceiverRtAudio::unInit() {
+int32_t eaudiofx::ReceiverRtAudio::algoUnInit() {
 	EAUDIOFX_DEBUG("un-init Stream ...");
 	// Stop the stream
 	m_dac.stopStream();
@@ -126,13 +135,13 @@ int32_t eaudiofx::ReceiverRtAudio::unInit() {
 	return eaudiofx::ERR_NONE;
 };
 
-int32_t eaudiofx::ReceiverRtAudio::start() {
+int32_t eaudiofx::ReceiverRtAudio::algoStart() {
 	EAUDIOFX_DEBUG("Start stream ...");
 	m_processStarted = true;
 	return eaudiofx::ERR_NONE;
 };
 
-int32_t eaudiofx::ReceiverRtAudio::stop() {
+int32_t eaudiofx::ReceiverRtAudio::algoStop() {
 	EAUDIOFX_DEBUG("Stop Stream ...");
 	m_processStarted = false;
 	return eaudiofx::ERR_NONE;

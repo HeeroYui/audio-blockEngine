@@ -13,233 +13,143 @@
 #include <string>
 #include <mutex>
 #include <map>
+#include <ewol/object/Object.h>
 
 namespace eaudiofx {
 	class Buffer;
 	class BlockMeta;
-	enum blockType {
-		blockTypeUnknow,
-		blockTypeFilter,
-		blockTypeGenerator,
-		blockTypeReceiver,
-		blockTypeDecoder,
-		blockTypeEncoder,
-	};
-	class Block {
-		public:
+	
+	class Block : public ewol::Object {
+		protected:
 			Block();
+			void init() {
+				ewol::Object::init();
+			}
+		public:
+			DECLARE_FACTORY(Block);
 			virtual ~Block();
 		protected:
 			std::mutex m_mutex; //!< Block mutex access
-		private:
-			size_t m_uid; //!< Unique block ID
-		public:
-			/**
-			 * @brief Get the Block Unique ID
-			 * @return the UID
-			 */
-			size_t getUID() {
-				return m_uid;
-			}
-		private:
-			std::string m_name; //!< name of the block
-		public:
-			/**
-			 * @brief Set the block name
-			 * @param[in] _name New name of the Block
-			 */
-			virtual void setName(const std::string& _name) {
-				m_name = _name;
-			}
-			/**
-			 * @brief Set the block name.
-			 * @return The block name.
-			 */
-			virtual const std::string& getName() {
-				return m_name;
-			}
-		private:
-			enum blockType m_type; // Type of the current block
-		public:
-			/**
-			 * @brief Get block type
-			 */
-			virtual enum blockType getType() {
-				return m_type;
-			};
-		protected:
-			/**
-			 * @brief Set type of the block ==> detect generator and receiver
-			 */
-			virtual void setType(enum blockType _type) {
-				m_type = _type;
-			};
-		protected:
-			eaudiofx::BlockMeta* m_parent;
-		public:
-			/**
-			 * @brief Get parrent ob this block
-			 * @return Pointer on the parrent if one is set.
-			 */
-			virtual eaudiofx::BlockMeta* getParrent() {
-				return m_parent;
-			};
-			/**
-			 * @brief Set the parrent pointer.
-			 * @param[in] _meta Pointer on the parrent.
-			 */
-			virtual void setParrent(eaudiofx::BlockMeta* _meta) {
-				m_parent = _meta;
-			};
-		protected:
-			// TODO : set properties ...
-		public:
-			/**
-			 * @brief Set a property
-			 */
-			virtual void setProperty(const std::string& _name, const std::string& _property) {};
-			/**
-			 * @brief Get a property
-			 */
-			virtual std::string setProperty(const std::string& _name) {
-				return "";
-			};
+		
+		
 		public:
 			/**
 			 * @brief Init the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t init() {
+			virtual int32_t algoInit() {
 				return eaudiofx::ERR_NONE;
 			};
 			/**
 			 * @brief UnInit the block with the properties
 			 * @return A generic error.
 			 */
-			virtual int32_t unInit() {
+			virtual int32_t algoUnInit() {
 				return eaudiofx::ERR_NONE;
 			};
-			virtual int32_t start() {
+			virtual int32_t algoStart() {
 				return eaudiofx::ERR_NONE;
 			};
-			virtual int32_t stop() {
+			virtual int32_t algoStop() {
 				return eaudiofx::ERR_NONE;
 			};
+		public:
 			/**
-			 * @brief Call by downstream to request some data
-			 * @param[in] _currentTime Current stream time (in second)
-			 * @param[in] _requestTime Data requested (can be chunk number 256 samples, or data byte for stream) (-1 for automatic)
-			 * @param[in] _timeout system time to be obsolet (for realTime streaming) (-1 for no realTime streaming)
-			 * @return generic error
+			 * @brief get if the block support the native push interface
+			 * @return true if the mode is supported
 			 */
-			virtual int32_t pull(double _currentTime, int32_t _request, float _timeout);
+			virtual bool supportNativePush() {
+				return false;
+			}
 			/**
-			 * @brief Get The total stream size (in byte for streaming byte element, in second for time streaming)
-			 * @param[out] _value Get total streaming time (-1 for unknown)
-			 * @return generic error
+			 * @brief get if the block support the native pull interface
+			 * @return true if the mode is supported
 			 */
-			virtual int32_t getTotal(double& _value) {
-				_value = -1;
-				return eaudiofx::ERR_NONE;
-			};
+			virtual bool supportNativePull() {
+				return false;
+			}
 			/**
-			 * @brief Seek to a specific position in the stream (in byte for streaming byte element, in second for time streaming)
-			 * @param[out] _pos position to seek (0 for starting)
-			 * @return generic error
+			 * @brief get if the block support the native Time interface
+			 * @return true if the mode is supported
 			 */
-			virtual int32_t seekTo(double _pos) {
+			virtual bool supportNativeTime() {
+				return false;
+			}
+		/* *****************************************************************
+		   **                            INPUTS                           **
+		   ***************************************************************** */
+		protected:
+			std::vector<std::pair<std::string, std::string>> m_inputCapabilities; //!< Description of the capabilities of all the inputs (name, capacity)
+		public:
+			int32_t getNumberOfInput() {
+				return m_inputCapabilities.size();
+			}
+			int32_t addInput(const std::string& _name, const std::string& _description) {
+				// TODO :Add check of input already exist
+				m_inputCapabilities.push_back(std::make_pair(_name,_description));
 				return eaudiofx::ERR_NONE;
-			};
-			/**
-			 * @brief Request a flush of the current buffer
-			 * @param[in] _currentTime Current stream time (in second)
-			 * @param[in] _timeout system time to be obsolet (for realTime streaming) (-1 for no realTime streaming)
-			 * @return generic error
-			 */
-			virtual int32_t flush(double _currentTime, float _timeout) {
+			}
+		protected:
+			std::vector<std::string> m_inputLink; //!< Name of output linked
+		public:
+			void setInputName(size_t _inputId, const std::string& _nameDistantLink);
+			void setInputName(const std::string& _nameInput, const std::string& _nameDistantLink);
+		protected:
+			std::vector<std::shared_ptr<eaudiofx::Buffer>> m_inputs; //!< Link on the input buffer
+		public:
+			virtual int32_t linkAllInputs() {
 				return eaudiofx::ERR_NONE;
-			};
+			}
+			virtual int32_t unLinkAllInputs() {
+				return eaudiofx::ERR_NONE;
+			}
+			
+			
+			
+			
+		/* *****************************************************************
+		   **                           OUTPUTS                           **
+		   ***************************************************************** */
+		protected:
+			std::vector<std::pair<std::string, std::string>> m_outputCapabilities; //!< Description of the capabilities of all the outputs (name, capacity)
+		public:
+			int32_t getNumberOfOutput() {
+				return m_outputCapabilities.size();
+			}
+			int32_t addOutput(const std::string& _name, const std::string& _description) {
+				// TODO :Add check of output already exist
+				m_outputCapabilities.push_back(std::make_pair(_name,_description));
+				
+				return eaudiofx::ERR_NONE;
+			}
+		protected:
+			std::vector<std::string> m_outputLink; //!< Name of output linked
+		public:
+			void setOutputName(size_t _inputId, const std::string& _nameDistantLink);
+			void setOutputName(const std::string& _nameInput, const std::string& _nameDistantLink);
+		protected:
+			std::vector<std::shared_ptr<eaudiofx::Buffer>> m_outputs;
+		public:
+			virtual int32_t allocateAllOutputs(int64_t _processTimeSlot) {
+				return eaudiofx::ERR_NONE;
+			}
+			virtual int32_t cleanAllOutputs() {
+				return eaudiofx::ERR_NONE;
+			}
+		
+		
 			/**
 			 * @brief Reset the block
 			 * @return generic error
 			 */
-			virtual int32_t reset() {
+			virtual int32_t algoReset() {
 				return eaudiofx::ERR_NONE;
 			};
-		public:
-			/**
-			 * @brief Call when a buffer is removed from the system (current).
-			 * @param[in] _buffer Pointer on the removed buffer.
-			 */
-			virtual void onRemoveBuffer(const eaudiofx::Buffer* _buffer);
-			/**
-			 * @brief A child call his parrent that it is removing a buffer.
-			 * @param[in] _buffer Pointer on the removed buffer.
-			 */
-			virtual void subRemoveBuffer(const eaudiofx::Buffer* _buffer);
-		protected:
-			enum typeIO {
-				ioUnknow,
-				ioInput,
-				ioOutput,
-				ioParameter,
-			};
-			class IOProperty {
-				public:
-					enum typeIO m_type;
-					std::string m_description;
-					bool m_internal;
-					eaudiofx::Buffer* m_buffer;
-					IOProperty(enum typeIO _type,
-					           const std::string& _description="",
-					           eaudiofx::Buffer* _buffer = NULL) :
-					  m_type(_type),
-					  m_description(_description),
-					  m_internal(true),
-					  m_buffer(_buffer) {
-						if (m_type == ioParameter) {
-							// TODO : Autogenerate buffer for parameter ...
-						}
-					}
-					IOProperty() :
-					  m_type(ioUnknow),
-					  m_internal(false),
-					  m_buffer(NULL) {
-						
-					}
-			};
-			std::map<std::string, eaudiofx::Block::IOProperty> m_io; //!< All IO in the Block
-		public:
-			/**
-			 * @brief Link the provided buffer to the IO name.
-			 * @param[in] _buffer Pointer on the buffer to link.
-			 * @param[in] _name Name of the IO;
-			 * @return A generic error.
-			 */
-			virtual int32_t linkBuffer(eaudiofx::Buffer* _buffer, const std::string& _name);
-			/**
-			 * @brief Un link a speific buffer to the IO name.
-			 * @param[in] _buffer Pointer on the buffer to unlink.
-			 * @param[in] _name Name of the IO to unlink;
-			 * @return A generic error.
-			 */
-			virtual int32_t unLinkBuffer(const eaudiofx::Buffer* _buffer);
-			//! @previous
-			virtual int32_t unLinkBuffer(const std::string& _name);
-			/**
-			 * @brief Request a buffer pointer on the IO named.
-			 * @param[out] _buffer Pointer on the buffer to link.
-			 * @param[in] _name Name of the IO;
-			 * @return A generic error.
-			 */
-			virtual int32_t getBuffer(eaudiofx::Buffer*& _buffer, const std::string& _name);
-			/**
-			 * @brief Update the IO property
-			 * @return A generic error.
-			 */
-			virtual int32_t UpdateIOProperty() {
+			
+			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
 				return eaudiofx::ERR_NONE;
-			};
+			}
+			
 	};
 };
 

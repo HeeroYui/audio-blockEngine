@@ -9,11 +9,11 @@
 #ifndef __EAUDIOFX_RECEIVER_RTAUDIO_H__
 #define __EAUDIOFX_RECEIVER_RTAUDIO_H__
 
-#include <eaudiofx/core/BlockReceiver.h>
+#include <eaudiofx/core/Block.h>
 #include <airtaudio/Interface.h>
 
 namespace eaudiofx {
-	class ReceiverRtAudio : public eaudiofx::BlockReceiver {
+	class ReceiverRtAudio : public eaudiofx::Block {
 		private:
 			static int rtAudioCallBack(void *_outputBuffer,
 			                           void *_inputBuffer,
@@ -26,20 +26,27 @@ namespace eaudiofx {
 			                 size_t _nBufferFrames,
 			                 double _streamTime,
 			                 airtaudio::streamStatus _status);
-		public:
+		protected:
 			ReceiverRtAudio();
+			void init();
+		public:
+			DECLARE_FACTORY(ReceiverRtAudio);
 			virtual ~ReceiverRtAudio() {};
 		public: // herieted function :
-			virtual int32_t init();
-			virtual int32_t unInit();
+			virtual int32_t algoInit();
+			virtual int32_t algoUnInit();
 		private:
 			bool m_processStarted;
 		public:
-			virtual int32_t start();
-			virtual int32_t stop();
+			virtual int32_t algoStart();
+			virtual int32_t algoStop();
 		protected:
 			airtaudio::Interface m_dac;
 			airtaudio::StreamParameters m_parameters;
+		public:
+			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
+				return eaudiofx::ERR_NONE;
+			}
 	};
 };
 

@@ -14,25 +14,30 @@
 
 namespace eaudiofx {
 	class BlockMeta : public eaudiofx::Block {
-		public:
+		protected:
 			BlockMeta();
+			void init() {
+				eaudiofx::Block();
+			}
+		public:
+			DECLARE_FACTORY(BlockMeta);
 			virtual ~BlockMeta();
 		private:
-			std::vector<eaudiofx::Block*> m_list; //!< list of all block to process.
+			std::vector<std::shared_ptr<eaudiofx::Block>> m_list; //!< list of all block to process.
 		protected:
 			/**
 			 * @brief Get a pointer on a specific block.
 			 * @param[in] _name Name of the block.
 			 * @return generic error
 			 */
-			eaudiofx::Block* getBlock(const std::string& _name);
+			std::shared_ptr<eaudiofx::Block> getBlock(const std::string& _name);
 		public:
 			/**
 			 * @brief Add a block in the Meta-block
 			 * @param[in] _block Pointer on the block (do not free yourself)
 			 * @return generic error
 			 */
-			int32_t addBlock(eaudiofx::Block* _block);
+			int32_t addBlock(std::shared_ptr<eaudiofx::Block> _block);
 			/**
 			 * @brief Add a block in the Meta-block.
 			 * @param[in] _blockType Name of the type of block to add.
@@ -47,14 +52,6 @@ namespace eaudiofx {
 			 * @return generic error
 			 */
 			int32_t removeBlock(const std::string& _name);
-			/**
-			 * @brief Replace a block with an other
-			 * @param[in] _nameUnLink Name of the block to UnLink
-			 * @param[in] _nameLink Name of the block to Link
-			 * @note This free the block pointer
-			 * @return generic error
-			 */
-			int32_t replaceFilter(const std::string& _nameUnLink, const std::string& _nameLink);
 			/**
 			 * @brief Link 2 IO.
 			 * @param[in] _generatorBlockName Name ot the generator Block
@@ -80,10 +77,10 @@ namespace eaudiofx {
 			 */
 			int32_t openStream(const std::string& _stream);
 		public: // herited function
-			virtual int32_t init();
-			virtual int32_t unInit();
-			virtual int32_t start();
-			virtual int32_t stop();
+			virtual int32_t algoInit();
+			virtual int32_t algoUnInit();
+			virtual int32_t algoStart();
+			virtual int32_t algoStop();
 	};
 };
 

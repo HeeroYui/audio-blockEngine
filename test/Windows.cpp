@@ -14,8 +14,6 @@
 #include <eaudiofx/eaudiofx.h>
 #include <ewol/widget/Button.h>
 
-#include <eaudiofx/base/GeneratorFile.h>
-#include <eaudiofx/core/BlockDecoder.h>
 #include <eaudiofx/base/GeneratorSignal.h>
 #include <eaudiofx/base/ReceiverRtAudio.h>
 
@@ -59,46 +57,18 @@ void appl::Windows::init() {
 	composerBind(ewol::widget::Button, "bt-play2", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
 }
 
-eaudiofx::Processing* process = NULL;
+std::shared_ptr<eaudiofx::Processing> process = NULL;
 
 void appl::Windows::onCallbackPlay() {
 	#if 0
 		APPL_INFO("Play Requested ...");
-		process = new eaudiofx::Processing();
+		process = eaudiofx::Processing::create();
 		if (process == NULL) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		APPL_INFO("Create Generator ...");
-		eaudiofx::GeneratorSignal* generator = new eaudiofx::GeneratorSignal();
-		if (generator == NULL) {
-			APPL_ERROR("can not create Generator ...");
-			return;
-		}
-		generator->setName("myGenerator");
-		process->addBlock(generator);
-		APPL_INFO("Create Receiver ...");
-		eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
-		if (receiver == NULL) {
-			APPL_ERROR("can not create Receiver ...");
-			return;
-		}
-		receiver->setName("myReceiver");
-		process->addBlock(receiver);
-		
-		process->linkBlock("myGenerator", "out","myReceiver", "in");
-		
-		process->start();
-		return;
-	#else
-		APPL_INFO("Play Requested ...");
-		process = new eaudiofx::Processing();
-		if (process == NULL) {
-			APPL_ERROR("can not create processing ...");
-			return;
-		}
-		APPL_INFO("Create Generator ...");
-		eaudiofx::GeneratorFile* generator = new eaudiofx::GeneratorFile();
+		std::shared_ptr<eaudiofx::GeneratorFile> generator = eaudiofx::GeneratorFile::create();
 		if (generator == NULL) {
 			APPL_ERROR("can not create Generator ...");
 			return;
@@ -107,7 +77,7 @@ void appl::Windows::onCallbackPlay() {
 		process->addBlock(generator);
 		
 		APPL_INFO("Create DECODER ...");
-		eaudiofx::BlockDecoder* decoder = new eaudiofx::BlockDecoder();
+		std::shared_ptr<eaudiofx::BlockDecoder> decoder = eaudiofx::BlockDecoder::create();
 		if (decoder == NULL) {
 			APPL_ERROR("can not create Generator ...");
 			return;
@@ -116,7 +86,7 @@ void appl::Windows::onCallbackPlay() {
 		process->addBlock(decoder);
 		
 		APPL_INFO("Create Receiver ...");
-		eaudiofx::ReceiverRtAudio* receiver = new eaudiofx::ReceiverRtAudio();
+		std::shared_ptr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
 		if (receiver == NULL) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
@@ -126,6 +96,35 @@ void appl::Windows::onCallbackPlay() {
 		
 		process->linkBlock("myGenerator", "out","myDecoder", "in");
 		process->linkBlock("myDecoder", "out","myReceiver", "in");
+		
+		process->start();
+		return;
+	#else
+		APPL_INFO("Play Requested ...");
+		process = eaudiofx::Processing::create();
+		if (process == NULL) {
+			APPL_ERROR("can not create processing ...");
+			return;
+		}
+		APPL_INFO("Create Generator Sinus");
+		std::shared_ptr<eaudiofx::GeneratorSignal> generator = eaudiofx::GeneratorSignal::create();
+		if (generator == NULL) {
+			APPL_ERROR("can not create Generator ...");
+			return;
+		}
+		generator->setName("myGeneratorSinus");
+		process->addBlock(generator);
+		
+		APPL_INFO("Create Receiver ...");
+		std::shared_ptr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
+		if (receiver == NULL) {
+			APPL_ERROR("can not create Receiver ...");
+			return;
+		}
+		receiver->setName("myReceiver");
+		process->addBlock(receiver);
+		
+		process->linkBlock("myGenerator", "out","myReceiver", "in");
 		
 		process->start();
 		return;

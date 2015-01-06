@@ -8,12 +8,17 @@
 
 #include <eaudiofx/debug.h>
 #include <eaudiofx/base/GeneratorSignal.h>
-#include <eaudiofx/core/BufferAudioRaw.h>
+#include <eaudiofx/core/BufferAudio.h>
 #include <math.h>
 
 
+void eaudiofx::GeneratorSignal::init() {
+	eaudiofx::Block::init();
+}
+
 eaudiofx::GeneratorSignal::GeneratorSignal() :
   m_phase(0) {
+	/*
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(
@@ -21,11 +26,17 @@ eaudiofx::GeneratorSignal::GeneratorSignal() :
 	    eaudiofx::Block::IOProperty(
 	      eaudiofx::Block::ioOutput,
 	      "{ type:'audio', compression:'raw', frequency:48000, channel:2, format:'float' }",
-	      new eaudiofx::BufferAudioRaw(*this, 48000, 2)
+	      new eaudiofx::BufferAudio(*this)
 	    ) ) );
-	
+	*/
 }
 
+
+int32_t eaudiofx::GeneratorSignal::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
+	
+	return eaudiofx::ERR_NONE;
+}
+#if 0
 int32_t eaudiofx::GeneratorSignal::pull(double _currentTime, int32_t _request, float _timeout) {
 	auto it = m_io.find("out");
 	if (it == m_io.end()) {
@@ -59,3 +70,4 @@ int32_t eaudiofx::GeneratorSignal::pull(double _currentTime, int32_t _request, f
 	*/
 	return eaudiofx::ERR_NONE;
 }
+#endif

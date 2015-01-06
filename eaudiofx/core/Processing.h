@@ -17,17 +17,19 @@
 
 namespace eaudiofx {
 	class Processing : public eaudiofx::BlockMeta {
-		public:
+		protected:
 			Processing() {};
+			void init() {
+				eaudiofx::BlockMeta::init();
+			};
+		public:
+			DECLARE_FACTORY(Processing);
 			virtual ~Processing() {};
 		public:
 			int32_t process();
 			int32_t start();
 			int32_t stop();
 			int32_t waitEndOfProcess();
-			bool isLiveStream() {
-				return false;
-			}
 			
 	};
 };
