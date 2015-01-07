@@ -22,7 +22,7 @@ namespace eaudiofx {
 			                           airtaudio::streamStatus _status,
 			                           void* _userData);
 			// class callback
-			int32_t needData(float* _outputBuffer,
+			int32_t needData(void* _outputBuffer,
 			                 size_t _nBufferFrames,
 			                 double _streamTime,
 			                 airtaudio::streamStatus _status);
@@ -43,10 +43,9 @@ namespace eaudiofx {
 		protected:
 			airtaudio::Interface m_dac;
 			airtaudio::StreamParameters m_parameters;
+			std::vector<int8_t> m_buffer;
 		public:
-			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
-				return eaudiofx::ERR_NONE;
-			}
+			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
 	};
 };
 

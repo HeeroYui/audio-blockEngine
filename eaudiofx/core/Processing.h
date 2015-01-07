@@ -13,10 +13,11 @@
 #include <eaudiofx/core/Buffer.h>
 #include <eaudiofx/core/Block.h>
 #include <eaudiofx/core/BlockMeta.h>
+#include <eaudiofx/Thread.h>
 #include <vector>
 
 namespace eaudiofx {
-	class Processing : public eaudiofx::BlockMeta {
+	class Processing : public eaudiofx::BlockMeta, eaudiofx::Thread {
 		protected:
 			Processing() {};
 			void init() {
@@ -31,6 +32,10 @@ namespace eaudiofx {
 			int32_t stop();
 			int32_t waitEndOfProcess();
 			
+			// Thread interface :
+			virtual bool stateStart();
+			virtual bool stateRun();
+			virtual bool stateStop();
 	};
 };
 

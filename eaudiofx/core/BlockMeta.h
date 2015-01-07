@@ -17,7 +17,7 @@ namespace eaudiofx {
 		protected:
 			BlockMeta();
 			void init() {
-				eaudiofx::Block();
+				eaudiofx::Block::init();
 			}
 		public:
 			DECLARE_FACTORY(BlockMeta);
@@ -37,7 +37,7 @@ namespace eaudiofx {
 			 * @param[in] _block Pointer on the block (do not free yourself)
 			 * @return generic error
 			 */
-			int32_t addBlock(std::shared_ptr<eaudiofx::Block> _block);
+			int32_t addBlock(const std::shared_ptr<eaudiofx::Block>& _block);
 			/**
 			 * @brief Add a block in the Meta-block.
 			 * @param[in] _blockType Name of the type of block to add.

@@ -18,44 +18,43 @@ eaudiofx::BlockMeta::BlockMeta() {
 eaudiofx::BlockMeta::~BlockMeta() {
 	// TODO : Unlink all ...
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
-		eaudiofx::Block* tmp = it;
-		it = NULL;
-		delete(tmp);
+		std::shared_ptr<eaudiofx::Block> tmp = it;
+		it.reset();
 	}
 	m_list.clear();
 }
 
-eaudiofx::Block* eaudiofx::BlockMeta::getBlock(const std::string& _name) {
+std::shared_ptr<eaudiofx::Block> eaudiofx::BlockMeta::getBlock(const std::string& _name) {
 	if (_name.size() == 0) {
-		return NULL;
+		return nullptr;
 	}
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
 		if (it->getName() == _name) {
 			return it;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
-int32_t eaudiofx::BlockMeta::addBlock(eaudiofx::Block* _block) {
-	if (_block == NULL) {
-		EAUDIOFX_ERROR("[" << getUID() << "] Add NULL block");
+int32_t eaudiofx::BlockMeta::addBlock(const std::shared_ptr<eaudiofx::Block>& _block) {
+	if (_block == nullptr) {
+		EAUDIOFX_ERROR("[" << getId() << "] Add nullptr block");
 		return eaudiofx::ERR_INPUT_NULL;
 	}
 	if (_block->getName().size() > 0 ) {
 		// Check if name exist :
 		for (auto &it : m_list) {
-			if (it == NULL) {
+			if (it == nullptr) {
 				continue;
 			}
 			if (it->getName() == _block->getName()) {
-				EAUDIOFX_ERROR("[" << getUID() << "] Add block name '" << _block->getName() << "' already exist");
+				EAUDIOFX_ERROR("[" << getId() << "] Add block name '" << _block->getName() << "' already exist");
 				return eaudiofx::ERR_ALREADY_EXIST;
 			}
 		}
@@ -74,29 +73,26 @@ int32_t eaudiofx::BlockMeta::removeBlock(const std::string& _name) {
 	return eaudiofx::ERR_NOT_IMPLEMENTED;
 }
 
-int32_t eaudiofx::BlockMeta::replaceFilter(const std::string& _nameUnLink, const std::string& _nameLink) {
-	EAUDIOFX_ERROR("NOT IMPLEMENTED");
-	return eaudiofx::ERR_NOT_IMPLEMENTED;
-}
 
 int32_t eaudiofx::BlockMeta::linkBlock(const std::string& _generatorBlockName,
                                        const std::string& _generatorIoName,
                                        const std::string& _receiverBlockName,
                                        const std::string& _receiverIoName) {
+	/*
 	eaudiofx::Block* itGenerator = getBlock(_generatorBlockName);
 	eaudiofx::Block* itReceiver = getBlock(_receiverBlockName);
-	if (    itGenerator == NULL
-	     || itReceiver == NULL) {
+	if (    itGenerator == nullptr
+	     || itReceiver == nullptr) {
 		EAUDIOFX_ERROR("Can not link : '" << _generatorBlockName << "' and '" << _receiverBlockName << "' one element does not exist ...");
 		return eaudiofx::ERR_FAIL;
 	}
-	eaudiofx::Buffer* outputBuffer = NULL;
+	eaudiofx::Buffer* outputBuffer = nullptr;
 	if (itGenerator->getBuffer(outputBuffer, _generatorIoName) != eaudiofx::ERR_NONE) {
 		EAUDIOFX_ERROR("Can not get buffer : '" << _generatorBlockName << "':'" << _generatorIoName << "'");
 		return eaudiofx::ERR_FAIL;
 	}
-	if (outputBuffer == NULL) {
-		EAUDIOFX_ERROR("Get NULL buffer : '" << _generatorBlockName << "':'" << _generatorIoName << "'");
+	if (outputBuffer == nullptr) {
+		EAUDIOFX_ERROR("Get nullptr buffer : '" << _generatorBlockName << "':'" << _generatorIoName << "'");
 		return eaudiofx::ERR_FAIL;
 	}
 	if (itReceiver->linkBuffer(outputBuffer, _receiverIoName) != eaudiofx::ERR_NONE) {
@@ -104,6 +100,7 @@ int32_t eaudiofx::BlockMeta::linkBlock(const std::string& _generatorBlockName,
 		return eaudiofx::ERR_FAIL;
 	}
 	EAUDIOFX_INFO("Link : " << _generatorBlockName << ":" << _generatorIoName << " and " << _receiverBlockName << ":" << _receiverIoName);
+	*/
 	return eaudiofx::ERR_NONE;
 }
 
@@ -118,14 +115,14 @@ int32_t eaudiofx::BlockMeta::openStream(const std::string& _stream) {
 }
 
 
-int32_t eaudiofx::BlockMeta::init() {
-	EAUDIOFX_INFO("[" << getUID() << "]Init Meta block : '" << getName() << "'");
+int32_t eaudiofx::BlockMeta::algoInit() {
+	EAUDIOFX_INFO("[" << getId() << "]Init Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
-		if (it->init() != eaudiofx::ERR_NONE) {
+		if (it->algoInit() != eaudiofx::ERR_NONE) {
 			ret = eaudiofx::ERR_FAIL;
 		}
 	}
@@ -135,13 +132,13 @@ int32_t eaudiofx::BlockMeta::init() {
 	return ret;
 };
 
-int32_t eaudiofx::BlockMeta::unInit() {
+int32_t eaudiofx::BlockMeta::algoUnInit() {
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
-		if (it->unInit() != eaudiofx::ERR_NONE) {
+		if (it->algoUnInit() != eaudiofx::ERR_NONE) {
 			ret = eaudiofx::ERR_FAIL;
 		}
 	}
@@ -152,14 +149,14 @@ int32_t eaudiofx::BlockMeta::unInit() {
 };
 
 
-int32_t eaudiofx::BlockMeta::start() {
-	EAUDIOFX_INFO("[" << getUID() << "] Start Meta block : '" << getName() << "'");
+int32_t eaudiofx::BlockMeta::algoStart() {
+	EAUDIOFX_INFO("[" << getId() << "] Start Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
-		if (it->start() != eaudiofx::ERR_NONE) {
+		if (it->algoStart() != eaudiofx::ERR_NONE) {
 			ret = eaudiofx::ERR_FAIL;
 		}
 	}
@@ -169,14 +166,14 @@ int32_t eaudiofx::BlockMeta::start() {
 	return ret;
 };
 
-int32_t eaudiofx::BlockMeta::stop() {
-	EAUDIOFX_INFO("[" << getUID() << "] Stop Meta block : '" << getName() << "'");
+int32_t eaudiofx::BlockMeta::algoStop() {
+	EAUDIOFX_INFO("[" << getId() << "] Stop Meta block : '" << getName() << "'");
 	int32_t ret = eaudiofx::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == NULL) {
+		if (it == nullptr) {
 			continue;
 		}
-		if (it->stop() != eaudiofx::ERR_NONE) {
+		if (it->algoStop() != eaudiofx::ERR_NONE) {
 			ret = eaudiofx::ERR_FAIL;
 		}
 	}

@@ -53,8 +53,8 @@ void appl::Windows::init() {
 		return;
 	}
 	setSubWidget(m_composer);
-	composerBind(ewol::widget::Button, "bt-play1", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlay);
-	composerBind(ewol::widget::Button, "bt-play2", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
+	subBind(ewol::widget::Button, "bt-play1", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlay);
+	subBind(ewol::widget::Button, "bt-play2", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
 }
 
 std::shared_ptr<eaudiofx::Processing> process = NULL;

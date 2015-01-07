@@ -35,7 +35,6 @@ namespace eaudiofx {
 	};
 	class BufferAudio : public eaudiofx::Buffer {
 		public:
-			BufferAudio(eaudiofx::Block& _parent);
 			BufferAudio(eaudiofx::Block& _parent,
 			            int32_t _frequency=48000,
 			            const std::vector<enum audioChannel>& _map={audioChannelFrontLeft,audioChannelFrontRight},
@@ -48,18 +47,31 @@ namespace eaudiofx {
 			std::vector<enum audioChannel> m_channelMap;
 			enum audioFormat m_format;
 		protected:
-			int8_t* m_data; //!< pointer on the data.
+			std::vector<int8_t> m_data; //!< pointer on the data.
 			int8_t m_sampleSize; //!< Size of one sample
 			int8_t m_chunkSize; //!< Size of one chunk Size
-			size_t m_allocated; //!< number of sample allocated
 		public:
 			/**
 			 * @brief Get the buffer casted in float*
 			 * @return Pointer on the buffer with correct cast.
 			 */
 			template<typename T> T* getData() {
-				return static_cast<T*>(m_data);
+				return static_cast<T*>(&m_data[0]);
 			}
+			/**
+			 * @breif Clean all sample in the buffer
+			 */
+			void clear();
+			/**
+			 * @brief Resize the buffer at a new size.
+			 * @param[in] _nbChunks Number of chunk requested.
+			 */
+			void resize(size_t _nbChunks);
+			/**
+			 * @brief Get number of chunk in the buffer.
+			 * @return Number of chunk in the buffer.
+			 */
+			size_t size();
 	};
 };
 

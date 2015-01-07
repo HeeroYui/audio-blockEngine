@@ -33,7 +33,7 @@ eaudiofx::GeneratorSignal::GeneratorSignal() :
 
 
 int32_t eaudiofx::GeneratorSignal::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
-	
+	EAUDIOFX_INFO("Process: " << _currentTime << " chunkTime=" << _processTimeSlot);
 	return eaudiofx::ERR_NONE;
 }
 #if 0

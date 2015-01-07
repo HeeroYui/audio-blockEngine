@@ -13,16 +13,8 @@
 eaudiofx::Buffer::Buffer(eaudiofx::Block& _parent) :
   m_parent(_parent),
   m_timestamp(0),
-  m_time(0),
-  m_negociated(false) {
+  m_timeSize(0) {
 	
 }
 
-
-int32_t eaudiofx::Buffer::pull(double _currentTime, int32_t _request, float _timeout) {
-	if (_currentTime > m_timestamp) {
-		return m_parent.pull(_currentTime, _request, _timeout);
-	}
-	return eaudiofx::ERR_NONE;
-}
 

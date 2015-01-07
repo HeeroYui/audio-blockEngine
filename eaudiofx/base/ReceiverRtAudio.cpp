@@ -33,49 +33,27 @@ int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
 	
 	return classPointer->needData((float*)_outputBuffer, _nBufferFrames, _streamTime, _status);
 }
-#if 0
-int32_t eaudiofx::ReceiverRtAudio::needData(float* _outputBuffer,
+int32_t eaudiofx::ReceiverRtAudio::needData(void* _outputBuffer,
                                             size_t _nBufferFrames,
                                             double _streamTime,
                                             airtaudio::streamStatus _status) {
+	EAUDIOFX_INFO("NEED DATA : " << _nBufferFrames);
 	if (m_processStarted == false) {
 		for (int32_t iii=0; iii<_nBufferFrames*2; ++iii) {
-			_outputBuffer[iii] = 0;
+			((int8_t*)_outputBuffer)[iii] = 0;
 		}
 		return 0;
 	}
-	// Request block input:
-	int32_t ret = eaudiofx::Block::pull(_streamTime, _nBufferFrames, (float)_nBufferFrames/48000.0f);
-	if (ret != eaudiofx::ERR_NONE) {
-		EAUDIOFX_ERROR("can not get data ...");
-		return -1;
-	}
-	auto it = m_io.find("in");
-	if (it == m_io.end()) {
-		EAUDIOFX_WARNING("Request an un-existing IO");
-		return 0;
-	}
-	eaudiofx::BufferAudioRaw* buffer = dynamic_cast<eaudiofx::BufferAudioRaw*>(it->second.m_buffer);
-	if (buffer == NULL) {
-		EAUDIOFX_WARNING("no IO plugged");
-		return 0;
-	}
-	float* data = buffer->getData();
-	for (int32_t iii=0; iii<_nBufferFrames*2; ++iii) {
-		_outputBuffer[iii] = data[iii]*0.5f;
+	int32_t nbData = std::min(m_buffer.size()/2, _nBufferFrames*2);
+	for (int32_t iii=0; iii<nbData*2; ++iii) {
+		((int8_t*)_outputBuffer)[iii] = m_buffer[iii];
 		//EAUDIOFX_ERROR("write : " << data[iii]);
 	}
-	/*
-	FILE* plopppp = fopen("plopout.raw", "a");
-	fwrite(_outputBuffer, sizeof(float), _nBufferFrames, plopppp);
-	fflush(plopppp);
-	fclose(plopppp);
-	*/
 	return 0;
 }
-#endif
-int32_t eaudiofx::GeneratorSignal::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
-	
+
+int32_t eaudiofx::ReceiverRtAudio::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
+	EAUDIOFX_INFO("Process: " << _currentTime << " chunkTime=" << _processTimeSlot);
 	return eaudiofx::ERR_NONE;
 }
 
@@ -116,7 +94,8 @@ int32_t eaudiofx::ReceiverRtAudio::algoInit() {
 	unsigned int bufferFrames = 256;
 	EAUDIOFX_DEBUG("init Stream ...");
 	// TODO : Check return error
-	m_dac.openStream(&m_parameters, NULL, airtaudio::FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
+	//m_dac.openStream(&m_parameters, NULL, airtaudio::FLOAT32, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
+	m_dac.openStream(&m_parameters, NULL, airtaudio::SINT16, 48000, &bufferFrames, &rtAudioCallBack, (void *)this);
 	// TODO : Check return error
 	m_dac.startStream();
 	
