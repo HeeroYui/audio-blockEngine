@@ -9,17 +9,21 @@
 #ifndef __EAUDIOFX_BLOCK_H__
 #define __EAUDIOFX_BLOCK_H__
 
-#include <eaudiofx/core/audio.h>
 #include <string>
 #include <mutex>
 #include <map>
 #include <ewol/object/Object.h>
+#include <eaudiofx/core/audio.h>
+#include <eaudiofx/flow/Interface.h>
+#include <eaudiofx/flow/Flow.h>
+
 
 namespace eaudiofx {
 	class Buffer;
 	class BlockMeta;
 	
-	class Block : public ewol::Object {
+	class Block : public ewol::Object,
+	              public eaudiofx::flow::Interface {
 		protected:
 			Block();
 			void init() {
@@ -75,69 +79,6 @@ namespace eaudiofx {
 			virtual bool supportNativeTime() {
 				return false;
 			}
-		/* *****************************************************************
-		   **                            INPUTS                           **
-		   ***************************************************************** */
-		protected:
-			std::vector<std::pair<std::string, std::string>> m_inputCapabilities; //!< Description of the capabilities of all the inputs (name, capacity)
-		public:
-			int32_t getNumberOfInput() {
-				return m_inputCapabilities.size();
-			}
-			int32_t addInput(const std::string& _name, const std::string& _description) {
-				// TODO :Add check of input already exist
-				m_inputCapabilities.push_back(std::make_pair(_name,_description));
-				return eaudiofx::ERR_NONE;
-			}
-		protected:
-			std::vector<std::string> m_inputLink; //!< Name of output linked
-		public:
-			void setInputName(size_t _inputId, const std::string& _nameDistantLink);
-			void setInputName(const std::string& _nameInput, const std::string& _nameDistantLink);
-		protected:
-			std::vector<std::shared_ptr<eaudiofx::Buffer>> m_inputs; //!< Link on the input buffer
-		public:
-			virtual int32_t linkAllInputs() {
-				return eaudiofx::ERR_NONE;
-			}
-			virtual int32_t unLinkAllInputs() {
-				return eaudiofx::ERR_NONE;
-			}
-			
-			
-			
-			
-		/* *****************************************************************
-		   **                           OUTPUTS                           **
-		   ***************************************************************** */
-		protected:
-			std::vector<std::pair<std::string, std::string>> m_outputCapabilities; //!< Description of the capabilities of all the outputs (name, capacity)
-		public:
-			int32_t getNumberOfOutput() {
-				return m_outputCapabilities.size();
-			}
-			int32_t addOutput(const std::string& _name, const std::string& _description) {
-				// TODO :Add check of output already exist
-				m_outputCapabilities.push_back(std::make_pair(_name,_description));
-				
-				return eaudiofx::ERR_NONE;
-			}
-		protected:
-			std::vector<std::string> m_outputLink; //!< Name of output linked
-		public:
-			void setOutputName(size_t _inputId, const std::string& _nameDistantLink);
-			void setOutputName(const std::string& _nameInput, const std::string& _nameDistantLink);
-		protected:
-			std::vector<std::shared_ptr<eaudiofx::Buffer>> m_outputs;
-		public:
-			virtual int32_t allocateAllOutputs(int64_t _processTimeSlot) {
-				return eaudiofx::ERR_NONE;
-			}
-			virtual int32_t cleanAllOutputs() {
-				return eaudiofx::ERR_NONE;
-			}
-		
-		
 			/**
 			 * @brief Reset the block
 			 * @return generic error

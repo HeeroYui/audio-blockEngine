@@ -78,29 +78,13 @@ int32_t eaudiofx::BlockMeta::linkBlock(const std::string& _generatorBlockName,
                                        const std::string& _generatorIoName,
                                        const std::string& _receiverBlockName,
                                        const std::string& _receiverIoName) {
-	/*
-	eaudiofx::Block* itGenerator = getBlock(_generatorBlockName);
-	eaudiofx::Block* itReceiver = getBlock(_receiverBlockName);
-	if (    itGenerator == nullptr
-	     || itReceiver == nullptr) {
-		EAUDIOFX_ERROR("Can not link : '" << _generatorBlockName << "' and '" << _receiverBlockName << "' one element does not exist ...");
+	// TODO : proxy IOs
+	std::shared_ptr<eaudiofx::Block> receive = getBlock(_receiverBlockName);
+	if (receive == nullptr) {
+		EAUDIOFX_ERROR("Can not find destination block : '" << _receiverBlockName << "'");
 		return eaudiofx::ERR_FAIL;
 	}
-	eaudiofx::Buffer* outputBuffer = nullptr;
-	if (itGenerator->getBuffer(outputBuffer, _generatorIoName) != eaudiofx::ERR_NONE) {
-		EAUDIOFX_ERROR("Can not get buffer : '" << _generatorBlockName << "':'" << _generatorIoName << "'");
-		return eaudiofx::ERR_FAIL;
-	}
-	if (outputBuffer == nullptr) {
-		EAUDIOFX_ERROR("Get nullptr buffer : '" << _generatorBlockName << "':'" << _generatorIoName << "'");
-		return eaudiofx::ERR_FAIL;
-	}
-	if (itReceiver->linkBuffer(outputBuffer, _receiverIoName) != eaudiofx::ERR_NONE) {
-		EAUDIOFX_ERROR("Can not Link buffer : '" << _receiverBlockName << "':'" << _receiverIoName << "'");
-		return eaudiofx::ERR_FAIL;
-	}
-	EAUDIOFX_INFO("Link : " << _generatorBlockName << ":" << _generatorIoName << " and " << _receiverBlockName << ":" << _receiverIoName);
-	*/
+	receive->flowSetLinkWith(_receiverIoName, _generatorBlockName, _generatorIoName);
 	return eaudiofx::ERR_NONE;
 }
 

@@ -64,7 +64,8 @@ void eaudiofx::ReceiverRtAudio::init() {
 }
 
 eaudiofx::ReceiverRtAudio::ReceiverRtAudio() :
-  m_processStarted(false) {
+  m_processStarted(false),
+  m_input(*this, "in", "Input audio flow", "{ type:'audio', freq:[8000, 16000, 32000, 48000, 64000, 96000, 128000, 192000], format:['int8','int16','int32','float']}") {
 	/*
 	// set output :
 	m_io.insert(

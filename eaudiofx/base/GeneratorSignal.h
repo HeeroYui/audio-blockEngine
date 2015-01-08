@@ -10,6 +10,7 @@
 #define __EAUDIOFX_GENERATOR_SIGNAL_H__
 
 #include <eaudiofx/core/Block.h>
+#include <eaudiofx/core/BufferAudio.h>
 
 namespace eaudiofx {
 	class GeneratorSignal : public eaudiofx::Block {
@@ -23,6 +24,8 @@ namespace eaudiofx {
 			virtual ~GeneratorSignal() {};
 		public:
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
+		protected:
+			eaudiofx::flow::Output<eaudiofx::BufferAudio> m_output;
 	};
 };
 

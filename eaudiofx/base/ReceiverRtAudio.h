@@ -11,6 +11,7 @@
 
 #include <eaudiofx/core/Block.h>
 #include <airtaudio/Interface.h>
+#include <eaudiofx/core/BufferAudio.h>
 
 namespace eaudiofx {
 	class ReceiverRtAudio : public eaudiofx::Block {
@@ -46,6 +47,8 @@ namespace eaudiofx {
 			std::vector<int8_t> m_buffer;
 		public:
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
+		protected:
+			eaudiofx::flow::Input<eaudiofx::BufferAudio> m_input;
 	};
 };
 

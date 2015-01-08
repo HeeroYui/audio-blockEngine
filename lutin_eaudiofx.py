@@ -13,6 +13,8 @@ def create(target):
 	myModule.add_src_file([
 		'eaudiofx/debug.cpp',
 		'eaudiofx/Thread.cpp',
+		'eaudiofx/flow/Base.cpp',
+		'eaudiofx/flow/Interface.cpp',
 		'eaudiofx/core/audio.cpp',
 		'eaudiofx/core/Processing.cpp',
 		'eaudiofx/core/Block.cpp',
@@ -31,7 +33,7 @@ def create(target):
 		])
 	
 	# name of the dependency
-	myModule.add_module_depend(['airtaudio', 'ewol'])
+	myModule.add_module_depend(['airtaudio', 'ewol', 'ejson'])
 	
 	myModule.add_export_path(tools.get_current_path(__file__))
 	

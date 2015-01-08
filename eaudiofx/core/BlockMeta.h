@@ -81,6 +81,7 @@ namespace eaudiofx {
 			virtual int32_t algoUnInit();
 			virtual int32_t algoStart();
 			virtual int32_t algoStop();
+			
 	};
 };
 
