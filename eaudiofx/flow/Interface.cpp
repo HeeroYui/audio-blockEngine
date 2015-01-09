@@ -72,3 +72,49 @@ void eaudiofx::flow::Interface::flowSetLinkWith(const std::string& _flowName,
 	}
 	EAUDIOFX_ERROR("Can not find Flow : '" << _flowName << "'");
 }
+
+void eaudiofx::flow::Interface::flowLinkInput() {
+	EAUDIOFX_INFO(" Block update the flows links");
+	for (auto &it : m_list) {
+		if(it != nullptr) {
+			it->link();
+		}
+	}
+}
+
+void eaudiofx::flow::Interface::flowCheckAllCompatibility() {
+	EAUDIOFX_INFO(" Block Check the flows Capabilities");
+	for (auto &it : m_list) {
+		if(it != nullptr) {
+			it->checkCompatibility();
+		}
+	}
+}
+
+void eaudiofx::flow::Interface::flowAllocateOutput() {
+	EAUDIOFX_WARNING(" Block need to allocate all his output");
+}
+
+void eaudiofx::flow::Interface::flowGetInput() {
+	EAUDIOFX_WARNING(" Block Get input data pointers");
+	for (auto &it : m_list) {
+		if(it != nullptr) {
+			it->getInputBuffer();
+		}
+	}
+}
+
+
+std::shared_ptr<eaudiofx::flow::BaseReference> eaudiofx::flow::Interface::getFlowReference(const std::string& _flowName) {
+	std::shared_ptr<eaudiofx::flow::BaseReference> out;
+	for (auto &it : m_list) {
+		if(    it != nullptr
+		    && it->getName() == _flowName) {
+			out = it->getReference();
+			break;
+		}
+	}
+	return out;
+}
+
+

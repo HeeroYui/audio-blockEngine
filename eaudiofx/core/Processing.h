@@ -19,7 +19,7 @@
 namespace eaudiofx {
 	class Processing : public eaudiofx::BlockMeta, eaudiofx::Thread {
 		protected:
-			Processing() {};
+			Processing();
 			void init() {
 				eaudiofx::BlockMeta::init();
 			};

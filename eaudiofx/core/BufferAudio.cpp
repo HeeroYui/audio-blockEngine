@@ -9,6 +9,10 @@
 #include <eaudiofx/core/BufferAudio.h>
 #include <eaudiofx/debug.h>
 
+#undef __class__
+#define __class__ "BufferAudio"
+
+
 eaudiofx::BufferAudio::BufferAudio(eaudiofx::Block& _parent, const std::string& _description) :
   eaudiofx::Buffer(_parent),
   m_frequency(48000),

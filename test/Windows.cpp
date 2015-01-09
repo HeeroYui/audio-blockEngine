@@ -13,6 +13,7 @@
 #include <etk/tool.h>
 #include <eaudiofx/eaudiofx.h>
 #include <ewol/widget/Button.h>
+#include <unistd.h>
 
 #include <eaudiofx/base/GeneratorSignal.h>
 #include <eaudiofx/base/ReceiverRtAudio.h>
@@ -38,9 +39,14 @@ void appl::Windows::init() {
 	composition += "				Play 1\n";
 	composition += "			</label>\n";
 	composition += "		</button>\n";
-	composition += "		<button name='bt-play2'>\n";
+	composition += "		<button name='bt-stop1'>\n";
 	composition += "			<label>\n";
-	composition += "				Play 2\n";
+	composition += "				Stop 1\n";
+	composition += "			</label>\n";
+	composition += "		</button>\n";
+	composition += "		<button name='bt-play-stop'>\n";
+	composition += "			<label>\n";
+	composition += "				Play / Stop\n";
 	composition += "			</label>\n";
 	composition += "		</button>\n";
 	composition += "	</sizer>\n";
@@ -54,11 +60,16 @@ void appl::Windows::init() {
 	}
 	setSubWidget(m_composer);
 	subBind(ewol::widget::Button, "bt-play1", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlay);
-	subBind(ewol::widget::Button, "bt-play2", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
+	subBind(ewol::widget::Button, "bt-stop1", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
+	subBind(ewol::widget::Button, "bt-play-stop", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlayStop);
 }
 
 std::shared_ptr<eaudiofx::Processing> process = NULL;
-
+void appl::Windows::onCallbackPlayStop() {
+	onCallbackPlay();
+	usleep(500000);
+	onCallbackStop();
+}
 void appl::Windows::onCallbackPlay() {
 	#if 0
 		APPL_INFO("Play Requested ...");
@@ -106,13 +117,14 @@ void appl::Windows::onCallbackPlay() {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
+		process->setName("main Process");
 		APPL_INFO("Create Generator Sinus");
 		std::shared_ptr<eaudiofx::GeneratorSignal> generator = eaudiofx::GeneratorSignal::create();
 		if (generator == NULL) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
-		generator->setName("myGeneratorSinus");
+		generator->setName("myGenerator");
 		process->addBlock(generator);
 		
 		APPL_INFO("Create Receiver ...");

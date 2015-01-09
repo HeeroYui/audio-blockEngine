@@ -62,6 +62,7 @@ namespace eaudiofx {
 			private:
 				std::string m_blockName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Block name
 				std::string m_flowName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Flow name
+				std::weak_ptr<BaseReference> m_remoteFlow; //!< reference on the remote flow.
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -87,10 +88,24 @@ namespace eaudiofx {
 					m_flowName = _flowLinkName;
 					EAUDIOFX_INFO("[" << Base::m_name << "] Link with : '" << m_blockName << "':'" << m_flowName << "'");
 				}
+				virtual void link() {
+					EAUDIOFX_INFO("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName);
+					std::shared_ptr<BaseReference> remoteFlow = Base::getFlowReference(m_blockName, m_flowName);
+					m_remoteFlow = remoteFlow;
+					if (remoteFlow == nullptr) {
+						EAUDIOFX_ERROR("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName << " Error no Flow found");
+						return;
+					}
+					// set our own cross reference to the remote ...
+					remoteFlow->getBase()->addReference(Base::getReference());
+				}
 		};
 		#undef __class__
 		#define __class__ "flow::Output"
 		template<typename T> class Output : public Flow<T> {
+			protected:
+				std::vector<std::weak_ptr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
+				ejson::Document m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -110,6 +125,9 @@ namespace eaudiofx {
 				 * @brief Destructor.
 				 */
 				virtual ~Output() { };
+				virtual void addReference(const std::shared_ptr<BaseReference>& _reference) {
+					m_remoteFlow.push_back(_reference);
+				}
 		};
 	};
 	#undef __class__

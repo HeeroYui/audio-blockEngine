@@ -10,6 +10,9 @@
 #include <eaudiofx/Thread.h>
 #include <unistd.h>
 
+#undef __class__
+#define __class__ "Thread"
+
 static const char* threadGetCharState(enum eaudiofx::status state) {
 	const char* ret = (const char*)"";
 	switch (state) {

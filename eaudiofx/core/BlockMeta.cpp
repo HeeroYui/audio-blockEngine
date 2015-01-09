@@ -9,10 +9,12 @@
 #include <eaudiofx/debug.h>
 #include <eaudiofx/core/BlockMeta.h>
 
+#undef __class__
+#define __class__ "BlockMeta"
 
 
 eaudiofx::BlockMeta::BlockMeta() {
-	
+	addObjectType("eaudiofx::BlockMeta");
 }
 
 eaudiofx::BlockMeta::~BlockMeta() {
@@ -60,6 +62,7 @@ int32_t eaudiofx::BlockMeta::addBlock(const std::shared_ptr<eaudiofx::Block>& _b
 		}
 	}
 	m_list.push_back(_block);
+	_block->setParent(shared_from_this());
 	return eaudiofx::ERR_NONE;
 }
 
@@ -167,3 +170,40 @@ int32_t eaudiofx::BlockMeta::algoStop() {
 	return ret;
 };
 
+
+std::shared_ptr<eaudiofx::Block> eaudiofx::BlockMeta::getBlockNamed(const std::string& _name) {
+	std::shared_ptr<eaudiofx::Block> out;
+	EAUDIOFX_DEBUG("[" << m_name << "] try get Block : " << _name);
+	// Special case for proxy flow ...
+	if (    _name == ""
+	     || _name == m_name.get()) {
+		EAUDIOFX_DEBUG("   ==> find Him");
+		return std::static_pointer_cast<eaudiofx::Block>(shared_from_this());
+	}
+	// find in sub elements.
+	for (auto &it : m_list) {
+		if (it == nullptr) {
+			continue;
+		}
+		EAUDIOFX_DEBUG("   check : " << it->getName());
+		if (it->getName() == _name) {
+			out = it;
+			EAUDIOFX_DEBUG("        ==> find this one");
+			break;
+		}
+	}
+	return out;
+}
+
+void eaudiofx::BlockMeta::flowLinkInput() {
+	EAUDIOFX_INFO("[" << getId() << "] Meta block Link: '" << getName() << "'");
+	// find in sub elements.
+	for (auto &it : m_list) {
+		if (it == nullptr) {
+			continue;
+		}
+		it->flowLinkInput();
+	}
+	// Call upper class
+	eaudiofx::Block::flowLinkInput();
+}

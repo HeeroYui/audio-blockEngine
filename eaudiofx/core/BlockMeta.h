@@ -82,6 +82,8 @@ namespace eaudiofx {
 			virtual int32_t algoStart();
 			virtual int32_t algoStop();
 			
+			virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
+			virtual void flowLinkInput();
 	};
 };
 

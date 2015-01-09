@@ -90,7 +90,7 @@ namespace eaudiofx {
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
 				return eaudiofx::ERR_NONE;
 			}
-			
+			virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 	};
 };
 

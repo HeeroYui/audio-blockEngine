@@ -12,6 +12,9 @@
 #include <math.h>
 
 
+#undef __class__
+#define __class__ "GeneratorSignal"
+
 void eaudiofx::GeneratorSignal::init() {
 	eaudiofx::Block::init();
 }
@@ -19,17 +22,7 @@ void eaudiofx::GeneratorSignal::init() {
 eaudiofx::GeneratorSignal::GeneratorSignal() :
   m_phase(0),
   m_output(*this, "out", "Output sinus generated", "{ type:'audio', freq:48000, format:'int16', channels:2}") {
-	/*
-	// set output :
-	m_io.insert(
-	  std::pair<std::string, eaudiofx::Block::IOProperty>(
-	    "out",
-	    eaudiofx::Block::IOProperty(
-	      eaudiofx::Block::ioOutput,
-	      "{ type:'audio', compression:'raw', frequency:48000, channel:2, format:'float' }",
-	      new eaudiofx::BufferAudio(*this)
-	    ) ) );
-	*/
+	addObjectType("eaudiofx::GeneratorSignal");
 }
 
 

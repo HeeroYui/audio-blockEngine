@@ -14,7 +14,7 @@
 
 namespace eaudiofx {
 	class Block;
-	class Buffer {
+	class Buffer : public std::enable_shared_from_this<Buffer> {
 		public:
 			Buffer(eaudiofx::Block& _parent);
 			virtual ~Buffer() {};

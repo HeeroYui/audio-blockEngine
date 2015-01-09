@@ -17,6 +17,7 @@
 
 namespace eaudiofx {
 	namespace flow {
+		class BaseReference;
 		class Base {
 			protected:
 				eaudiofx::flow::Interface& m_flowInterfaceLink;
@@ -41,7 +42,7 @@ namespace eaudiofx {
 				/**
 				 * @brief Destructor.
 				 */
-				virtual ~Base() { };
+				virtual ~Base();
 				
 				const std::string& getName() const {
 					return m_name;
@@ -67,8 +68,43 @@ namespace eaudiofx {
 				                     const std::string& _flowLinkName) {
 					EAUDIOFX_ERROR("[" << m_name << "] Can not create a link on an Output (only manage with input ...)");
 				}
+			protected:
+				std::shared_ptr<BaseReference> m_ref; //!< To simplify implementation code we use a temporary variable to shared the current reference...
+			public:
+				std::shared_ptr<BaseReference> getReference() {
+					return m_ref;
+				}
+				virtual void addReference(const std::shared_ptr<BaseReference>& _reference) {
+					EAUDIOFX_ERROR("[" << m_name << "] Can not add reference ...");
+				}
+			protected:
+				std::shared_ptr<BaseReference> getFlowReference(const std::string& _blockName,
+				                                                const std::string& _flowLinkName);
+			public:
+				virtual void link();
+				virtual void checkCompatibility();
+				virtual void getInputBuffer();
+				//virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 		};
 		std::ostream& operator <<(std::ostream& _os, const eaudiofx::flow::Base& _obj);
+		// we use a reference to simplify code of every blocks...
+		//! @not-in-doc
+		class BaseReference : public std::enable_shared_from_this<BaseReference> {
+			protected:
+				Base* m_basePointer;
+			public:
+				BaseReference(Base* _base = nullptr) :
+				  m_basePointer(_base) {
+					// nothing to do ...
+				}
+				~BaseReference() {}
+				void removeBase() {
+					m_basePointer = nullptr;
+				}
+				inline Base* getBase() const {
+					return m_basePointer;
+				}
+		};
 	};
 };
 #endif

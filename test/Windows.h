@@ -24,6 +24,7 @@ namespace appl {
 		public: // callback functions
 			void onCallbackPlay();
 			void onCallbackStop();
+			void onCallbackPlayStop();
 			
 	};
 };

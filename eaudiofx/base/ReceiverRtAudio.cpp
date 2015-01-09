@@ -11,6 +11,9 @@
 #include <eaudiofx/core/BufferAudio.h>
 #include <airtaudio/Interface.h>
 
+#undef __class__
+#define __class__ "ReceiverRtAudio"
+
 int eaudiofx::ReceiverRtAudio::rtAudioCallBack(void *_outputBuffer,
                                                void *_inputBuffer,
                                                unsigned int _nBufferFrames,
@@ -66,17 +69,7 @@ void eaudiofx::ReceiverRtAudio::init() {
 eaudiofx::ReceiverRtAudio::ReceiverRtAudio() :
   m_processStarted(false),
   m_input(*this, "in", "Input audio flow", "{ type:'audio', freq:[8000, 16000, 32000, 48000, 64000, 96000, 128000, 192000], format:['int8','int16','int32','float']}") {
-	/*
-	// set output :
-	m_io.insert(
-	  std::pair<std::string, eaudiofx::Block::IOProperty>(
-	    "in",
-	    eaudiofx::Block::IOProperty(
-	      eaudiofx::Block::ioInput,
-	      "{ type:'audio', compression:'raw', frequency:48000, channel:2, format:'float' }",
-	      NULL
-	    ) ) );
-	*/
+	addObjectType("eaudiofx::ReceiverRtAudio");
 };
 
 

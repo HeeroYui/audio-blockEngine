@@ -8,6 +8,8 @@
 
 #include <eaudiofx/core/Buffer.h>
 
+#undef __class__
+#define __class__ "Buffer"
 
 
 eaudiofx::Buffer::Buffer(eaudiofx::Block& _parent) :

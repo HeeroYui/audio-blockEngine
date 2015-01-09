@@ -14,8 +14,10 @@
 #include <map>
 
 namespace eaudiofx {
+	class Block;
 	namespace flow {
 		class Base;
+		class BaseReference;
 		class Interface {
 			friend class eaudiofx::flow::Base; // to register parameter in the list.
 			private:
@@ -62,14 +64,23 @@ namespace eaudiofx {
 				                     const std::string& _flowLinkName);
 			public:
 				// get pointer on the specidic input and output from all the IOs
-				virtual void flowLinkAllInputOutput() {};
+				virtual void flowLinkInput();
 				// check if the IOs are compatible
 				virtual void flowCheckAllCompatibility() {};
 				// Allocate all Outputs
 				virtual void flowAllocateOutput() {};
 				// Get pointer on all Inputs
-				virtual void flowgetInput() {};
+				virtual void flowGetInput() {};
 				
+				/**
+				 * @brief Get The block named ...
+				 * @param[in] _name Name of the block requested
+				 * @return The block requested if it exist.
+				 */
+				virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name) {
+					return nullptr;
+				}
+				std::shared_ptr<eaudiofx::flow::BaseReference> getFlowReference(const std::string& _name);
 		};
 	};
 };

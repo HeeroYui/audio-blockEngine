@@ -11,6 +11,12 @@
 #include <unistd.h>
 
 
+#undef __class__
+#define __class__ "Processing"
+eaudiofx::Processing::Processing() {
+	addObjectType("eaudiofx::Processing");
+};
+
 int32_t eaudiofx::Processing::process() {
 	EAUDIOFX_INFO("Start process : '" << getName() << "'");
 	return eaudiofx::ERR_NONE;
@@ -34,6 +40,16 @@ int32_t eaudiofx::Processing::waitEndOfProcess() {
 
 bool eaudiofx::Processing::stateStart() {
 	EAUDIOFX_INFO("Start Processing : '" << getName() << "'");
+	// TODO : Add return code ... and test all of theses events ...
+	// Init request flow update:
+	flowLinkInput();
+	// check if the IOs are compatible
+	flowCheckAllCompatibility();
+	// Allocate all Outputs
+	flowAllocateOutput();
+	// Get pointer on all Inputs
+	flowGetInput();
+	// init algorithm
 	int32_t ret = algoInit();
 	if (ret != eaudiofx::ERR_NONE) {
 		return ret;
