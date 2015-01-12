@@ -66,11 +66,11 @@ namespace eaudiofx {
 				// get pointer on the specidic input and output from all the IOs
 				virtual void flowLinkInput();
 				// check if the IOs are compatible
-				virtual void flowCheckAllCompatibility() {};
+				virtual void flowCheckAllCompatibility();
 				// Allocate all Outputs
-				virtual void flowAllocateOutput() {};
+				virtual void flowAllocateOutput();
 				// Get pointer on all Inputs
-				virtual void flowGetInput() {};
+				virtual void flowGetInput();
 				
 				/**
 				 * @brief Get The block named ...

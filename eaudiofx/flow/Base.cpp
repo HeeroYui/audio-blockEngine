@@ -46,11 +46,11 @@ void eaudiofx::flow::Base::link() {
 	EAUDIOFX_INFO("    link flow : '" << m_name << "' mode:'" << (m_input==true?"input":"output") << "' (no code)");
 }
 
-void checkCompatibility() {
+void eaudiofx::flow::Base::checkCompatibility() {
 	EAUDIOFX_INFO("    chack flow : '" << m_name << "' (no code)");
 }
 
-void getInputBuffer() {
+void eaudiofx::flow::Base::getInputBuffer() {
 	EAUDIOFX_INFO("    get Buffers : '" << m_name << "' (no code)");
 }
 
