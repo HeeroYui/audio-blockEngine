@@ -207,3 +207,43 @@ void eaudiofx::BlockMeta::flowLinkInput() {
 	// Call upper class
 	eaudiofx::Block::flowLinkInput();
 }
+
+
+void eaudiofx::BlockMeta::flowCheckAllCompatibility() {
+	EAUDIOFX_INFO("[" << getId() << "] Meta block check compatibilities: '" << getName() << "'");
+	// find in sub elements.
+	for (auto &it : m_list) {
+		if (it == nullptr) {
+			continue;
+		}
+		it->flowCheckAllCompatibility();
+	}
+	// Call upper class
+	eaudiofx::Block::flowCheckAllCompatibility();
+}
+
+void eaudiofx::BlockMeta::flowAllocateOutput() {
+	EAUDIOFX_INFO("[" << getId() << "] Meta block allocate output: '" << getName() << "'");
+	// find in sub elements.
+	for (auto &it : m_list) {
+		if (it == nullptr) {
+			continue;
+		}
+		it->flowAllocateOutput();
+	}
+	// Call upper class
+	eaudiofx::Block::flowAllocateOutput();
+}
+
+void eaudiofx::BlockMeta::flowGetInput() {
+	EAUDIOFX_INFO("[" << getId() << "] Meta block get input ... : '" << getName() << "'");
+	// find in sub elements.
+	for (auto &it : m_list) {
+		if (it == nullptr) {
+			continue;
+		}
+		it->flowGetInput();
+	}
+	// Call upper class
+	eaudiofx::Block::flowGetInput();
+}

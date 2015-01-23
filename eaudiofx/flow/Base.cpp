@@ -27,9 +27,10 @@ eaudiofx::flow::Base::Base(eaudiofx::flow::Interface& _flowInterfaceLink,
 	m_ref = std::make_shared<BaseReference>(this);
 	// add a reference on the current signal ...
 	m_flowInterfaceLink.flowAdd(this);
-	m_formatAvaillable.parse(_formatAvaillable);
+	m_formatAvaillable = std::make_shared<ejson::Document>();
+	m_formatAvaillable->parse(_formatAvaillable);
 	EAUDIOFX_INFO("Create flow : '" << m_name << "' mode:'" << (m_input==true?"input":"output") << "' prop:");
-	m_formatAvaillable.display();
+	m_formatAvaillable->display();
 }
 
 eaudiofx::flow::Base::~Base() {
@@ -46,8 +47,9 @@ void eaudiofx::flow::Base::link() {
 	EAUDIOFX_INFO("    link flow : '" << m_name << "' mode:'" << (m_input==true?"input":"output") << "' (no code)");
 }
 
-void eaudiofx::flow::Base::checkCompatibility() {
-	EAUDIOFX_INFO("    chack flow : '" << m_name << "' (no code)");
+int32_t eaudiofx::flow::Base::checkCompatibility() {
+	EAUDIOFX_INFO("    check flow : '" << m_name << "' (no code)");
+	return -1;
 }
 
 void eaudiofx::flow::Base::getInputBuffer() {

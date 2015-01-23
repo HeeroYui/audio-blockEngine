@@ -41,14 +41,19 @@ int32_t eaudiofx::Processing::waitEndOfProcess() {
 bool eaudiofx::Processing::stateStart() {
 	EAUDIOFX_INFO("Start Processing : '" << getName() << "'");
 	// TODO : Add return code ... and test all of theses events ...
+	EAUDIOFX_ERROR("======================================");
 	// Init request flow update:
 	flowLinkInput();
+	EAUDIOFX_ERROR("======================================");
 	// check if the IOs are compatible
 	flowCheckAllCompatibility();
+	EAUDIOFX_ERROR("======================================");
 	// Allocate all Outputs
 	flowAllocateOutput();
+	EAUDIOFX_ERROR("======================================");
 	// Get pointer on all Inputs
 	flowGetInput();
+	EAUDIOFX_ERROR("======================================");
 	// init algorithm
 	int32_t ret = algoInit();
 	if (ret != eaudiofx::ERR_NONE) {

@@ -84,6 +84,9 @@ namespace eaudiofx {
 			
 			virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 			virtual void flowLinkInput();
+			virtual void flowCheckAllCompatibility();
+			virtual void flowAllocateOutput();
+			virtual void flowGetInput();
 	};
 };
 

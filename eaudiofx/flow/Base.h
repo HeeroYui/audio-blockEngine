@@ -24,7 +24,7 @@ namespace eaudiofx {
 				std::string m_name;
 				std::string m_description;
 				bool m_input;
-				ejson::Document m_formatAvaillable;
+				std::shared_ptr<ejson::Document> m_formatAvaillable;
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -56,7 +56,7 @@ namespace eaudiofx {
 				bool isOutput() {
 					return !m_input;
 				}
-				const ejson::Object& getCapabilities() {
+				std::shared_ptr<const ejson::Object> getCapabilities() {
 					return m_formatAvaillable;
 				}
 				/**
@@ -82,7 +82,7 @@ namespace eaudiofx {
 				                                                const std::string& _flowLinkName);
 			public:
 				virtual void link();
-				virtual void checkCompatibility();
+				virtual int32_t checkCompatibility();
 				virtual void getInputBuffer();
 				//virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 		};

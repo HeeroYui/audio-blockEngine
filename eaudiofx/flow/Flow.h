@@ -105,7 +105,7 @@ namespace eaudiofx {
 		template<typename T> class Output : public Flow<T> {
 			protected:
 				std::vector<std::weak_ptr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
-				ejson::Document m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
+				std::shared_ptr<ejson::Document> m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -128,6 +128,26 @@ namespace eaudiofx {
 				virtual void addReference(const std::shared_ptr<BaseReference>& _reference) {
 					m_remoteFlow.push_back(_reference);
 				}
+				virtual int32_t checkCompatibility() {
+					EAUDIOFX_INFO("        check for : '" << Base::m_name << "' to " << m_remoteFlow.size() << " links");
+					std::vector<std::shared_ptr<const ejson::Object>> list;
+					list.push_back(Base::getCapabilities());
+					for (auto &it : m_remoteFlow) {
+						std::shared_ptr<BaseReference> tmp = it.lock();
+						if (tmp != nullptr) {
+							if (tmp->getBase() != nullptr) {
+								list.push_back(tmp->getBase()->getCapabilities());
+							}
+						}
+					}
+					m_formatMix = Base::m_flowInterfaceLink.getFlowIntersection(list);
+					
+					// TODO : Check input property
+					EAUDIOFX_INFO("[" << Base::m_name << "] mix signal : ");
+					m_formatMix->display();
+					return 0;
+				}
+				
 		};
 	};
 	#undef __class__

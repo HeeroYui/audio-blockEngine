@@ -21,7 +21,7 @@ void eaudiofx::GeneratorSignal::init() {
 
 eaudiofx::GeneratorSignal::GeneratorSignal() :
   m_phase(0),
-  m_output(*this, "out", "Output sinus generated", "{ type:'audio', freq:48000, format:'int16', channels:2}") {
+  m_output(*this, "out", "Output sinus generated", "{ type:'audio', freq:48000, format:['int16','int32'], channels:2}") {
 	addObjectType("eaudiofx::GeneratorSignal");
 }
 

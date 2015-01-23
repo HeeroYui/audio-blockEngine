@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <map>
+#include <ejson/ejson.h>
 
 namespace eaudiofx {
 	class Block;
@@ -81,6 +82,8 @@ namespace eaudiofx {
 					return nullptr;
 				}
 				std::shared_ptr<eaudiofx::flow::BaseReference> getFlowReference(const std::string& _name);
+			public:
+				std::shared_ptr<ejson::Document> getFlowIntersection(const std::vector<std::shared_ptr<const ejson::Object>>& _list);
 		};
 	};
 };
