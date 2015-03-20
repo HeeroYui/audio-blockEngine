@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 #include <eaudiofx/base/GeneratorSignal.h>
-#include <eaudiofx/base/ReceiverRtAudio.h>
+#include <eaudiofx/base/ReceiverRiver.h>
 
 #undef __class__
 #define __class__ "Windows"
@@ -128,7 +128,7 @@ void appl::Windows::onCallbackPlay() {
 		process->addBlock(generator);
 		
 		APPL_INFO("Create Receiver ...");
-		std::shared_ptr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
+		std::shared_ptr<eaudiofx::ReceiverRiver> receiver = eaudiofx::ReceiverRiver::create();
 		if (receiver == NULL) {
 			APPL_ERROR("can not create Receiver ...");
 			return;

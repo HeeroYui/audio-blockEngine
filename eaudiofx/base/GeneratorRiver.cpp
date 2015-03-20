@@ -10,7 +10,7 @@
 #include <eaudiofx/core/BufferAudioRaw.h>
 #include <airtaudio/Interface.h>
 
-eaudiofx::GeneratorRtAudio::GeneratorRtAudio() {
+eaudiofx::GeneratorRiver::GeneratorRiver() {
 	setLive(true);
 	// set output :
 	m_io.insert(

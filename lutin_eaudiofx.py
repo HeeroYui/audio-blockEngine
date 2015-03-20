@@ -27,13 +27,13 @@ def create(target):
 	myModule.add_src_file([
 		#'eaudiofx/base/GeneratorFile.cpp',
 		#'eaudiofx/base/ReceiverFile.cpp',
-		#'eaudiofx/base/GeneratorRtAudio.cpp',
-		'eaudiofx/base/ReceiverRtAudio.cpp',
+		#'eaudiofx/base/GeneratorRiver.cpp',
+		'eaudiofx/base/ReceiverRiver.cpp',
 		'eaudiofx/base/GeneratorSignal.cpp'
 		])
 	
 	# name of the dependency
-	myModule.add_module_depend(['airtaudio', 'ewol', 'ejson'])
+	myModule.add_module_depend(['river', 'ewol', 'ejson'])
 	
 	myModule.add_export_path(tools.get_current_path(__file__))
 	

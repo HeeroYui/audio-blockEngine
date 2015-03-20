@@ -6,16 +6,16 @@
  * @license BSD v3 (see license file)
  */
 
-#ifndef __EAUDIOFX_GENERATOR_RTAUDIO_H__
-#define __EAUDIOFX_GENERATOR_RTAUDIO_H__
+#ifndef __EAUDIOFX_GENERATOR_RIVER_H__
+#define __EAUDIOFX_GENERATOR_RIVER_H__
 
 #include <eaudiofx/core/BlockGenerator.h>
 
 namespace eaudiofx {
-	class GeneratorRtAudio : public eaudiofx::BlockGenerator {
+	class GeneratorRiver : public eaudiofx::BlockGenerator {
 		public:
-			GeneratorRtAudio();
-			virtual ~GeneratorRtAudio() {};
+			GeneratorRiver();
+			virtual ~GeneratorRiver() {};
 		public:
 			int32_t pull(double _currentTime, int32_t _request, float _timeout);
 	};
