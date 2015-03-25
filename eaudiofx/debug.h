@@ -14,16 +14,7 @@
 namespace eaudiofx {
 	int32_t getLogId();
 };
-// TODO : Review this problem of multiple intanciation of "std::stringbuf sb"
-#define EAUDIOFX_BASE(info,data) \
-	do { \
-		if (info <= etk::log::getLevel(eaudiofx::getLogId())) { \
-			std::stringbuf sb; \
-			std::ostream tmpStream(&sb); \
-			tmpStream << data; \
-			etk::log::logStream(eaudiofx::getLogId(), info, __LINE__, __class__, __func__, tmpStream); \
-		} \
-	} while(0)
+#define EAUDIOFX_BASE(info,data)  TK_LOG_BASE(eaudiofx::getLogId(),info,data)
 
 #define EAUDIOFX_CRITICAL(data)      EAUDIOFX_BASE(1, data)
 #define EAUDIOFX_ERROR(data)         EAUDIOFX_BASE(2, data)
