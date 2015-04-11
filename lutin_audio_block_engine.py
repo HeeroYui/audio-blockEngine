@@ -4,11 +4,11 @@ import lutinTools as tools
 import lutinDebug as debug
 
 def get_desc():
-	return "eaudiofx : Audio interface FX system"
+	return "audio_block_engine : Audio interface FX system"
 
 
 def create(target):
-	myModule = module.Module(__file__, 'eaudiofx', 'LIBRARY')
+	myModule = module.Module(__file__, 'audio_block_engine', 'LIBRARY')
 	# System core
 	myModule.add_src_file([
 		'eaudiofx/debug.cpp',
@@ -33,7 +33,7 @@ def create(target):
 		])
 	
 	# name of the dependency
-	myModule.add_module_depend(['river', 'ewol', 'ejson'])
+	myModule.add_module_depend(['audio_river', 'ewol', 'ejson'])
 	
 	myModule.add_export_path(tools.get_current_path(__file__))
 	

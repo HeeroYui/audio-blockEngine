@@ -9,7 +9,7 @@
 #include <eaudiofx/debug.h>
 #include <eaudiofx/base/ReceiverRiver.h>
 #include <eaudiofx/core/BufferAudio.h>
-#include <airtaudio/Interface.h>
+
 
 #undef __class__
 #define __class__ "ReceiverRiver"
@@ -52,8 +52,8 @@ void eaudiofx::ReceiverRiver::onDataNeeded(void* _data,
 }
 
 int32_t eaudiofx::ReceiverRiver::algoInit() {
-	EAUDIOFX_DEBUG("Intanciate river Manager ...");
-	m_manager = river::Manager::create("eaudio-fx-output");
+	EAUDIOFX_DEBUG("Intanciate audio::river Manager ...");
+	m_manager = audio::river::Manager::create("eaudio-fx-output");
 	if (m_manager == nullptr) {
 		EAUDIOFX_ERROR("Can not intanciate RIVER interface");
 		return eaudiofx::ERR_FAIL;

@@ -10,8 +10,8 @@
 #define __EAUDIOFX_RECEIVER_RIVER_H__
 
 #include <eaudiofx/core/Block.h>
-#include <river/Interface.h>
-#include <river/Manager.h>
+#include <audio/river/Interface.h>
+#include <audio/river/Manager.h>
 #include <eaudiofx/core/BufferAudio.h>
 
 namespace eaudiofx {
@@ -38,8 +38,8 @@ namespace eaudiofx {
 			virtual int32_t algoStart();
 			virtual int32_t algoStop();
 		protected:
-			std11::shared_ptr<river::Manager> m_manager;
-			std11::shared_ptr<river::Interface> m_interface;
+			std11::shared_ptr<audio::river::Manager> m_manager;
+			std11::shared_ptr<audio::river::Interface> m_interface;
 			std::vector<int8_t> m_buffer;
 		public:
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
