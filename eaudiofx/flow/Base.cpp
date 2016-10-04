@@ -1,19 +1,13 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license APACHE v2.0 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <memory>
-#include <eaudiofx/debug.h>
-#include <eaudiofx/flow/Interface.h>
-#include <eaudiofx/flow/Base.h>
-#include <eaudiofx/core/Block.h>
-
-#undef __class__
-#define __class__ "flow::Base"
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/flow/Interface.hpp>
+#include <eaudiofx/flow/Base.hpp>
+#include <eaudiofx/core/Block.hpp>
 
 eaudiofx::flow::Base::Base(eaudiofx::flow::Interface& _flowInterfaceLink,
                            bool _input,
@@ -24,13 +18,12 @@ eaudiofx::flow::Base::Base(eaudiofx::flow::Interface& _flowInterfaceLink,
   m_name(_name),
   m_description(_description),
   m_input(_input) {
-	m_ref = std::make_shared<BaseReference>(this);
+	m_ref = ememory::makeShared<BaseReference>(this);
 	// add a reference on the current signal ...
 	m_flowInterfaceLink.flowAdd(this);
-	m_formatAvaillable = std::make_shared<ejson::Document>();
-	m_formatAvaillable->parse(_formatAvaillable);
+	m_formatAvaillable.parse(_formatAvaillable);
 	EAUDIOFX_INFO("Create flow : '" << m_name << "' mode:'" << (m_input==true?"input":"output") << "' prop:");
-	m_formatAvaillable->display();
+	m_formatAvaillable.display();
 }
 
 eaudiofx::flow::Base::~Base() {
@@ -57,13 +50,13 @@ void eaudiofx::flow::Base::getInputBuffer() {
 }
 
 // due to the fact it acces at the block interface, we need to write it here ...
-std::shared_ptr<eaudiofx::flow::BaseReference> eaudiofx::flow::Base::getFlowReference(const std::string& _blockName,
-                                                                      const std::string& _flowLinkName) {
-	std::shared_ptr<eaudiofx::flow::BaseReference> out;
+ememory::SharedPtr<eaudiofx::flow::BaseReference> eaudiofx::flow::Base::getFlowReference(const std::string& _blockName,
+                                                                                         const std::string& _flowLinkName) {
+	ememory::SharedPtr<eaudiofx::flow::BaseReference> out;
 	if (_flowLinkName == "") {
 		EAUDIOFX_INFO("    Get flow : " << _blockName << ":" << _flowLinkName << " nothing to do ==> no connection ...");
 	}
-	std::shared_ptr<eaudiofx::Block> blockRemote = m_flowInterfaceLink.getBlockNamed(_blockName);
+	ememory::SharedPtr<eaudiofx::Block> blockRemote = m_flowInterfaceLink.getBlockNamed(_blockName);
 	if (blockRemote == nullptr) {
 		EAUDIOFX_ERROR("    Get flow : '" << m_name << "' mode:'input' to " << _blockName << ":" << _flowLinkName << " Error no remote block");
 	} else {
@@ -78,7 +71,7 @@ std::shared_ptr<eaudiofx::flow::BaseReference> eaudiofx::flow::Base::getFlowRefe
 }
 
 /*
-std::shared_ptr<eaudiofx::Block> eaudiofx::flow::Base::getBlockNamed(const std::string& _name) {
+ememory::SharedPtr<eaudiofx::Block> eaudiofx::flow::Base::getBlockNamed(const std::string& _name) {
 	EAUDIOFX_ERROR("NEED to call Parrent ...");
 	return nullptr;
 }

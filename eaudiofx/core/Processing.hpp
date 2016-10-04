@@ -1,19 +1,14 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-#ifndef __EAUDIOFX_PROCESSING_H__
-#define __EAUDIOFX_PROCESSING_H__
-
-#include <eaudiofx/core/audio.h>
-#include <eaudiofx/core/Buffer.h>
-#include <eaudiofx/core/Block.h>
-#include <eaudiofx/core/BlockMeta.h>
-#include <eaudiofx/Thread.h>
+#pragma once
+#include <eaudiofx/core/audio.hpp>
+#include <eaudiofx/core/Buffer.hpp>
+#include <eaudiofx/core/Block.hpp>
+#include <eaudiofx/core/BlockMeta.hpp>
+#include <eaudiofx/Thread.hpp>
 #include <vector>
 
 namespace eaudiofx {
@@ -39,6 +34,5 @@ namespace eaudiofx {
 	};
 };
 
-#endif
 
 

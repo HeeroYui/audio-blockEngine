@@ -1,18 +1,13 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license APACHE v2.0 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
-
-
-#ifndef __EAUDIOFX_FLOW_INTERFACE_H__
-#define __EAUDIOFX_FLOW_INTERFACE_H__
+#pragma once
 
 #include <vector>
 #include <map>
-#include <ejson/ejson.h>
+#include <ejson/ejson.hpp>
 
 namespace eaudiofx {
 	class Block;
@@ -78,14 +73,13 @@ namespace eaudiofx {
 				 * @param[in] _name Name of the block requested
 				 * @return The block requested if it exist.
 				 */
-				virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name) {
+				virtual ememory::SharedPtr<eaudiofx::Block> getBlockNamed(const std::string& _name) {
 					return nullptr;
 				}
-				std::shared_ptr<eaudiofx::flow::BaseReference> getFlowReference(const std::string& _name);
+				ememory::SharedPtr<eaudiofx::flow::BaseReference> getFlowReference(const std::string& _name);
 			public:
-				std::shared_ptr<ejson::Document> getFlowIntersection(const std::vector<std::shared_ptr<const ejson::Object>>& _list);
+				ejson::Object getFlowIntersection(const std::vector<ejson::Object>& _list);
 		};
 	};
 };
 
-#endif

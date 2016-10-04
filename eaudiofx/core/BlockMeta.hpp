@@ -1,15 +1,11 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_BLOCK_META_H__
-#define __EAUDIOFX_BLOCK_META_H__
-
-#include <eaudiofx/core/Block.h>
+#include <eaudiofx/core/Block.hpp>
 #include <vector>
 
 namespace eaudiofx {
@@ -23,21 +19,21 @@ namespace eaudiofx {
 			DECLARE_FACTORY(BlockMeta);
 			virtual ~BlockMeta();
 		private:
-			std::vector<std::shared_ptr<eaudiofx::Block>> m_list; //!< list of all block to process.
+			std::vector<ememory::SharedPtr<eaudiofx::Block>> m_list; //!< list of all block to process.
 		protected:
 			/**
 			 * @brief Get a pointer on a specific block.
 			 * @param[in] _name Name of the block.
 			 * @return generic error
 			 */
-			std::shared_ptr<eaudiofx::Block> getBlock(const std::string& _name);
+			ememory::SharedPtr<eaudiofx::Block> getBlock(const std::string& _name);
 		public:
 			/**
 			 * @brief Add a block in the Meta-block
 			 * @param[in] _block Pointer on the block (do not free yourself)
 			 * @return generic error
 			 */
-			int32_t addBlock(const std::shared_ptr<eaudiofx::Block>& _block);
+			int32_t addBlock(ememory::SharedPtr<eaudiofx::Block> _block);
 			/**
 			 * @brief Add a block in the Meta-block.
 			 * @param[in] _blockType Name of the type of block to add.
@@ -82,7 +78,7 @@ namespace eaudiofx {
 			virtual int32_t algoStart();
 			virtual int32_t algoStop();
 			
-			virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
+			virtual ememory::SharedPtr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 			virtual void flowLinkInput();
 			virtual void flowCheckAllCompatibility();
 			virtual void flowAllocateOutput();
@@ -90,6 +86,5 @@ namespace eaudiofx {
 	};
 };
 
-#endif
 
 

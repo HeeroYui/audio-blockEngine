@@ -1,26 +1,20 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license APACHE v2.0 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
-
-#ifndef __EAUDIOFX_FLOW_H__
-#define __EAUDIOFX_FLOW_H__
+#pragma once
 
 #include <functional>
-#include <eaudiofx/flow/Base.h>
-#include <eaudiofx/core/Buffer.h>
-#include <eaudiofx/debug.h>
+#include <eaudiofx/flow/Base.hpp>
+#include <eaudiofx/core/Buffer.hpp>
+#include <eaudiofx/debug.hpp>
 
 namespace eaudiofx {
 	class Buffer;
-	#undef __class__
-	#define __class__ "Flow<T>"
 	template<typename T = eaudiofx::Buffer> class Flow : public flow::Base {
 		protected:
-			std::shared_ptr<eaudiofx::Buffer> m_data;
+			ememory::SharedPtr<eaudiofx::Buffer> m_data;
 		public:
 			/**
 			 * @brief Create a parameter with a specific type.
@@ -42,9 +36,9 @@ namespace eaudiofx {
 			 * @brief Destructor.
 			 */
 			virtual ~Flow() { };
-			void set(const std::shared_ptr<eaudiofx::Buffer>& _data){
+			void set(const ememory::SharedPtr<eaudiofx::Buffer>& _data){
 				m_data.reset();
-				std::shared_ptr<T> check = std::dynamic_pointer_cast<T>(_data);
+				ememory::SharedPtr<T> check = ememory::dynamicPointerCast<T>(_data);
 				if (check == nullptr) {
 					EAUDIOFX_ERROR("can not set buffer as flow (type uncompatible)");
 					return;
@@ -56,13 +50,11 @@ namespace eaudiofx {
 			}
 	};
 	namespace flow {
-		#undef __class__
-		#define __class__ "flow::Input"
 		template<typename T> class Input : public Flow<T> {
 			private:
 				std::string m_blockName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Block name
 				std::string m_flowName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Flow name
-				std::weak_ptr<BaseReference> m_remoteFlow; //!< reference on the remote flow.
+				ememory::WeakPtr<BaseReference> m_remoteFlow; //!< reference on the remote flow.
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -90,7 +82,7 @@ namespace eaudiofx {
 				}
 				virtual void link() {
 					EAUDIOFX_INFO("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName);
-					std::shared_ptr<BaseReference> remoteFlow = Base::getFlowReference(m_blockName, m_flowName);
+					ememory::SharedPtr<BaseReference> remoteFlow = Base::getFlowReference(m_blockName, m_flowName);
 					m_remoteFlow = remoteFlow;
 					if (remoteFlow == nullptr) {
 						EAUDIOFX_ERROR("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName << " Error no Flow found");
@@ -100,12 +92,10 @@ namespace eaudiofx {
 					remoteFlow->getBase()->addReference(Base::getReference());
 				}
 		};
-		#undef __class__
-		#define __class__ "flow::Output"
 		template<typename T> class Output : public Flow<T> {
 			protected:
-				std::vector<std::weak_ptr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
-				std::shared_ptr<ejson::Document> m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
+				std::vector<ememory::WeakPtr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
+				ejson::Object m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -117,7 +107,7 @@ namespace eaudiofx {
 				Output(eaudiofx::flow::Interface& _flowInterfaceLink,
 				       const std::string& _name,
 				       const std::string& _description = "",
-				      const std::string& _formatAvaillable="{}") :
+				       const std::string& _formatAvaillable="{}") :
 				  Flow<T>(_flowInterfaceLink, false, _name, _description, _formatAvaillable) {
 					
 				};
@@ -125,15 +115,15 @@ namespace eaudiofx {
 				 * @brief Destructor.
 				 */
 				virtual ~Output() { };
-				virtual void addReference(const std::shared_ptr<BaseReference>& _reference) {
+				virtual void addReference(const ememory::SharedPtr<BaseReference>& _reference) {
 					m_remoteFlow.push_back(_reference);
 				}
 				virtual int32_t checkCompatibility() {
 					EAUDIOFX_INFO("        check for : '" << Base::m_name << "' to " << m_remoteFlow.size() << " links");
-					std::vector<std::shared_ptr<const ejson::Object>> list;
+					std::vector<ejson::Object> list;
 					list.push_back(Base::getCapabilities());
 					for (auto &it : m_remoteFlow) {
-						std::shared_ptr<BaseReference> tmp = it.lock();
+						ememory::SharedPtr<BaseReference> tmp = it.lock();
 						if (tmp != nullptr) {
 							if (tmp->getBase() != nullptr) {
 								list.push_back(tmp->getBase()->getCapabilities());
@@ -144,13 +134,11 @@ namespace eaudiofx {
 					
 					// TODO : Check input property
 					EAUDIOFX_INFO("[" << Base::m_name << "] mix signal : ");
-					m_formatMix->display();
+					m_formatMix.display();
 					return 0;
 				}
 				
 		};
 	};
-	#undef __class__
-	#define __class__ nullptr
 };
-#endif
+

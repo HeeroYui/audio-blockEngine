@@ -1,21 +1,18 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2010, Edouard DUPIN, all right reserved
- * 
- * @license BSD 3 clauses (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __APPL_DEBUG_H__
-#define __APPL_DEBUG_H__
-
-#include <etk/log.h>
+#include <elog/log.hpp>
 
 namespace appl {
 	int32_t getLogId();
 };
-#define APPL_BASE(info,data) TK_LOG_BASE(appl::getLogId(),info,data)
+#define APPL_BASE(info,data) ELOG_BASE(appl::getLogId(),info,data)
 
+#define APPL_PRINT(data)         APPL_BASE(-1, data)
 #define APPL_CRITICAL(data)      APPL_BASE(1, data)
 #define APPL_ERROR(data)         APPL_BASE(2, data)
 #define APPL_WARNING(data)       APPL_BASE(3, data)
@@ -39,5 +36,4 @@ namespace appl {
 		} \
 	} while (0)
 
-#endif
 

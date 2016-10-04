@@ -1,19 +1,14 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-
-#ifndef __EAUDIO_FX_THREAD_H__
-#define __EAUDIO_FX_THREAD_H__
+#pragma once
 
 #include <thread>
 #include <mutex>
-#include <etk/os/Fifo.h>
-#include <eaudiofx/core/audio.h>
+#include <etk/os/Fifo.hpp>
+#include <eaudiofx/core/audio.hpp>
 
 /**
  * @brief Tanho thread system (parent class)
@@ -73,4 +68,3 @@ namespace eaudiofx {
 	};
 };
 
-#endif

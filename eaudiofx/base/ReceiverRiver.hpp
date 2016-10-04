@@ -1,24 +1,20 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_RECEIVER_RIVER_H__
-#define __EAUDIOFX_RECEIVER_RIVER_H__
-
-#include <eaudiofx/core/Block.h>
-#include <audio/river/Interface.h>
-#include <audio/river/Manager.h>
-#include <eaudiofx/core/BufferAudio.h>
+#include <eaudiofx/core/Block.hpp>
+#include <audio/river/Interface.hpp>
+#include <audio/river/Manager.hpp>
+#include <eaudiofx/core/BufferAudio.hpp>
 
 namespace eaudiofx {
 	class ReceiverRiver : public eaudiofx::Block {
 		private:
 			void onDataNeeded(void* _data,
-			                  const std11::chrono::system_clock::time_point& _time,
+			                  const audio::Time& _time,
 			                  size_t _nbChunk,
 			                  enum audio::format _format,
 			                  uint32_t _frequency,
@@ -38,8 +34,8 @@ namespace eaudiofx {
 			virtual int32_t algoStart();
 			virtual int32_t algoStop();
 		protected:
-			std11::shared_ptr<audio::river::Manager> m_manager;
-			std11::shared_ptr<audio::river::Interface> m_interface;
+			ememory::SharedPtr<audio::river::Manager> m_manager;
+			ememory::SharedPtr<audio::river::Interface> m_interface;
 			std::vector<int8_t> m_buffer;
 		public:
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
@@ -48,6 +44,5 @@ namespace eaudiofx {
 	};
 };
 
-#endif
 
 

@@ -1,20 +1,16 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_BUFFER_H__
-#define __EAUDIOFX_BUFFER_H__
-
-#include <eaudiofx/core/audio.h>
-#include <eaudiofx/core/Block.h>
+#include <eaudiofx/core/audio.hpp>
+#include <eaudiofx/core/Block.hpp>
 
 namespace eaudiofx {
 	class Block;
-	class Buffer : public std::enable_shared_from_this<Buffer> {
+	class Buffer : public ememory::EnableSharedFromThis<Buffer> {
 		public:
 			Buffer(eaudiofx::Block& _parent);
 			virtual ~Buffer() {};
@@ -26,6 +22,5 @@ namespace eaudiofx {
 	};
 };
 
-#endif
 
 

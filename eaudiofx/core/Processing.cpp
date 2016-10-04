@@ -1,24 +1,18 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-#include <eaudiofx/debug.h>
-#include <eaudiofx/core/Processing.h>
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/core/Processing.hpp>
 #include <unistd.h>
 
-
-#undef __class__
-#define __class__ "Processing"
 eaudiofx::Processing::Processing() {
 	addObjectType("eaudiofx::Processing");
 };
 
 int32_t eaudiofx::Processing::process() {
-	EAUDIOFX_INFO("Start process : '" << getName() << "'");
+	EAUDIOFX_INFO("Start process : '" << propertyName << "'");
 	return eaudiofx::ERR_NONE;
 }
 
@@ -33,13 +27,13 @@ int32_t eaudiofx::Processing::stop() {
 }
 
 int32_t eaudiofx::Processing::waitEndOfProcess() {
-	EAUDIOFX_INFO("wait end of Processing : '" << getName() << "'");
+	EAUDIOFX_INFO("wait end of Processing : '" << propertyName << "'");
 	return eaudiofx::ERR_NONE;
 }
 
 
 bool eaudiofx::Processing::stateStart() {
-	EAUDIOFX_INFO("Start Processing : '" << getName() << "'");
+	EAUDIOFX_INFO("Start Processing : '" << propertyName << "'");
 	// TODO : Add return code ... and test all of theses events ...
 	EAUDIOFX_ERROR("======================================");
 	// Init request flow update:
@@ -64,13 +58,13 @@ bool eaudiofx::Processing::stateStart() {
 }
 
 bool eaudiofx::Processing::stateRun() {
-	EAUDIOFX_INFO("Process : '" << getName() << "'");
+	EAUDIOFX_INFO("Process : '" << propertyName << "'");
 	usleep(10000);
 	return false;
 }
 
 bool eaudiofx::Processing::stateStop() {
-	EAUDIOFX_INFO("Stop Processing : '" << getName() << "'");
+	EAUDIOFX_INFO("Stop Processing : '" << propertyName << "'");
 	int32_t ret = eaudiofx::BlockMeta::algoStop();
 	if (ret != eaudiofx::ERR_NONE) {
 		return ret;

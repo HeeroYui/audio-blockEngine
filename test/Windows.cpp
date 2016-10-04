@@ -1,25 +1,21 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2010, Edouard DUPIN, all right reserved
- * 
- * @license BSD 3 clauses (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <ewol/ewol.h>
-#include <test/debug.h>
-#include <test/Windows.h>
-#include <ewol/widget/Label.h>
-#include <etk/tool.h>
-#include <eaudiofx/eaudiofx.h>
-#include <ewol/widget/Button.h>
+#include <ewol/ewol.hpp>
+#include <test/debug.hpp>
+#include <test/Windows.hpp>
+#include <ewol/widget/Label.hpp>
+#include <etk/tool.hpp>
+#include <eaudiofx/eaudiofx.hpp>
+#include <ewol/widget/Button.hpp>
 #include <unistd.h>
 
-#include <eaudiofx/base/GeneratorSignal.h>
-#include <eaudiofx/base/ReceiverRiver.h>
+#include <eaudiofx/base/GeneratorSignal.hpp>
+#include <eaudiofx/base/ReceiverRiver.hpp>
 
-#undef __class__
-#define __class__ "Windows"
 
 static const char* const g_eventPlay1 = "appl-play-1";
 static const char* const g_eventPlay2 = "appl-play-2";
@@ -30,7 +26,6 @@ appl::Windows::Windows() {
 
 void appl::Windows::init() {
 	ewol::widget::Windows::init();
-	setTitle("example 001_HelloWord");
 	std::string composition = std::string("");
 	composition += "<sizer mode='vert'>\n";
 	composition += "	<sizer mode='hori'>\n";
@@ -53,18 +48,18 @@ void appl::Windows::init() {
 	composition += "	<spacer expand='true' fill='true'/>\n";
 	composition += "</sizer>\n";
 	
-	m_composer = ewol::widget::Composer::create(ewol::widget::Composer::String, composition);
-	if (m_composer == NULL) {
+	m_composer = ewol::widget::Composer::create();
+	if (m_composer == nullptr) {
 		APPL_CRITICAL(" An error occured ... in the windows creatrion ...");
 		return;
 	}
+	m_composer->loadFromString(composition);
 	setSubWidget(m_composer);
-	subBind(ewol::widget::Button, "bt-play1", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlay);
-	subBind(ewol::widget::Button, "bt-stop1", signalPressed, shared_from_this(), &appl::Windows::onCallbackStop);
-	subBind(ewol::widget::Button, "bt-play-stop", signalPressed, shared_from_this(), &appl::Windows::onCallbackPlayStop);
+	subBind(ewol::widget::Button, "bt-play1", signalPressed, sharedFromThis(), &appl::Windows::onCallbackPlay);
+	subBind(ewol::widget::Button, "bt-stop1", signalPressed, sharedFromThis(), &appl::Windows::onCallbackStop);
+	subBind(ewol::widget::Button, "bt-play-stop", signalPressed, sharedFromThis(), &appl::Windows::onCallbackPlayStop);
 }
 
-std::shared_ptr<eaudiofx::Processing> process = NULL;
 void appl::Windows::onCallbackPlayStop() {
 	onCallbackPlay();
 	usleep(500000);
@@ -73,79 +68,79 @@ void appl::Windows::onCallbackPlayStop() {
 void appl::Windows::onCallbackPlay() {
 	#if 0
 		APPL_INFO("Play Requested ...");
-		process = eaudiofx::Processing::create();
-		if (process == NULL) {
+		m_process = eaudiofx::Processing::create();
+		if (m_process == nullptr) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		APPL_INFO("Create Generator ...");
-		std::shared_ptr<eaudiofx::GeneratorFile> generator = eaudiofx::GeneratorFile::create();
-		if (generator == NULL) {
+		ememory::SharedPtr<eaudiofx::GeneratorFile> generator = eaudiofx::GeneratorFile::create();
+		if (generator == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
-		generator->setName("myGenerator");
-		process->addBlock(generator);
+		generator->propertyName.set("myGenerator");
+		m_process->addBlock(generator);
 		
 		APPL_INFO("Create DECODER ...");
-		std::shared_ptr<eaudiofx::BlockDecoder> decoder = eaudiofx::BlockDecoder::create();
-		if (decoder == NULL) {
+		ememory::SharedPtr<eaudiofx::BlockDecoder> decoder = eaudiofx::BlockDecoder::create();
+		if (decoder == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
-		decoder->setName("myDecoder");
-		process->addBlock(decoder);
+		decoder->propertyName.set("myDecoder");
+		m_process->addBlock(decoder);
 		
 		APPL_INFO("Create Receiver ...");
-		std::shared_ptr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
-		if (receiver == NULL) {
+		ememory::SharedPtr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
+		if (receiver == nullptr) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
 		}
-		receiver->setName("myReceiver");
-		process->addBlock(receiver);
+		receiver->propertyName.set("myReceiver");
+		m_process->addBlock(receiver);
 		
-		process->linkBlock("myGenerator", "out","myDecoder", "in");
-		process->linkBlock("myDecoder", "out","myReceiver", "in");
+		m_process->linkBlock("myGenerator", "out","myDecoder", "in");
+		m_process->linkBlock("myDecoder", "out","myReceiver", "in");
 		
-		process->start();
+		m_process->start();
 		return;
 	#else
 		APPL_INFO("Play Requested ...");
-		process = eaudiofx::Processing::create();
-		if (process == NULL) {
+		m_process = eaudiofx::Processing::create();
+		if (m_process == nullptr) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
-		process->setName("main Process");
+		m_process->propertyName.set("main Process");
 		APPL_INFO("Create Generator Sinus");
-		std::shared_ptr<eaudiofx::GeneratorSignal> generator = eaudiofx::GeneratorSignal::create();
-		if (generator == NULL) {
+		ememory::SharedPtr<eaudiofx::GeneratorSignal> generator = eaudiofx::GeneratorSignal::create();
+		if (generator == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
-		generator->setName("myGenerator");
-		process->addBlock(generator);
+		generator->propertyName.set("myGenerator");
+		m_process->addBlock(generator);
 		
 		APPL_INFO("Create Receiver ...");
-		std::shared_ptr<eaudiofx::ReceiverRiver> receiver = eaudiofx::ReceiverRiver::create();
-		if (receiver == NULL) {
+		ememory::SharedPtr<eaudiofx::ReceiverRiver> receiver = eaudiofx::ReceiverRiver::create();
+		if (receiver == nullptr) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
 		}
-		receiver->setName("myReceiver");
-		process->addBlock(receiver);
+		receiver->propertyName.set("myReceiver");
+		m_process->addBlock(receiver);
 		
-		process->linkBlock("myGenerator", "out","myReceiver", "in");
+		m_process->linkBlock("myGenerator", "out","myReceiver", "in");
 		
-		process->start();
+		m_process->start();
 		return;
 	#endif
 }
 
 void appl::Windows::onCallbackStop() {
-	if (process != NULL) {
-		process->stop();
+	if (m_process != nullptr) {
+		m_process->stop();
 	}
 }
 

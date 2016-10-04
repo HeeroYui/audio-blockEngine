@@ -1,20 +1,18 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <eaudiofx/debug.h>
-#include <eaudiofx/base/GeneratorSignal.h>
-#include <eaudiofx/core/BufferStream.h>
-#include <eaudiofx/base/GeneratorFile.h>
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/base/GeneratorSignal.hpp>
+#include <eaudiofx/core/BufferStream.hpp>
+#include <eaudiofx/base/GeneratorFile.hpp>
 
 
 
 eaudiofx::GeneratorFile::GeneratorFile() :
-  m_file(NULL) {
+  m_file(nullptr) {
 	// set output :
 	m_io.insert(
 	  std::pair<std::string, eaudiofx::Block::IOProperty>(
@@ -35,7 +33,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 	}
 	eaudiofx::BufferStream* buffer = dynamic_cast<eaudiofx::BufferStream*>(it->second.m_buffer);
 	//EAUDIOFX_ERROR("Generate data, request : " << _request << " at time : " << _currentTime);
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		// !! impossible case => a buffer can not be removed ...
 		EAUDIOFX_ERROR("Buffer has been removed... OR change type ...");
 		return eaudiofx::ERR_FAIL;
@@ -43,7 +41,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 	//request outpuffer needed size :
 	buffer->setProperty(_request);
 	uint8_t* data = buffer->getData();
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		EAUDIOFX_ERROR("Buffer output error ==> !!ERROR!!");
 		return eaudiofx::ERR_FAIL;
 	}
@@ -55,7 +53,7 @@ int32_t eaudiofx::GeneratorFile::pull(double _currentTime, int32_t _request, flo
 
 int32_t eaudiofx::GeneratorFile::init() {
 	m_file = new etk::FSNode("DATA:menu.wav");
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		EAUDIOFX_ERROR("Can not allocate the input file ...");
 		return eaudiofx::ERR_FAIL;
 	}
@@ -68,17 +66,17 @@ int32_t eaudiofx::GeneratorFile::init() {
 
 
 int32_t eaudiofx::GeneratorFile::unInit() {
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		return eaudiofx::ERR_NONE;
 	}
 	if (m_file->fileClose() == false) {
 		EAUDIOFX_ERROR("Can not close the input file ...");
 		delete(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 		return eaudiofx::ERR_FAIL;
 	}
 	delete(m_file);
-	m_file = NULL;
+	m_file = nullptr;
 	return eaudiofx::ERR_NONE;
 }
 

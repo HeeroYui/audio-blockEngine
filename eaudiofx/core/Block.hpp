@@ -1,21 +1,17 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-#ifndef __EAUDIOFX_BLOCK_H__
-#define __EAUDIOFX_BLOCK_H__
+#pragma once
 
 #include <string>
 #include <mutex>
 #include <map>
-#include <ewol/object/Object.h>
-#include <eaudiofx/core/audio.h>
-#include <eaudiofx/flow/Interface.h>
-#include <eaudiofx/flow/Flow.h>
+#include <ewol/object/Object.hpp>
+#include <eaudiofx/core/audio.hpp>
+#include <eaudiofx/flow/Interface.hpp>
+#include <eaudiofx/flow/Flow.hpp>
 
 
 namespace eaudiofx {
@@ -90,10 +86,9 @@ namespace eaudiofx {
 			int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
 				return eaudiofx::ERR_NONE;
 			}
-			virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
+			virtual ememory::SharedPtr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 	};
 };
 
-#endif
 
 

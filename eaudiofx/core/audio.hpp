@@ -1,16 +1,12 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-#ifndef __EAUDIOFX_AUDIO_H__
-#define __EAUDIOFX_AUDIO_H__
+#pragma once
 
 
-#include <etk/types.h>
+#include <etk/types.hpp>
 
 namespace eaudiofx {
 	enum {
@@ -24,4 +20,4 @@ namespace eaudiofx {
 	};
 };
 
-#endif
+

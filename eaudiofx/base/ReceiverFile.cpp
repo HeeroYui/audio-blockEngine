@@ -1,13 +1,10 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
-
-#include <eaudiofx/debug.h>
-#include <eaudiofx/base/ReceiverFile.h>
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/base/ReceiverFile.hpp>
 
 
 eaudiofx::ReceiverFile::ReceiverFile() :
@@ -23,14 +20,14 @@ eaudiofx::ReceiverFile::ReceiverFile() :
 	    eaudiofx::Block::IOProperty(
 	      eaudiofx::Block::ioInput,
 	      "{ type:'audio', compression:'raw', frequency:16000, channel:4, format:'int16_t' }",
-	      NULL
+	      nullptr
 	    ) ) );
 }
 
 
 int32_t eaudiofx::ReceiverFile::init() {
 	m_file = new etk::FSNode("ouput.raw");
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		EAUDIOFX_ERROR("Can not allocate the output file ...");
 		return eaudiofx::ERR_FAIL;
 	}
@@ -43,17 +40,17 @@ int32_t eaudiofx::ReceiverFile::init() {
 
 int32_t eaudiofx::ReceiverFile::unInit() {
 	EAUDIOFX_DEBUG("un-init Stream ...");
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		return eaudiofx::ERR_NONE;
 	}
 	if (m_file->fileClose() == false) {
 		EAUDIOFX_ERROR("Can not close the input file ...");
 		delete(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 		return eaudiofx::ERR_FAIL;
 	}
 	delete(m_file);
-	m_file = NULL;
+	m_file = nullptr;
 	return eaudiofx::ERR_NONE;
 };
 
@@ -78,7 +75,7 @@ int32_t eaudiofx::ReceiverFile::pull(double _currentTime, int32_t _request, floa
 	}
 	eaudiofx::BufferStream* buffer = dynamic_cast<eaudiofx::BufferStream*>(it->second.m_buffer);
 	//EAUDIOFX_ERROR("Generate data, request : " << _request << " at time : " << _currentTime);
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		// !! impossible case => a buffer can not be removed ...
 		EAUDIOFX_ERROR("Buffer has been removed... OR change type ...");
 		return eaudiofx::ERR_FAIL;
@@ -86,7 +83,7 @@ int32_t eaudiofx::ReceiverFile::pull(double _currentTime, int32_t _request, floa
 	//request outpuffer needed size :
 	buffer->setProperty(_request);
 	uint8_t* data = buffer->getData();
-	if (m_file == NULL) {
+	if (m_file == nullptr) {
 		EAUDIOFX_ERROR("Buffer output error ==> !!ERROR!!");
 		return eaudiofx::ERR_FAIL;
 	}

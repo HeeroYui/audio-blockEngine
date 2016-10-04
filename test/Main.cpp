@@ -1,45 +1,46 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2010, Edouard DUPIN, all right reserved
- * 
- * @license BSD 3 clauses (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
 
+#include <etk/types.hpp>
+#include <ewol/ewol.hpp>
+#include <gale/context/commandLine.hpp>
 
-#include <etk/types.h>
-#include <ewol/ewol.h>
-#include <ewol/context/commandLine.h>
-
-#include <test/debug.h>
-#include <test/Windows.h>
-#include <ewol/object/Object.h>
-#include <ewol/widget/Manager.h>
-#include <ewol/context/Context.h>
+#include <test/debug.hpp>
+#include <test/Windows.hpp>
+#include <ewol/object/Object.hpp>
+#include <ewol/widget/Manager.hpp>
+#include <ewol/context/Context.hpp>
 
 class MainApplication : public ewol::context::Application {
 	public:
-		bool init(ewol::Context& _context, size_t _initId) {
-			APPL_INFO("==> Init APPL (START) [" << ewol::getBoardType() << "] (" << ewol::getCompilationMode() << ")");
-			
-			// TODO : Remove this : Move if in the windows properties
+		virtual void onCreate(ewol::Context& _context) override {
+			APPL_INFO("==> OnCreate APPL (START) [" << ewol::getBoardType() << "] (" << ewol::getCompilationMode() << ")");
+			for( int32_t iii=0 ; iii<_context.getCmd().size(); iii++) {
+				std::string tmpppp = _context.getCmd().get(iii);
+				if (    tmpppp == "-h"
+				     || tmpppp == "--help") {
+					APPL_INFO("  -t c-flags-file-name" );
+					APPL_INFO("  -h/--help display this help" );
+					exit(0);
+				}
+			}
+			_context.setTitle("test 'block-engine'");
 			_context.setSize(vec2(800, 600));
 			
 			// select internal data for font ...
 			_context.getFontDefault().setUseExternal(false);
 			_context.getFontDefault().set("FreeSerif", 30);
-			
-			std::shared_ptr<ewol::widget::Windows> basicWindows = appl::Windows::create();
-			// create the specific windows
-			_context.setWindows(basicWindows);
-			APPL_INFO("==> Init APPL (END)");
-			return true;
 		}
 		
-		void unInit(ewol::Context& _context) {
-			APPL_INFO("==> Un-Init APPL (START)");
-			// nothing to do ...
-			APPL_INFO("==> Un-Init APPL (END)");
+		void onStart(ewol::Context& _context) override {
+			APPL_INFO("==> On start APPL (END)");
+			ewol::widget::WindowsShared basicWindows = appl::Windows::create();
+			// create the specific windows
+			_context.setWindows(basicWindows);
+			APPL_INFO("==> On start APPL (END)");
 		}
 };
 

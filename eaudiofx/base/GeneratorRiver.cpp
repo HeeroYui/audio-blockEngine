@@ -1,14 +1,12 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <eaudiofx/base/GeneratorRtAudio.h>
-#include <eaudiofx/core/BufferAudioRaw.h>
-#include <airtaudio/Interface.h>
+#include <eaudiofx/base/GeneratorRtAudio.hpp>
+#include <eaudiofx/core/BufferAudioRaw.hpp>
+#include <airtaudio/Interface.hpp>
 
 eaudiofx::GeneratorRiver::GeneratorRiver() {
 	setLive(true);

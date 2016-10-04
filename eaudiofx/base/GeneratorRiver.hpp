@@ -1,15 +1,11 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_GENERATOR_RIVER_H__
-#define __EAUDIOFX_GENERATOR_RIVER_H__
-
-#include <eaudiofx/core/BlockGenerator.h>
+#include <eaudiofx/core/BlockGenerator.hpp>
 
 namespace eaudiofx {
 	class GeneratorRiver : public eaudiofx::BlockGenerator {
@@ -21,6 +17,5 @@ namespace eaudiofx {
 	};
 };
 
-#endif
 
 

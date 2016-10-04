@@ -1,15 +1,12 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license APACHE v2.0 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <memory>
-#include <eaudiofx/debug.h>
-#include <eaudiofx/flow/Interface.h>
-#include <eaudiofx/flow/Base.h>
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/flow/Interface.hpp>
+#include <eaudiofx/flow/Base.hpp>
 
 eaudiofx::flow::Interface::Interface() {
 	
@@ -105,8 +102,8 @@ void eaudiofx::flow::Interface::flowGetInput() {
 }
 
 
-std::shared_ptr<eaudiofx::flow::BaseReference> eaudiofx::flow::Interface::getFlowReference(const std::string& _flowName) {
-	std::shared_ptr<eaudiofx::flow::BaseReference> out;
+ememory::SharedPtr<eaudiofx::flow::BaseReference> eaudiofx::flow::Interface::getFlowReference(const std::string& _flowName) {
+	ememory::SharedPtr<eaudiofx::flow::BaseReference> out;
 	for (auto &it : m_list) {
 		if(    it != nullptr
 		    && it->getName() == _flowName) {
@@ -117,126 +114,125 @@ std::shared_ptr<eaudiofx::flow::BaseReference> eaudiofx::flow::Interface::getFlo
 	return out;
 }
 
-static std::shared_ptr<ejson::Value> intersect(const std::shared_ptr<const ejson::Value>& _obj1, const std::shared_ptr<const ejson::Value>& _obj2) {
-	std::shared_ptr<ejson::Value> out = ejson::Object::create();
-	
-	if (_obj1 == nullptr) {
-		if (_obj2 == nullptr) {
+static ejson::Value intersect(const ejson::Value& _obj1, const ejson::Value& _obj2) {
+	ejson::Value out;
+	if (_obj1.exist() == false) {
+		if (_obj2.exist() == false) {
 			EAUDIOFX_ERROR("intersect 2 null ptr ...");
-			return ejson::Null::create();
+			return ejson::Null();
 		} else {
-			return _obj2->clone();
+			return _obj2.clone();
 		}
 	}
-	if (_obj2 == nullptr) {
-		return _obj1->clone();
+	if (_obj2.exist() == false) {
+		return _obj1.clone();
 	}
-	if (_obj1->isNull() == true) {
-		return _obj2->clone();
+	if (_obj1.isNull() == true) {
+		return _obj2.clone();
 	}
-	if (_obj1->isNumber() == true) {
+	if (_obj1.isNumber() == true) {
 		// just a single output value ... just check if it is the same value
-		double value = _obj1->toNumber()->get();
-		if (_obj2->isNumber() == true) {
-			if (value == _obj2->toNumber()->get()) {
-				return ejson::Number::create(value);
+		double value = _obj1.toNumber().get();
+		if (_obj2.isNumber() == true) {
+			if (value == _obj2.toNumber().get()) {
+				return ejson::Number(value);
 			}
 			EAUDIOFX_ERROR("Not the same number value");
 		}
-		if (_obj2->isArray() == true) {
-			std::shared_ptr<const ejson::Array> obj = _obj2->toArray();
-			for (int32_t iii=0; iii<obj->size(); ++iii) {
-				if ((*obj)[iii]->isNumber() == true) {
-					if (value == (*obj)[iii]->toNumber()->get()) {
-						return ejson::Number::create(value);
+		if (_obj2.isArray() == true) {
+			const ejson::Array obj = _obj2.toArray();
+			for (auto it : obj) {
+				if (it.isNumber() == true) {
+					if (value == it.toNumber().get()) {
+						return ejson::Number(value);
 					}
 				}
 			}
 			EAUDIOFX_ERROR("Not the same values ...");
 		}
 	}
-	if (_obj1->isString() == true) {
+	if (_obj1.isString() == true) {
 		// just a single output value ... just check if it is the same value
-		std::string value = _obj1->toString()->get();
-		if (_obj2->isString() == true) {
-			if (value == _obj2->toString()->get()) {
-				return ejson::String::create(value);
+		std::string value = _obj1.toString().get();
+		if (_obj2.isString() == true) {
+			if (value == _obj2.toString().get()) {
+				return ejson::String(value);
 			}
 			EAUDIOFX_ERROR("Not the same string value");
 		}
-		if (_obj2->isArray() == true) {
-			std::shared_ptr<const ejson::Array> obj = _obj2->toArray();
-			for (int32_t iii=0; iii<obj->size(); ++iii) {
-				if ((*obj)[iii]->isString() == true) {
-					if (value == (*obj)[iii]->toString()->get()) {
-						return ejson::String::create(value);
+		if (_obj2.isArray() == true) {
+			const ejson::Array obj = _obj2.toArray();
+			for (auto it : obj) {
+				if (it.isString() == true) {
+					if (value == it.toString().get()) {
+						return ejson::String(value);
 					}
 				}
 			}
 			EAUDIOFX_ERROR("Not the same values ...");
 		}
 	}
-	if (_obj1->isArray() == true) {
+	if (_obj1.isArray() == true) {
 		EAUDIOFX_TODO(" manage array");
 	}
 	EAUDIOFX_ERROR("Can not intersect elements : (obj1)");
-	_obj1->display();
+	_obj1.display();
 	EAUDIOFX_ERROR("                             (obj2)");
-	_obj2->display();
+	_obj2.display();
 	// remove sublist if it is reduce to 1
-	return ejson::Null::create();
+	return ejson::Null();
 }
 
-std::shared_ptr<ejson::Document> eaudiofx::flow::Interface::getFlowIntersection(const std::vector<std::shared_ptr<const ejson::Object>>& _list) {
+ejson::Object eaudiofx::flow::Interface::getFlowIntersection(const std::vector<ejson::Object>& _list) {
 	EAUDIOFX_ERROR("-------------- start intersection --------------");
-	std::shared_ptr<ejson::Document> out = std::make_shared<ejson::Document>();
+	ejson::Object out;
 	if (_list.size() == 0) {
 		return out;
 	}
 	if (_list.size() == 1) {
-		_list[0]->cloneIn(out);
+		out = _list[0].clone().toObject();
 		EAUDIOFX_INFO("List clone : ");
-		out->display();
+		out.display();
 		EAUDIOFX_ERROR("-------------- stop intersection (no link ...) --------------");
 		return out;
 	}
 	// check all same type :
 	for (int32_t iii=1; iii<_list.size(); ++iii) {
-		if (_list[iii]->getStringValue("type") != _list[0]->getStringValue("type")) {
+		if (_list[iii].toString().get("type") != _list[0].toString().get("type")) {
 			EAUDIOFX_ERROR("All stream have not the same Type ...");
 			return out;
 		}
 	}
-	out->add("type", ejson::String::create(_list[0]->getStringValue("type")));
-	if (out->getStringValue("type") == "audio") {
+	out.add("type", ejson::String(_list[0].toString().get("type")));
+	if (out["type"].toString().get() == "audio") {
 		// check frequency:
-		std::shared_ptr<ejson::Value> tmp = ejson::Null::create();
+		ejson::Value tmp = ejson::Null();
 		for (int32_t iii=0; iii<_list.size(); ++iii) {
-			tmp = intersect(tmp, _list[iii]->get("freq"));
+			tmp = intersect(tmp, _list[iii]["freq"]);
 		}
-		out->add("freq", tmp);
+		out.add("freq", tmp);
 		// check format:
-		tmp = ejson::Null::create();
+		tmp = ejson::Null();
 		for (int32_t iii=0; iii<_list.size(); ++iii) {
-			tmp = intersect(tmp, _list[iii]->get("format"));
+			tmp = intersect(tmp, _list[iii]["format"]);
 		}
-		out->add("format", tmp);
+		out.add("format", tmp);
 		
 		// check channels:
-		tmp = ejson::Null::create();
+		tmp = ejson::Null();
 		for (int32_t iii=0; iii<_list.size(); ++iii) {
-			tmp = intersect(tmp, _list[iii]->get("channels"));
+			tmp = intersect(tmp, _list[iii]["channels"]);
 		}
-		out->add("channels", tmp);
+		out.add("channels", tmp);
 		
-	} else if (out->getStringValue("type") == "video") {
+	} else if (out["type"].toString().get() == "video") {
 		for (int32_t iii=1; iii<_list.size(); ++iii) {
 			
 		}
 	} else {
-		EAUDIOFX_ERROR("not manage interface for mix ... '" << out->getStringValue("type") << "'");
+		EAUDIOFX_ERROR("not manage interface for mix ... '" << out["type"].toString().get() << "'");
 	}
-	out->display();
+	out.display();
 	EAUDIOFX_ERROR("-------------- stop intersection --------------");
 	return out;
 }

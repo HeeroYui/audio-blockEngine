@@ -1,17 +1,14 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license APACHE v2.0 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_FLOW_BASE_H__
-#define __EAUDIOFX_FLOW_BASE_H__
-
-#include <ejson/ejson.h>
-#include <eaudiofx/flow/Interface.h>
-#include <eaudiofx/debug.h>
+#include <ejson/ejson.hpp>
+#include <eaudiofx/flow/Interface.hpp>
+#include <eaudiofx/debug.hpp>
+#include <ememory/memory.hpp>
 
 
 
@@ -24,7 +21,7 @@ namespace eaudiofx {
 				std::string m_name;
 				std::string m_description;
 				bool m_input;
-				std::shared_ptr<ejson::Document> m_formatAvaillable;
+				ejson::Document m_formatAvaillable;
 			public:
 				/**
 				 * @brief Create a parameter with a specific type.
@@ -56,7 +53,7 @@ namespace eaudiofx {
 				bool isOutput() {
 					return !m_input;
 				}
-				std::shared_ptr<const ejson::Object> getCapabilities() {
+				const ejson::Object getCapabilities() {
 					return m_formatAvaillable;
 				}
 				/**
@@ -69,27 +66,27 @@ namespace eaudiofx {
 					EAUDIOFX_ERROR("[" << m_name << "] Can not create a link on an Output (only manage with input ...)");
 				}
 			protected:
-				std::shared_ptr<BaseReference> m_ref; //!< To simplify implementation code we use a temporary variable to shared the current reference...
+				ememory::SharedPtr<BaseReference> m_ref; //!< To simplify implementation code we use a temporary variable to shared the current reference...
 			public:
-				std::shared_ptr<BaseReference> getReference() {
+				ememory::SharedPtr<BaseReference> getReference() {
 					return m_ref;
 				}
-				virtual void addReference(const std::shared_ptr<BaseReference>& _reference) {
+				virtual void addReference(const ememory::SharedPtr<BaseReference>& _reference) {
 					EAUDIOFX_ERROR("[" << m_name << "] Can not add reference ...");
 				}
 			protected:
-				std::shared_ptr<BaseReference> getFlowReference(const std::string& _blockName,
-				                                                const std::string& _flowLinkName);
+				ememory::SharedPtr<BaseReference> getFlowReference(const std::string& _blockName,
+				                                                   const std::string& _flowLinkName);
 			public:
 				virtual void link();
 				virtual int32_t checkCompatibility();
 				virtual void getInputBuffer();
-				//virtual std::shared_ptr<eaudiofx::Block> getBlockNamed(const std::string& _name);
+				//virtual ememory::SharedPtr<eaudiofx::Block> getBlockNamed(const std::string& _name);
 		};
 		std::ostream& operator <<(std::ostream& _os, const eaudiofx::flow::Base& _obj);
 		// we use a reference to simplify code of every blocks...
 		//! @not-in-doc
-		class BaseReference : public std::enable_shared_from_this<BaseReference> {
+		class BaseReference : public ememory::EnableSharedFromThis<BaseReference> {
 			protected:
 				Base* m_basePointer;
 			public:
@@ -107,4 +104,4 @@ namespace eaudiofx {
 		};
 	};
 };
-#endif
+

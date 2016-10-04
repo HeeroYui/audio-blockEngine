@@ -1,19 +1,13 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <eaudiofx/debug.h>
-#include <eaudiofx/base/GeneratorSignal.h>
-#include <eaudiofx/core/BufferAudio.h>
-#include <math.h>
-
-
-#undef __class__
-#define __class__ "GeneratorSignal"
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/base/GeneratorSignal.hpp>
+#include <eaudiofx/core/BufferAudio.hpp>
+#include <cmath>
 
 void eaudiofx::GeneratorSignal::init() {
 	eaudiofx::Block::init();
@@ -39,7 +33,7 @@ int32_t eaudiofx::GeneratorSignal::pull(double _currentTime, int32_t _request, f
 	}
 	eaudiofx::BufferAudioRaw* buffer = dynamic_cast<eaudiofx::BufferAudioRaw*>(it->second.m_buffer);
 	//EAUDIOFX_ERROR("Generate data, request : " << _request << " at time : " << _currentTime);
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		// !! impossible case => a buffer can not be removed ...
 		EAUDIOFX_ERROR("Buffer has been removed... OR change type ...");
 		return eaudiofx::ERR_FAIL;

@@ -1,21 +1,18 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
- * @copyright 2011, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @copyright 2014, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0  (see license file)
  */
+#pragma once
 
-#ifndef __EAUDIOFX_DEBUG_H__
-#define __EAUDIOFX_DEBUG_H__
-
-#include <etk/log.h>
+#include <elog/log.hpp>
 
 namespace eaudiofx {
 	int32_t getLogId();
 };
-#define EAUDIOFX_BASE(info,data)  TK_LOG_BASE(eaudiofx::getLogId(),info,data)
+#define EAUDIOFX_BASE(info,data)  ELOG_BASE(eaudiofx::getLogId(),info,data)
 
+#define EAUDIOFX_PRINT(data)         EAUDIOFX_BASE(1, data)
 #define EAUDIOFX_CRITICAL(data)      EAUDIOFX_BASE(1, data)
 #define EAUDIOFX_ERROR(data)         EAUDIOFX_BASE(2, data)
 #define EAUDIOFX_WARNING(data)       EAUDIOFX_BASE(3, data)
@@ -39,5 +36,4 @@ namespace eaudiofx {
 		} \
 	} while (0)
 
-#endif
 

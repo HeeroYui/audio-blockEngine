@@ -1,18 +1,12 @@
-/**
+/** @file
  * @author Edouard DUPIN
- * 
  * @copyright 2014, Edouard DUPIN, all right reserved
- * 
- * @license BSD v3 (see license file)
+ * @license APACHE v2.0  (see license file)
  */
 
-#include <eaudiofx/debug.h>
-#include <eaudiofx/base/ReceiverRiver.h>
-#include <eaudiofx/core/BufferAudio.h>
-
-
-#undef __class__
-#define __class__ "ReceiverRiver"
+#include <eaudiofx/debug.hpp>
+#include <eaudiofx/base/ReceiverRiver.hpp>
+#include <eaudiofx/core/BufferAudio.hpp>
 
 
 int32_t eaudiofx::ReceiverRiver::algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
@@ -34,7 +28,7 @@ eaudiofx::ReceiverRiver::ReceiverRiver() :
 
 
 void eaudiofx::ReceiverRiver::onDataNeeded(void* _data,
-                                           const std11::chrono::system_clock::time_point& _time,
+                                           const audio::Time& _time,
                                            size_t _nbChunk,
                                            enum audio::format _format,
                                            uint32_t _frequency,
@@ -71,14 +65,14 @@ int32_t eaudiofx::ReceiverRiver::algoInit() {
 		return eaudiofx::ERR_FAIL;
 	}
 	// set callback mode ...
-	m_interface->setOutputCallback(std11::bind(&ReceiverRiver::onDataNeeded,
+	m_interface->setOutputCallback(std::bind(&ReceiverRiver::onDataNeeded,
 	                                           this,
-	                                           std11::placeholders::_1,
-	                                           std11::placeholders::_2,
-	                                           std11::placeholders::_3,
-	                                           std11::placeholders::_4,
-	                                           std11::placeholders::_5,
-	                                           std11::placeholders::_6));
+	                                           std::placeholders::_1,
+	                                           std::placeholders::_2,
+	                                           std::placeholders::_3,
+	                                           std::placeholders::_4,
+	                                           std::placeholders::_5,
+	                                           std::placeholders::_6));
 	m_interface->start();
 	return eaudiofx::ERR_NONE;
 };
