@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import lutin.module as module
 import lutin.tools as tools
 import lutin.debug as debug
 import os
@@ -29,8 +28,7 @@ def get_maintainer():
 def get_version():
 	return "version.txt"
 
-def create(target, module_name):
-	my_module = module.Module(__file__, module_name, get_type())
+def configure(target, my_module):
 	# basic GUI :
 	my_module.add_src_file([
 	    'test/debug.cpp',
@@ -41,18 +39,12 @@ def create(target, module_name):
 	# name of the dependency
 	my_module.add_depend(['ewol', 'audio-block-engine'])
 	
-	my_module.add_path(tools.get_current_path(__file__))
+	my_module.add_path(".")
 	
 	my_module.copy_path("data/Font/Free*.ttf","fonts/")
 	my_module.copy_path("data/menu*","")
-	
-	#if target.name=="MacOs":
-	#	my_module.set_pkg("ICON", tools.get_current_path(__file__) + "/../data/icon.icns")
-	#else:
-	#	my_module.set_pkg("ICON", tools.get_current_path(__file__) + "/../data/icon.png")
-	
 	my_module.set_pkg("SECTION", ["Test"])
 	my_module.set_pkg("PRIORITY", "optional")
-	return my_module
+	return True
 
 

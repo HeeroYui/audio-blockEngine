@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import lutin.module as module
 import lutin.tools as tools
 import lutin.debug as debug
 import os
@@ -29,8 +28,7 @@ def get_version():
 	return "version.txt"
 
 
-def create(target, module_name):
-	my_module = module.Module(__file__, module_name, get_type())
+def configure(target, my_module):
 	# System core
 	my_module.add_src_file([
 	    'audio/blockEngine/debug.cpp',
@@ -82,9 +80,9 @@ def create(target, module_name):
 	    'audio/blockEngine/eaudiofx.hpp',
 	    ])
 	
-	#my_module.add_path(tools.get_current_path(__file__))
+	#my_module.add_path(".")
 	
-	return my_module
+	return True
 
 
 
