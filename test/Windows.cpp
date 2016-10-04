@@ -9,12 +9,12 @@
 #include <test/Windows.hpp>
 #include <ewol/widget/Label.hpp>
 #include <etk/tool.hpp>
-#include <eaudiofx/eaudiofx.hpp>
+#include <audio/blockEngine/eaudiofx.hpp>
 #include <ewol/widget/Button.hpp>
 #include <unistd.h>
 
-#include <eaudiofx/base/GeneratorSignal.hpp>
-#include <eaudiofx/base/ReceiverRiver.hpp>
+#include <audio/blockEngine/base/GeneratorSignal.hpp>
+#include <audio/blockEngine/base/ReceiverRiver.hpp>
 
 
 static const char* const g_eventPlay1 = "appl-play-1";
@@ -68,13 +68,13 @@ void appl::Windows::onCallbackPlayStop() {
 void appl::Windows::onCallbackPlay() {
 	#if 0
 		APPL_INFO("Play Requested ...");
-		m_process = eaudiofx::Processing::create();
+		m_process = audio::blockEngine::Processing::create();
 		if (m_process == nullptr) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		APPL_INFO("Create Generator ...");
-		ememory::SharedPtr<eaudiofx::GeneratorFile> generator = eaudiofx::GeneratorFile::create();
+		ememory::SharedPtr<audio::blockEngine::GeneratorFile> generator = audio::blockEngine::GeneratorFile::create();
 		if (generator == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
@@ -83,7 +83,7 @@ void appl::Windows::onCallbackPlay() {
 		m_process->addBlock(generator);
 		
 		APPL_INFO("Create DECODER ...");
-		ememory::SharedPtr<eaudiofx::BlockDecoder> decoder = eaudiofx::BlockDecoder::create();
+		ememory::SharedPtr<audio::blockEngine::BlockDecoder> decoder = audio::blockEngine::BlockDecoder::create();
 		if (decoder == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
@@ -92,7 +92,7 @@ void appl::Windows::onCallbackPlay() {
 		m_process->addBlock(decoder);
 		
 		APPL_INFO("Create Receiver ...");
-		ememory::SharedPtr<eaudiofx::ReceiverRtAudio> receiver = eaudiofx::ReceiverRtAudio::create();
+		ememory::SharedPtr<audio::blockEngine::ReceiverRtAudio> receiver = audio::blockEngine::ReceiverRtAudio::create();
 		if (receiver == nullptr) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
@@ -107,14 +107,14 @@ void appl::Windows::onCallbackPlay() {
 		return;
 	#else
 		APPL_INFO("Play Requested ...");
-		m_process = eaudiofx::Processing::create();
+		m_process = audio::blockEngine::Processing::create();
 		if (m_process == nullptr) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		m_process->propertyName.set("main Process");
 		APPL_INFO("Create Generator Sinus");
-		ememory::SharedPtr<eaudiofx::GeneratorSignal> generator = eaudiofx::GeneratorSignal::create();
+		ememory::SharedPtr<audio::blockEngine::GeneratorSignal> generator = audio::blockEngine::GeneratorSignal::create();
 		if (generator == nullptr) {
 			APPL_ERROR("can not create Generator ...");
 			return;
@@ -123,7 +123,7 @@ void appl::Windows::onCallbackPlay() {
 		m_process->addBlock(generator);
 		
 		APPL_INFO("Create Receiver ...");
-		ememory::SharedPtr<eaudiofx::ReceiverRiver> receiver = eaudiofx::ReceiverRiver::create();
+		ememory::SharedPtr<audio::blockEngine::ReceiverRiver> receiver = audio::blockEngine::ReceiverRiver::create();
 		if (receiver == nullptr) {
 			APPL_ERROR("can not create Receiver ...");
 			return;

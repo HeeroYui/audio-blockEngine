@@ -9,7 +9,7 @@
 
 namespace appl {
 	int32_t getLogId();
-};
+}
 #define APPL_BASE(info,data) ELOG_BASE(appl::getLogId(),info,data)
 
 #define APPL_PRINT(data)         APPL_BASE(-1, data)

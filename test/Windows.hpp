@@ -7,7 +7,7 @@
 
 #include <ewol/widget/Windows.hpp>
 #include <ewol/widget/Composer.hpp>
-#include <eaudiofx/core/Processing.hpp>
+#include <audio/blockEngine/core/Processing.hpp>
 
 namespace appl {
 	class Windows : public ewol::widget::Windows {
@@ -22,7 +22,7 @@ namespace appl {
 			void onCallbackPlay();
 			void onCallbackStop();
 			void onCallbackPlayStop();
-			ememory::SharedPtr<eaudiofx::Processing> m_process;
+			ememory::SharedPtr<audio::blockEngine::Processing> m_process;
 	};
 }
 

@@ -33,25 +33,25 @@ def create(target, module_name):
 	my_module = module.Module(__file__, module_name, get_type())
 	# System core
 	my_module.add_src_file([
-	    'eaudiofx/debug.cpp',
-	    'eaudiofx/Thread.cpp',
-	    'eaudiofx/flow/Base.cpp',
-	    'eaudiofx/flow/Interface.cpp',
-	    'eaudiofx/core/audio.cpp',
-	    'eaudiofx/core/Processing.cpp',
-	    'eaudiofx/core/Block.cpp',
-	    'eaudiofx/core/BlockMeta.cpp',
-	    'eaudiofx/core/Buffer.cpp',
-	    'eaudiofx/core/BufferAudio.cpp',
-	    'eaudiofx/core/BufferAudioFreq.cpp'
+	    'audio/blockEngine/debug.cpp',
+	    'audio/blockEngine/Thread.cpp',
+	    'audio/blockEngine/flow/Base.cpp',
+	    'audio/blockEngine/flow/Interface.cpp',
+	    'audio/blockEngine/core/audio.cpp',
+	    'audio/blockEngine/core/Processing.cpp',
+	    'audio/blockEngine/core/Block.cpp',
+	    'audio/blockEngine/core/BlockMeta.cpp',
+	    'audio/blockEngine/core/Buffer.cpp',
+	    'audio/blockEngine/core/BufferAudio.cpp',
+	    'audio/blockEngine/core/BufferAudioFreq.cpp'
 	    ])
 	# basic nodes:
 	my_module.add_src_file([
-	    #'eaudiofx/base/GeneratorFile.cpp',
-	    #'eaudiofx/base/ReceiverFile.cpp',
-	    #'eaudiofx/base/GeneratorRiver.cpp',
-	    'eaudiofx/base/ReceiverRiver.cpp',
-	    'eaudiofx/base/GeneratorSignal.cpp'
+	    #'audio/blockEngine/base/GeneratorFile.cpp',
+	    #'audio/blockEngine/base/ReceiverFile.cpp',
+	    #'audio/blockEngine/base/GeneratorRiver.cpp',
+	    'audio//blockEngine/base/ReceiverRiver.cpp',
+	    'audio/blockEngine/base/GeneratorSignal.cpp'
 	    ])
 	
 	# name of the dependency
@@ -61,7 +61,29 @@ def create(target, module_name):
 	    'ejson'
 	    ])
 	
-	my_module.add_path(tools.get_current_path(__file__), export=True)
+	my_module.add_header_file([
+	    'audio/blockEngine/Thread.hpp',
+	    'audio/blockEngine/flow/Base.hpp',
+	    'audio/blockEngine/flow/Flow.hpp',
+	    'audio/blockEngine/flow/Interface.hpp',
+	    'audio/blockEngine/core/Buffer.hpp',
+	    'audio/blockEngine/core/BufferAudioFreq.hpp',
+	    'audio/blockEngine/core/Block.hpp',
+	    'audio/blockEngine/core/BlockMeta.hpp',
+	    'audio/blockEngine/core/Processing.hpp',
+	    'audio/blockEngine/core/BufferAudio.hpp',
+	    'audio/blockEngine/core/audio.hpp',
+	    'audio/blockEngine/base/GeneratorRiver.hpp',
+	    'audio/blockEngine/base/GeneratorFile.hpp',
+	    'audio/blockEngine/base/ReceiverFile.hpp',
+	    'audio/blockEngine/base/ReceiverRiver.hpp',
+	    'audio/blockEngine/base/GeneratorSignal.hpp',
+	    'audio/blockEngine/debug.hpp',
+	    'audio/blockEngine/eaudiofx.hpp',
+	    ])
+	
+	#my_module.add_path(tools.get_current_path(__file__))
+	
 	return my_module
 
 
