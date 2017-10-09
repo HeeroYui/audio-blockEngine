@@ -33,17 +33,17 @@ namespace audio {
 			public:
 				BufferAudio(audio::blockEngine::Block& _parent,
 				            int32_t _frequency=48000,
-				            const std::vector<enum audioChannel>& _map={audioChannelFrontLeft,audioChannelFrontRight},
+				            const etk::Vector<enum audioChannel>& _map={audioChannelFrontLeft,audioChannelFrontRight},
 				            enum audioFormat _format=audioFormatInt16);
 				BufferAudio(audio::blockEngine::Block& _parent,
-				            const std::string& _description);
+				            const etk::String& _description);
 				virtual ~BufferAudio();
 			protected:
 				int32_t m_frequency;
-				std::vector<enum audioChannel> m_channelMap;
+				etk::Vector<enum audioChannel> m_channelMap;
 				enum audioFormat m_format;
 			protected:
-				std::vector<int8_t> m_data; //!< pointer on the data.
+				etk::Vector<int8_t> m_data; //!< pointer on the data.
 				int8_t m_sampleSize; //!< Size of one sample
 				int8_t m_chunkSize; //!< Size of one chunk Size
 			public:

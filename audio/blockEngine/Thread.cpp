@@ -42,7 +42,7 @@ static const char* threadGetCharState(enum audio::blockEngine::status state) {
  */
 void audio::blockEngine::Thread::threadChangeState(enum audio::blockEngine::status _newState) {
 	int ret;
-	std::unique_lock<std::mutex> lock(m_interfaceMutex);
+	ethread::UniqueLock lock(m_interfaceMutex);
 	// debug display :
 	ABE_DEBUG("[" << m_id << "] '" << m_name << "' Change state : " << threadGetCharState(m_state) << " ==> " << threadGetCharState(_newState));
 	// set the New state
@@ -51,7 +51,7 @@ void audio::blockEngine::Thread::threadChangeState(enum audio::blockEngine::stat
 }
 
 
-audio::blockEngine::Thread::Thread(const std::string& _chainName) {
+audio::blockEngine::Thread::Thread(const etk::String& _chainName) {
 	if (_chainName != "") {
 		m_name = _chainName;
 	} else {
@@ -84,7 +84,7 @@ int32_t audio::blockEngine::Thread::start() {
 		return audio::blockEngine::ERR_FAIL;
 	}
 	m_state = audio::blockEngine::statusCreating;
-	m_thread = std::make_shared<std::thread>(audio::blockEngine::Thread::genericThreadCall, reinterpret_cast<void*>(this));
+	m_thread = std::make_shared<ethread::Thread>(audio::blockEngine::Thread::genericThreadCall, reinterpret_cast<void*>(this));
 	// no else ==> the thread is started corectly... (we think)
 	return audio::blockEngine::ERR_NONE;
 }
@@ -92,7 +92,7 @@ int32_t audio::blockEngine::Thread::start() {
 int32_t audio::blockEngine::Thread::stop() {
 	ABE_INFO(" Stop [" << m_id << "] name='" << m_name << "'");
 	// Set the stop flag for the thread :
-	std::unique_lock<std::mutex> lock(m_interfaceMutex);
+	ethread::UniqueLock lock(m_interfaceMutex);
 	m_flags |= 1;
 	return audio::blockEngine::ERR_NONE;
 }
@@ -113,7 +113,7 @@ int32_t audio::blockEngine::Thread::stopAtEnd() {
 	if (audio::blockEngine::statusNotStarted != m_state) {
 		m_thread.reset();
 	}
-	std::unique_lock<std::mutex> lock(m_interfaceMutex);
+	ethread::UniqueLock lock(m_interfaceMutex);
 	m_flags = 0;
 	
 	m_state = audio::blockEngine::statusNotStarted;
@@ -157,7 +157,7 @@ void audio::blockEngine::Thread::threadCall() {
 	while(audio::blockEngine::statusDie != m_state) {
 		int32_t flags = 0;
 		{
-			std::unique_lock<std::mutex> lock(m_interfaceMutex);
+			ethread::UniqueLock lock(m_interfaceMutex);
 			flags = m_flags;
 			m_flags = 0;
 		}

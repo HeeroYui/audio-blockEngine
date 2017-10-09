@@ -11,9 +11,9 @@
 
 audio::blockEngine::flow::Base::Base(audio::blockEngine::flow::Interface& _flowInterfaceLink,
                            bool _input,
-                           const std::string& _name,
-                           const std::string& _description,
-                           const std::string& _formatAvaillable) :
+                           const etk::String& _name,
+                           const etk::String& _description,
+                           const etk::String& _formatAvaillable) :
   m_flowInterfaceLink(_flowInterfaceLink),
   m_name(_name),
   m_description(_description),
@@ -31,7 +31,7 @@ audio::blockEngine::flow::Base::~Base() {
 	ABE_INFO("Remove flow : '" << m_name << "' mode:'" << (m_input==true?"input":"output") << "'");
 };
 
-std::ostream& audio::blockEngine::flow::operator <<(std::ostream& _os, const audio::blockEngine::flow::Base& _obj) {
+etk::Stream& audio::blockEngine::flow::operator <<(etk::Stream& _os, const audio::blockEngine::flow::Base& _obj) {
 	_os << _obj.getName();
 	return _os;
 }
@@ -50,8 +50,8 @@ void audio::blockEngine::flow::Base::getInputBuffer() {
 }
 
 // due to the fact it acces at the block interface, we need to write it here ...
-ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::flow::Base::getFlowReference(const std::string& _blockName,
-                                                                                         const std::string& _flowLinkName) {
+ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::flow::Base::getFlowReference(const etk::String& _blockName,
+                                                                                         const etk::String& _flowLinkName) {
 	ememory::SharedPtr<audio::blockEngine::flow::BaseReference> out;
 	if (_flowLinkName == "") {
 		ABE_INFO("    Get flow : " << _blockName << ":" << _flowLinkName << " nothing to do ==> no connection ...");
@@ -71,7 +71,7 @@ ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::
 }
 
 /*
-ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::flow::Base::getBlockNamed(const std::string& _name) {
+ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::flow::Base::getBlockNamed(const etk::String& _name) {
 	ABE_ERROR("NEED to call Parrent ...");
 	return nullptr;
 }

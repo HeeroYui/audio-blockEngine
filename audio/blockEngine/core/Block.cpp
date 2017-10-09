@@ -19,7 +19,7 @@ audio::blockEngine::Block::~Block() {
 
 
 
-ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::Block::getBlockNamed(const std::string& _name) {
+ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::Block::getBlockNamed(const etk::String& _name) {
 	ememory::SharedPtr<audio::blockEngine::Block> out;
 	ABE_INFO("        get block : " << _name);
 	ewol::ObjectShared parrent = m_parent.lock();

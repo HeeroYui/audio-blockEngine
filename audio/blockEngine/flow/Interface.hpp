@@ -5,8 +5,8 @@
  */
 #pragma once
 
-#include <vector>
-#include <map>
+#include <etk/Vector.hpp>
+#include <etk/Map.hpp>
 #include <ejson/ejson.hpp>
 
 namespace audio {
@@ -18,7 +18,7 @@ namespace audio {
 			class Interface {
 				friend class audio::blockEngine::flow::Base; // to register parameter in the list.
 				private:
-					std::vector<audio::blockEngine::flow::Base*> m_list;  //!< list of availlable Flow
+					etk::Vector<audio::blockEngine::flow::Base*> m_list;  //!< list of availlable Flow
 				public:
 					/**
 					 * @brief Constructor.
@@ -45,7 +45,7 @@ namespace audio {
 					 * @brief Get All the flow list:
 					 * @return vector on all the flow names
 					 */
-					std::vector<std::string> flowGetAll() const;
+					etk::Vector<etk::String> flowGetAll() const;
 					/**
 					 * @brief Remove all flows.
 					 */
@@ -56,9 +56,9 @@ namespace audio {
 					 * @param[in] _blockName Extern block name (if "" ==> upper block)
 					 * @param[in] _flowLinkName Name of the link
 					 */
-					void flowSetLinkWith(const std::string& _flowName,
-					                     const std::string& _blockName,
-					                     const std::string& _flowLinkName);
+					void flowSetLinkWith(const etk::String& _flowName,
+					                     const etk::String& _blockName,
+					                     const etk::String& _flowLinkName);
 				public:
 					// get pointer on the specidic input and output from all the IOs
 					virtual void flowLinkInput();
@@ -74,12 +74,12 @@ namespace audio {
 					 * @param[in] _name Name of the block requested
 					 * @return The block requested if it exist.
 					 */
-					virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const std::string& _name) {
+					virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const etk::String& _name) {
 						return nullptr;
 					}
-					ememory::SharedPtr<audio::blockEngine::flow::BaseReference> getFlowReference(const std::string& _name);
+					ememory::SharedPtr<audio::blockEngine::flow::BaseReference> getFlowReference(const etk::String& _name);
 				public:
-					ejson::Object getFlowIntersection(const std::vector<ejson::Object>& _list);
+					ejson::Object getFlowIntersection(const etk::Vector<ejson::Object>& _list);
 			};
 		}
 	}

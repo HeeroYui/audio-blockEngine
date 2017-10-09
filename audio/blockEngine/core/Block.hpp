@@ -5,9 +5,9 @@
  */
 #pragma once
 
-#include <string>
-#include <mutex>
-#include <map>
+#include <etk/String.hpp>
+#include <ethread/Mutex.hpp>
+#include <etk/Map.hpp>
 #include <ewol/object/Object.hpp>
 #include <audio/blockEngine/core/audio.hpp>
 #include <audio/blockEngine/flow/Interface.hpp>
@@ -30,7 +30,7 @@ namespace audio {
 				DECLARE_FACTORY(Block);
 				virtual ~Block();
 			protected:
-				std::mutex m_mutex; //!< Block mutex access
+				ethread::Mutex m_mutex; //!< Block mutex access
 			
 			
 			public:
@@ -87,7 +87,7 @@ namespace audio {
 				int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot) {
 					return audio::blockEngine::ERR_NONE;
 				}
-				virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const std::string& _name);
+				virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const etk::String& _name);
 		};
 	}
 }

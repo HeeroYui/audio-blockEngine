@@ -15,7 +15,7 @@ audio::blockEngine::ReceiverFile::ReceiverFile() :
   m_processStarted(false) {
 	// set input :
 	m_io.insert(
-	  std::pair<std::string, audio::blockEngine::Block::IOProperty>(
+	  etk::Pair<etk::String, audio::blockEngine::Block::IOProperty>(
 	    "in",
 	    audio::blockEngine::Block::IOProperty(
 	      audio::blockEngine::Block::ioInput,

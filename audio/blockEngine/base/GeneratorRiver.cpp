@@ -12,7 +12,7 @@ audio::blockEngine::GeneratorRiver::GeneratorRiver() {
 	setLive(true);
 	// set output :
 	m_io.insert(
-	  std::pair<std::string, audio::blockEngine::Block::IOProperty>(
+	  etk::Pair<etk::String, audio::blockEngine::Block::IOProperty>(
 	    "out",
 	    audio::blockEngine::Block::IOProperty(
 	      audio::blockEngine::Block::ioOutput,

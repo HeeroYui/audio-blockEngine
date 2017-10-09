@@ -18,8 +18,8 @@ namespace audio {
 			class Base {
 				protected:
 					audio::blockEngine::flow::Interface& m_flowInterfaceLink;
-					std::string m_name;
-					std::string m_description;
+					etk::String m_name;
+					etk::String m_description;
 					bool m_input;
 					ejson::Document m_formatAvaillable;
 				public:
@@ -33,18 +33,18 @@ namespace audio {
 					 */
 					Base(audio::blockEngine::flow::Interface& _flowInterfaceLink,
 					     bool _input,
-					     const std::string& _name,
-					     const std::string& _description = "",
-					     const std::string& _formatAvaillable="{}");
+					     const etk::String& _name,
+					     const etk::String& _description = "",
+					     const etk::String& _formatAvaillable="{}");
 					/**
 					 * @brief Destructor.
 					 */
 					virtual ~Base();
 					
-					const std::string& getName() const {
+					const etk::String& getName() const {
 						return m_name;
 					}
-					const std::string& getDescription() const {
+					const etk::String& getDescription() const {
 						return m_description;
 					}
 					bool isInput() {
@@ -61,8 +61,8 @@ namespace audio {
 					 * @param[in] _blockName Extern block name (if "" ==> upper block)
 					 * @param[in] _flowLinkName Name of the link
 					 */
-					virtual void setLink(const std::string& _blockName,
-					                     const std::string& _flowLinkName) {
+					virtual void setLink(const etk::String& _blockName,
+					                     const etk::String& _flowLinkName) {
 						ABE_ERROR("[" << m_name << "] Can not create a link on an Output (only manage with input ...)");
 					}
 				protected:
@@ -75,15 +75,15 @@ namespace audio {
 						ABE_ERROR("[" << m_name << "] Can not add reference ...");
 					}
 				protected:
-					ememory::SharedPtr<BaseReference> getFlowReference(const std::string& _blockName,
-					                                                   const std::string& _flowLinkName);
+					ememory::SharedPtr<BaseReference> getFlowReference(const etk::String& _blockName,
+					                                                   const etk::String& _flowLinkName);
 				public:
 					virtual void link();
 					virtual int32_t checkCompatibility();
 					virtual void getInputBuffer();
-					//virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const std::string& _name);
+					//virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const etk::String& _name);
 			};
-			std::ostream& operator <<(std::ostream& _os, const audio::blockEngine::flow::Base& _obj);
+			etk::Stream& operator <<(etk::Stream& _os, const audio::blockEngine::flow::Base& _obj);
 			// we use a reference to simplify code of every blocks...
 			//! @not-in-doc
 			class BaseReference : public ememory::EnableSharedFromThis<BaseReference> {

@@ -9,7 +9,7 @@
 #include <audio/blockEngine/core/Block.hpp>
 #include <audio/blockEngine/core/BlockMeta.hpp>
 #include <audio/blockEngine/Thread.hpp>
-#include <vector>
+#include <etk/Vector.hpp>
 
 namespace audio {
 	namespace blockEngine {

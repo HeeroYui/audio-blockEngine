@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include <functional>
+#include <etk/Function.hpp>
 #include <audio/blockEngine/flow/Base.hpp>
 #include <audio/blockEngine/core/Buffer.hpp>
 #include <audio/blockEngine/debug.hpp>
@@ -27,9 +27,9 @@ namespace audio {
 				 */
 				Flow(audio::blockEngine::flow::Interface& _flowInterfaceLink,
 				     bool _input,
-				     const std::string& _name,
-				     const std::string& _description = "",
-				     const std::string& _formatAvaillable="{}") :
+				     const etk::String& _name,
+				     const etk::String& _description = "",
+				     const etk::String& _formatAvaillable="{}") :
 				  flow::Base(_flowInterfaceLink, _input, _name, _description, _formatAvaillable) {
 					
 				};
@@ -53,8 +53,8 @@ namespace audio {
 		namespace flow {
 			template<typename T> class Input : public Flow<T> {
 				private:
-					std::string m_blockName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Block name
-					std::string m_flowName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Flow name
+					etk::String m_blockName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Block name
+					etk::String m_flowName; //!< Temporary value of flow link (when not linked & distant block can be created after) : Flow name
 					ememory::WeakPtr<BaseReference> m_remoteFlow; //!< reference on the remote flow.
 				public:
 					/**
@@ -65,9 +65,9 @@ namespace audio {
 					 * @param[in] _formatAvaillable List of format availlable (or {} of all)
 					 */
 					Input(audio::blockEngine::flow::Interface& _flowInterfaceLink,
-					      const std::string& _name,
-					      const std::string& _description = "",
-					      const std::string& _formatAvaillable="{}") :
+					      const etk::String& _name,
+					      const etk::String& _description = "",
+					      const etk::String& _formatAvaillable="{}") :
 					  Flow<T>(_flowInterfaceLink, true, _name, _description, _formatAvaillable) {
 						
 					};
@@ -75,8 +75,8 @@ namespace audio {
 					 * @brief Destructor.
 					 */
 					virtual ~Input() { };
-					virtual void setLink(const std::string& _blockName,
-					                     const std::string& _flowLinkName) {
+					virtual void setLink(const etk::String& _blockName,
+					                     const etk::String& _flowLinkName) {
 						m_blockName = _blockName;
 						m_flowName = _flowLinkName;
 						ABE_INFO("[" << Base::m_name << "] Link with : '" << m_blockName << "':'" << m_flowName << "'");
@@ -95,7 +95,7 @@ namespace audio {
 			};
 			template<typename T> class Output : public Flow<T> {
 				protected:
-					std::vector<ememory::WeakPtr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
+					etk::Vector<ememory::WeakPtr<BaseReference>> m_remoteFlow; //!< List of reference on the remote flow (multiple childs).
 					ejson::Object m_formatMix; //!< current format that is now availlable on the flow (can be on error) represent the intersection of all flow connected
 				public:
 					/**
@@ -106,9 +106,9 @@ namespace audio {
 					 * @param[in] _formatAvaillable List of format availlable (or {} of all)
 					 */
 					Output(audio::blockEngine::flow::Interface& _flowInterfaceLink,
-					       const std::string& _name,
-					       const std::string& _description = "",
-					       const std::string& _formatAvaillable="{}") :
+					       const etk::String& _name,
+					       const etk::String& _description = "",
+					       const etk::String& _formatAvaillable="{}") :
 					  Flow<T>(_flowInterfaceLink, false, _name, _description, _formatAvaillable) {
 						
 					};
@@ -117,17 +117,17 @@ namespace audio {
 					 */
 					virtual ~Output() { };
 					virtual void addReference(const ememory::SharedPtr<BaseReference>& _reference) {
-						m_remoteFlow.push_back(_reference);
+						m_remoteFlow.pushBack(_reference);
 					}
 					virtual int32_t checkCompatibility() {
 						ABE_INFO("        check for : '" << Base::m_name << "' to " << m_remoteFlow.size() << " links");
-						std::vector<ejson::Object> list;
-						list.push_back(Base::getCapabilities());
+						etk::Vector<ejson::Object> list;
+						list.pushBack(Base::getCapabilities());
 						for (auto &it : m_remoteFlow) {
 							ememory::SharedPtr<BaseReference> tmp = it.lock();
 							if (tmp != nullptr) {
 								if (tmp->getBase() != nullptr) {
-									list.push_back(tmp->getBase()->getCapabilities());
+									list.pushBack(tmp->getBase()->getCapabilities());
 								}
 							}
 						}

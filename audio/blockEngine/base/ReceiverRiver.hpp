@@ -19,7 +19,7 @@ namespace audio {
 				                  size_t _nbChunk,
 				                  enum audio::format _format,
 				                  uint32_t _frequency,
-				                  const std::vector<audio::channel>& _map);
+				                  const etk::Vector<audio::channel>& _map);
 			protected:
 				ReceiverRiver();
 				void init();
@@ -37,7 +37,7 @@ namespace audio {
 			protected:
 				ememory::SharedPtr<audio::river::Manager> m_manager;
 				ememory::SharedPtr<audio::river::Interface> m_interface;
-				std::vector<int8_t> m_buffer;
+				etk::Vector<int8_t> m_buffer;
 			public:
 				int32_t algoProcess(int64_t _currentTime, int64_t _processTimeSlot);
 			protected:

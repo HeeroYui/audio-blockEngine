@@ -22,7 +22,7 @@ void audio::blockEngine::flow::Interface::flowAdd(audio::blockEngine::flow::Base
 		ABE_ERROR("Try to link a nullptr flow");
 		return;
 	}
-	m_list.push_back(_pointerOnFlow);
+	m_list.pushBack(_pointerOnFlow);
 }
 
 void audio::blockEngine::flow::Interface::flowRemove(audio::blockEngine::flow::Base* _pointerOnFlow) {
@@ -42,11 +42,11 @@ void audio::blockEngine::flow::Interface::flowRemove(audio::blockEngine::flow::B
 	ABE_ERROR("Try to unlink a Unexistant flow");
 }
 
-std::vector<std::string> audio::blockEngine::flow::Interface::flowGetAll() const {
-	std::vector<std::string> out;
+etk::Vector<etk::String> audio::blockEngine::flow::Interface::flowGetAll() const {
+	etk::Vector<etk::String> out;
 	for (auto &it : m_list) {
 		if(it != nullptr) {
-			out.push_back(it->getName());
+			out.pushBack(it->getName());
 		}
 	}
 	return out;
@@ -57,9 +57,9 @@ void audio::blockEngine::flow::Interface::flowRemoveAll() {
 }
 
 
-void audio::blockEngine::flow::Interface::flowSetLinkWith(const std::string& _flowName,
-                                                const std::string& _blockName,
-                                                const std::string& _flowLinkName) {
+void audio::blockEngine::flow::Interface::flowSetLinkWith(const etk::String& _flowName,
+                                                const etk::String& _blockName,
+                                                const etk::String& _flowLinkName) {
 	for (auto &it : m_list) {
 		if(    it != nullptr
 		    && it->getName() == _flowName) {
@@ -102,7 +102,7 @@ void audio::blockEngine::flow::Interface::flowGetInput() {
 }
 
 
-ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::flow::Interface::getFlowReference(const std::string& _flowName) {
+ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::flow::Interface::getFlowReference(const etk::String& _flowName) {
 	ememory::SharedPtr<audio::blockEngine::flow::BaseReference> out;
 	for (auto &it : m_list) {
 		if(    it != nullptr
@@ -153,7 +153,7 @@ static ejson::Value intersect(const ejson::Value& _obj1, const ejson::Value& _ob
 	}
 	if (_obj1.isString() == true) {
 		// just a single output value ... just check if it is the same value
-		std::string value = _obj1.toString().get();
+		etk::String value = _obj1.toString().get();
 		if (_obj2.isString() == true) {
 			if (value == _obj2.toString().get()) {
 				return ejson::String(value);
@@ -183,7 +183,7 @@ static ejson::Value intersect(const ejson::Value& _obj1, const ejson::Value& _ob
 	return ejson::Null();
 }
 
-ejson::Object audio::blockEngine::flow::Interface::getFlowIntersection(const std::vector<ejson::Object>& _list) {
+ejson::Object audio::blockEngine::flow::Interface::getFlowIntersection(const etk::Vector<ejson::Object>& _list) {
 	ABE_ERROR("-------------- start intersection --------------");
 	ejson::Object out;
 	if (_list.size() == 0) {

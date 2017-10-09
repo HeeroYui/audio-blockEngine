@@ -32,13 +32,13 @@ void audio::blockEngine::ReceiverRiver::onDataNeeded(void* _data,
                                            size_t _nbChunk,
                                            enum audio::format _format,
                                            uint32_t _frequency,
-                                           const std::vector<audio::channel>& _map) {
+                                           const etk::Vector<audio::channel>& _map) {
 	if (_format != audio::format_int16) {
 		ABE_ERROR("call wrong type ... (need int16_t)");
 	}
 	int16_t* data = static_cast<int16_t*>(_data);
 	
-	int32_t nbData = std::min(m_buffer.size()/2, _nbChunk*2);
+	int32_t nbData = etk::min(m_buffer.size()/2, _nbChunk*2);
 	for (int32_t iii=0; iii<nbData*2; ++iii) {
 		((int8_t*)_data)[iii] = m_buffer[iii];
 		//ABE_ERROR("write : " << data[iii]);
@@ -53,9 +53,9 @@ int32_t audio::blockEngine::ReceiverRiver::algoInit() {
 		return audio::blockEngine::ERR_FAIL;
 	}
 	//Set stereo output:
-	std::vector<audio::channel> channelMap;
-	channelMap.push_back(audio::channel_frontLeft);
-	channelMap.push_back(audio::channel_frontRight);
+	etk::Vector<audio::channel> channelMap;
+	channelMap.pushBack(audio::channel_frontLeft);
+	channelMap.pushBack(audio::channel_frontRight);
 	m_interface = m_manager->createOutput(48000,
 	                                      channelMap,
 	                                      audio::format_int16,

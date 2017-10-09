@@ -5,8 +5,8 @@
  */
 #pragma once
 
-#include <thread>
-#include <mutex>
+#include <ethread/Thread.hpp>
+#include <ethread/Mutex.hpp>
 #include <etk/os/Fifo.hpp>
 #include <audio/blockEngine/core/audio.hpp>
 
@@ -27,11 +27,11 @@ namespace audio {
 			private:
 				static void genericThreadCall(void * data);
 			protected:
-				std::shared_ptr<std::thread> m_thread;
-				std::mutex m_interfaceMutex;
+				std::shared_ptr<ethread::Thread> m_thread;
+				ethread::Mutex m_interfaceMutex;
 				int32_t m_flags;
 			public:
-				Thread(const std::string& _name="not-set-name");
+				Thread(const etk::String& _name="not-set-name");
 				~Thread();
 				int32_t start(); //!< start the thread
 				int32_t stop(); //!< stop this current thread (request the stop of the process) ==> a-synchronous request
@@ -43,7 +43,7 @@ namespace audio {
 			private:
 				void threadChangeState(enum status _newState); //!< information about state change
 			protected:
-				std::string m_name; //!< curent thread name
+				etk::String m_name; //!< curent thread name
 			private:
 				uint32_t m_id; //!< Thread Id it will be Unique
 				enum status m_state; //!< Thread current state

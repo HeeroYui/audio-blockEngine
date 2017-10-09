@@ -8,7 +8,7 @@
 #include <audio/blockEngine/debug.hpp>
 
 
-audio::blockEngine::BufferAudio::BufferAudio(audio::blockEngine::Block& _parent, const std::string& _description) :
+audio::blockEngine::BufferAudio::BufferAudio(audio::blockEngine::Block& _parent, const etk::String& _description) :
   audio::blockEngine::Buffer(_parent),
   m_frequency(48000),
   m_channelMap({audioChannelFrontLeft,audioChannelFrontRight}),
@@ -21,7 +21,7 @@ audio::blockEngine::BufferAudio::BufferAudio(audio::blockEngine::Block& _parent,
 
 audio::blockEngine::BufferAudio::BufferAudio(audio::blockEngine::Block& _parent,
                                    int32_t _frequency,
-                                   const std::vector<enum audioChannel>& _map,
+                                   const etk::Vector<enum audioChannel>& _map,
                                    enum audioFormat _format) :
   audio::blockEngine::Buffer(_parent),
   m_frequency(_frequency),

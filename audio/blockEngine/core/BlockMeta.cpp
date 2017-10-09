@@ -24,7 +24,7 @@ audio::blockEngine::BlockMeta::~BlockMeta() {
 	m_list.clear();
 }
 
-ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::getBlock(const std::string& _name) {
+ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::getBlock(const etk::String& _name) {
 	if (_name.size() == 0) {
 		return nullptr;
 	}
@@ -56,26 +56,26 @@ int32_t audio::blockEngine::BlockMeta::addBlock(ememory::SharedPtr<audio::blockE
 			}
 		}
 	}
-	m_list.push_back(_block);
+	m_list.pushBack(_block);
 	_block->setParent(sharedFromThis());
 	return audio::blockEngine::ERR_NONE;
 }
 
-int32_t audio::blockEngine::BlockMeta::addBlock(const std::string& _blockType, const std::string& _name) {
+int32_t audio::blockEngine::BlockMeta::addBlock(const etk::String& _blockType, const etk::String& _name) {
 	ABE_ERROR("NOT IMPLEMENTED");
 	return audio::blockEngine::ERR_NOT_IMPLEMENTED;
 }
 
-int32_t audio::blockEngine::BlockMeta::removeBlock(const std::string& _name) {
+int32_t audio::blockEngine::BlockMeta::removeBlock(const etk::String& _name) {
 	ABE_ERROR("NOT IMPLEMENTED");
 	return audio::blockEngine::ERR_NOT_IMPLEMENTED;
 }
 
 
-int32_t audio::blockEngine::BlockMeta::linkBlock(const std::string& _generatorBlockName,
-                                       const std::string& _generatorIoName,
-                                       const std::string& _receiverBlockName,
-                                       const std::string& _receiverIoName) {
+int32_t audio::blockEngine::BlockMeta::linkBlock(const etk::String& _generatorBlockName,
+                                       const etk::String& _generatorIoName,
+                                       const etk::String& _receiverBlockName,
+                                       const etk::String& _receiverIoName) {
 	// TODO : proxy IOs
 	ememory::SharedPtr<audio::blockEngine::Block> receive = getBlock(_receiverBlockName);
 	if (receive == nullptr) {
@@ -86,12 +86,12 @@ int32_t audio::blockEngine::BlockMeta::linkBlock(const std::string& _generatorBl
 	return audio::blockEngine::ERR_NONE;
 }
 
-int32_t audio::blockEngine::BlockMeta::openFile(const std::string& _fileName) {
+int32_t audio::blockEngine::BlockMeta::openFile(const etk::String& _fileName) {
 	ABE_ERROR("NOT IMPLEMENTED");
 	return audio::blockEngine::ERR_NOT_IMPLEMENTED;
 }
 
-int32_t audio::blockEngine::BlockMeta::openStream(const std::string& _stream) {
+int32_t audio::blockEngine::BlockMeta::openStream(const etk::String& _stream) {
 	ABE_ERROR("NOT IMPLEMENTED");
 	return audio::blockEngine::ERR_NOT_IMPLEMENTED;
 }
@@ -166,7 +166,7 @@ int32_t audio::blockEngine::BlockMeta::algoStop() {
 };
 
 
-ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::getBlockNamed(const std::string& _name) {
+ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::getBlockNamed(const etk::String& _name) {
 	ememory::SharedPtr<audio::blockEngine::Block> out;
 	ABE_DEBUG("[" << propertyName << "] try get Block : " << _name);
 	// Special case for proxy flow ...

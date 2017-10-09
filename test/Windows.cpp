@@ -26,7 +26,7 @@ appl::Windows::Windows() {
 
 void appl::Windows::init() {
 	ewol::widget::Windows::init();
-	std::string composition = std::string("");
+	etk::String composition = etk::String("");
 	composition += "<sizer mode='vert'>\n";
 	composition += "	<sizer mode='hori'>\n";
 	composition += "		<button name='bt-play1'>\n";
