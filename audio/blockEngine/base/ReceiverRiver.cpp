@@ -65,14 +65,14 @@ int32_t audio::blockEngine::ReceiverRiver::algoInit() {
 		return audio::blockEngine::ERR_FAIL;
 	}
 	// set callback mode ...
-	m_interface->setOutputCallback(std::bind(&ReceiverRiver::onDataNeeded,
-	                                           this,
-	                                           std::placeholders::_1,
-	                                           std::placeholders::_2,
-	                                           std::placeholders::_3,
-	                                           std::placeholders::_4,
-	                                           std::placeholders::_5,
-	                                           std::placeholders::_6));
+	m_interface->setOutputCallback([&](void* _data,
+	                                   const audio::Time& _time,
+	                                   size_t _nbChunk,
+	                                   enum audio::format _format,
+	                                   uint32_t _frequency,
+	                                   const etk::Vector<audio::channel>& _map) {
+	                                   	onDataNeeded(_data, _time, _nbChunk, _format, _frequency, _map);
+	                                   });
 	m_interface->start();
 	return audio::blockEngine::ERR_NONE;
 };

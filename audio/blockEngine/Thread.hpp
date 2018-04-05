@@ -7,6 +7,7 @@
 
 #include <ethread/Thread.hpp>
 #include <ethread/Mutex.hpp>
+#include <ememory/memory.hpp>
 #include <etk/os/Fifo.hpp>
 #include <audio/blockEngine/core/audio.hpp>
 
@@ -24,10 +25,8 @@ namespace audio {
 			statusDie, //!< the thread is diing or dead
 		};
 		class Thread {
-			private:
-				static void genericThreadCall(void * data);
 			protected:
-				std::shared_ptr<ethread::Thread> m_thread;
+				ememory::SharedPtr<ethread::Thread> m_thread;
 				ethread::Mutex m_interfaceMutex;
 				int32_t m_flags;
 			public:

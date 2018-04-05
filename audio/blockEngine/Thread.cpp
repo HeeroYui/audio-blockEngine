@@ -84,7 +84,7 @@ int32_t audio::blockEngine::Thread::start() {
 		return audio::blockEngine::ERR_FAIL;
 	}
 	m_state = audio::blockEngine::statusCreating;
-	m_thread = std::make_shared<ethread::Thread>(audio::blockEngine::Thread::genericThreadCall, reinterpret_cast<void*>(this));
+	m_thread = ememory::makeShared<ethread::Thread>([&]() { threadCall();});
 	// no else ==> the thread is started corectly... (we think)
 	return audio::blockEngine::ERR_NONE;
 }
@@ -140,15 +140,6 @@ bool audio::blockEngine::Thread::stateStop() {
 	ABE_DEBUG("Not overwrited in the herited classes: StateStop");
 	// virtual function ...
 	return false;
-}
-
-void audio::blockEngine::Thread::genericThreadCall(void* _data) {
-	audio::blockEngine::Thread * self = reinterpret_cast<audio::blockEngine::Thread*>(_data);
-	if (self != nullptr) {
-		self->threadCall();
-	} else {
-		ABE_ERROR("can not start th ethraead ...");
-	}
 }
 
 void audio::blockEngine::Thread::threadCall() {
