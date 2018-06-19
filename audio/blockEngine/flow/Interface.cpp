@@ -18,20 +18,20 @@ audio::blockEngine::flow::Interface::~Interface() {
 
 // note this pointer is not allocated and not free at the end of the class
 void audio::blockEngine::flow::Interface::flowAdd(audio::blockEngine::flow::Base* _pointerOnFlow) {
-	if (_pointerOnFlow == nullptr) {
-		ABE_ERROR("Try to link a nullptr flow");
+	if (_pointerOnFlow == null) {
+		ABE_ERROR("Try to link a null flow");
 		return;
 	}
 	m_list.pushBack(_pointerOnFlow);
 }
 
 void audio::blockEngine::flow::Interface::flowRemove(audio::blockEngine::flow::Base* _pointerOnFlow) {
-	if (_pointerOnFlow == nullptr) {
-		ABE_ERROR("Try to unlink a nullptr flow");
+	if (_pointerOnFlow == null) {
+		ABE_ERROR("Try to unlink a null flow");
 		return;
 	}
 	for (auto it(m_list.begin()); it != m_list.end(); ++it) {
-		if (*it == nullptr) {
+		if (*it == null) {
 			continue;
 		}
 		if (*it == _pointerOnFlow) {
@@ -45,7 +45,7 @@ void audio::blockEngine::flow::Interface::flowRemove(audio::blockEngine::flow::B
 etk::Vector<etk::String> audio::blockEngine::flow::Interface::flowGetAll() const {
 	etk::Vector<etk::String> out;
 	for (auto &it : m_list) {
-		if(it != nullptr) {
+		if(it != null) {
 			out.pushBack(it->getName());
 		}
 	}
@@ -61,7 +61,7 @@ void audio::blockEngine::flow::Interface::flowSetLinkWith(const etk::String& _fl
                                                 const etk::String& _blockName,
                                                 const etk::String& _flowLinkName) {
 	for (auto &it : m_list) {
-		if(    it != nullptr
+		if(    it != null
 		    && it->getName() == _flowName) {
 			it->setLink(_blockName, _flowLinkName);
 			return;
@@ -73,7 +73,7 @@ void audio::blockEngine::flow::Interface::flowSetLinkWith(const etk::String& _fl
 void audio::blockEngine::flow::Interface::flowLinkInput() {
 	ABE_INFO(" Block update the flows links (" << m_list.size() << " flows)");
 	for (auto &it : m_list) {
-		if(it != nullptr) {
+		if(it != null) {
 			it->link();
 		}
 	}
@@ -82,7 +82,7 @@ void audio::blockEngine::flow::Interface::flowLinkInput() {
 void audio::blockEngine::flow::Interface::flowCheckAllCompatibility() {
 	ABE_INFO(" Block Check the flows Capabilities (" << m_list.size() << " flows)");
 	for (auto &it : m_list) {
-		if(it != nullptr) {
+		if(it != null) {
 			it->checkCompatibility();
 		}
 	}
@@ -95,7 +95,7 @@ void audio::blockEngine::flow::Interface::flowAllocateOutput() {
 void audio::blockEngine::flow::Interface::flowGetInput() {
 	ABE_WARNING(" Block Get input data pointers");
 	for (auto &it : m_list) {
-		if(it != nullptr) {
+		if(it != null) {
 			it->getInputBuffer();
 		}
 	}
@@ -105,7 +105,7 @@ void audio::blockEngine::flow::Interface::flowGetInput() {
 ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::flow::Interface::getFlowReference(const etk::String& _flowName) {
 	ememory::SharedPtr<audio::blockEngine::flow::BaseReference> out;
 	for (auto &it : m_list) {
-		if(    it != nullptr
+		if(    it != null
 		    && it->getName() == _flowName) {
 			out = it->getReference();
 			break;

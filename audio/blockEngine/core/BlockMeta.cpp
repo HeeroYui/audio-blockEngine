@@ -15,7 +15,7 @@ audio::blockEngine::BlockMeta::BlockMeta() {
 audio::blockEngine::BlockMeta::~BlockMeta() {
 	// TODO : Unlink all ...
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		ememory::SharedPtr<audio::blockEngine::Block> tmp = it;
@@ -26,28 +26,28 @@ audio::blockEngine::BlockMeta::~BlockMeta() {
 
 ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::getBlock(const etk::String& _name) {
 	if (_name.size() == 0) {
-		return nullptr;
+		return null;
 	}
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		if (it->propertyName.get() == _name) {
 			return it;
 		}
 	}
-	return nullptr;
+	return null;
 }
 
 int32_t audio::blockEngine::BlockMeta::addBlock(ememory::SharedPtr<audio::blockEngine::Block> _block) {
-	if (_block == nullptr) {
-		ABE_ERROR("[" << getId() << "] Add nullptr block");
+	if (_block == null) {
+		ABE_ERROR("[" << getId() << "] Add null block");
 		return audio::blockEngine::ERR_INPUT_NULL;
 	}
 	if (_block->propertyName.get().size() > 0 ) {
 		// Check if name exist :
 		for (auto &it : m_list) {
-			if (it == nullptr) {
+			if (it == null) {
 				continue;
 			}
 			if (it->propertyName.get() == _block->propertyName.get()) {
@@ -78,7 +78,7 @@ int32_t audio::blockEngine::BlockMeta::linkBlock(const etk::String& _generatorBl
                                        const etk::String& _receiverIoName) {
 	// TODO : proxy IOs
 	ememory::SharedPtr<audio::blockEngine::Block> receive = getBlock(_receiverBlockName);
-	if (receive == nullptr) {
+	if (receive == null) {
 		ABE_ERROR("Can not find destination block : '" << _receiverBlockName << "'");
 		return audio::blockEngine::ERR_FAIL;
 	}
@@ -101,7 +101,7 @@ int32_t audio::blockEngine::BlockMeta::algoInit() {
 	ABE_INFO("[" << getId() << "]Init Meta block : '" << propertyName << "'");
 	int32_t ret = audio::blockEngine::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		if (it->algoInit() != audio::blockEngine::ERR_NONE) {
@@ -117,7 +117,7 @@ int32_t audio::blockEngine::BlockMeta::algoInit() {
 int32_t audio::blockEngine::BlockMeta::algoUnInit() {
 	int32_t ret = audio::blockEngine::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		if (it->algoUnInit() != audio::blockEngine::ERR_NONE) {
@@ -135,7 +135,7 @@ int32_t audio::blockEngine::BlockMeta::algoStart() {
 	ABE_INFO("[" << getId() << "] Start Meta block : '" << propertyName << "'");
 	int32_t ret = audio::blockEngine::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		if (it->algoStart() != audio::blockEngine::ERR_NONE) {
@@ -152,7 +152,7 @@ int32_t audio::blockEngine::BlockMeta::algoStop() {
 	ABE_INFO("[" << getId() << "] Stop Meta block : '" << propertyName << "'");
 	int32_t ret = audio::blockEngine::ERR_NONE;
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		if (it->algoStop() != audio::blockEngine::ERR_NONE) {
@@ -177,7 +177,7 @@ ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::BlockMeta::get
 	}
 	// find in sub elements.
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		ABE_DEBUG("   check : " << it->propertyName.get());
@@ -194,7 +194,7 @@ void audio::blockEngine::BlockMeta::flowLinkInput() {
 	ABE_INFO("[" << getId() << "] Meta block Link: '" << propertyName << "'");
 	// find in sub elements.
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		it->flowLinkInput();
@@ -208,7 +208,7 @@ void audio::blockEngine::BlockMeta::flowCheckAllCompatibility() {
 	ABE_INFO("[" << getId() << "] Meta block check compatibilities: '" << propertyName << "'");
 	// find in sub elements.
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		it->flowCheckAllCompatibility();
@@ -221,7 +221,7 @@ void audio::blockEngine::BlockMeta::flowAllocateOutput() {
 	ABE_INFO("[" << getId() << "] Meta block allocate output: '" << propertyName << "'");
 	// find in sub elements.
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		it->flowAllocateOutput();
@@ -234,7 +234,7 @@ void audio::blockEngine::BlockMeta::flowGetInput() {
 	ABE_INFO("[" << getId() << "] Meta block get input ... : '" << propertyName << "'");
 	// find in sub elements.
 	for (auto &it : m_list) {
-		if (it == nullptr) {
+		if (it == null) {
 			continue;
 		}
 		it->flowGetInput();

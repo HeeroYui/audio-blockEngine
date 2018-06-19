@@ -12,7 +12,7 @@
 
 
 audio::blockEngine::GeneratorFile::GeneratorFile() :
-  m_file(nullptr) {
+  m_file(null) {
 	// set output :
 	m_io.insert(
 	  etk::Pair<etk::String, audio::blockEngine::Block::IOProperty>(
@@ -33,7 +33,7 @@ int32_t audio::blockEngine::GeneratorFile::pull(double _currentTime, int32_t _re
 	}
 	audio::blockEngine::BufferStream* buffer = dynamic_cast<audio::blockEngine::BufferStream*>(it->second.m_buffer);
 	//ABE_ERROR("Generate data, request : " << _request << " at time : " << _currentTime);
-	if (buffer == nullptr) {
+	if (buffer == null) {
 		// !! impossible case => a buffer can not be removed ...
 		ABE_ERROR("Buffer has been removed... OR change type ...");
 		return audio::blockEngine::ERR_FAIL;
@@ -41,7 +41,7 @@ int32_t audio::blockEngine::GeneratorFile::pull(double _currentTime, int32_t _re
 	//request outpuffer needed size :
 	buffer->setProperty(_request);
 	uint8_t* data = buffer->getData();
-	if (m_file == nullptr) {
+	if (m_file == null) {
 		ABE_ERROR("Buffer output error ==> !!ERROR!!");
 		return audio::blockEngine::ERR_FAIL;
 	}
@@ -53,7 +53,7 @@ int32_t audio::blockEngine::GeneratorFile::pull(double _currentTime, int32_t _re
 
 int32_t audio::blockEngine::GeneratorFile::init() {
 	m_file = new etk::FSNode("DATA:menu.wav");
-	if (m_file == nullptr) {
+	if (m_file == null) {
 		ABE_ERROR("Can not allocate the input file ...");
 		return audio::blockEngine::ERR_FAIL;
 	}
@@ -66,17 +66,17 @@ int32_t audio::blockEngine::GeneratorFile::init() {
 
 
 int32_t audio::blockEngine::GeneratorFile::unInit() {
-	if (m_file == nullptr) {
+	if (m_file == null) {
 		return audio::blockEngine::ERR_NONE;
 	}
 	if (m_file->fileClose() == false) {
 		ABE_ERROR("Can not close the input file ...");
 		delete(m_file);
-		m_file = nullptr;
+		m_file = null;
 		return audio::blockEngine::ERR_FAIL;
 	}
 	delete(m_file);
-	m_file = nullptr;
+	m_file = null;
 	return audio::blockEngine::ERR_NONE;
 }
 

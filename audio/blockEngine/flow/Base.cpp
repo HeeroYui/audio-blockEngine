@@ -57,11 +57,11 @@ ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::
 		ABE_INFO("    Get flow : " << _blockName << ":" << _flowLinkName << " nothing to do ==> no connection ...");
 	}
 	ememory::SharedPtr<audio::blockEngine::Block> blockRemote = m_flowInterfaceLink.getBlockNamed(_blockName);
-	if (blockRemote == nullptr) {
+	if (blockRemote == null) {
 		ABE_ERROR("    Get flow : '" << m_name << "' mode:'input' to " << _blockName << ":" << _flowLinkName << " Error no remote block");
 	} else {
 		out = blockRemote->getFlowReference(_flowLinkName);
-		if (out == nullptr) {
+		if (out == null) {
 			ABE_ERROR("    Get flow : '" << m_name << "' mode:'input' to " << _blockName << ":" << _flowLinkName << " Error no Flow found");
 		} else {
 			ABE_INFO("    Get flow : " << _blockName << ":" << _flowLinkName);
@@ -73,6 +73,6 @@ ememory::SharedPtr<audio::blockEngine::flow::BaseReference> audio::blockEngine::
 /*
 ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::flow::Base::getBlockNamed(const etk::String& _name) {
 	ABE_ERROR("NEED to call Parrent ...");
-	return nullptr;
+	return null;
 }
 */

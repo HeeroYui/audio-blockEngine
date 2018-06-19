@@ -23,9 +23,9 @@ ememory::SharedPtr<audio::blockEngine::Block> audio::blockEngine::Block::getBloc
 	ememory::SharedPtr<audio::blockEngine::Block> out;
 	ABE_INFO("        get block : " << _name);
 	ewol::ObjectShared parrent = m_parent.lock();
-	if (parrent != nullptr) {
+	if (parrent != null) {
 		ememory::SharedPtr<audio::blockEngine::Block> parrentBlock = ememory::dynamicPointerCast<audio::blockEngine::Block>(parrent);
-		if (parrentBlock != nullptr) {
+		if (parrentBlock != null) {
 			return parrentBlock->getBlockNamed(_name);
 		} else {
 			ABE_INFO("            Parent is not a Block ...");

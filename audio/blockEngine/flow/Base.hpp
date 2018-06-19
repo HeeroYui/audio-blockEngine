@@ -90,13 +90,13 @@ namespace audio {
 				protected:
 					Base* m_basePointer;
 				public:
-					BaseReference(Base* _base = nullptr) :
+					BaseReference(Base* _base = null) :
 					  m_basePointer(_base) {
 						// nothing to do ...
 					}
 					~BaseReference() {}
 					void removeBase() {
-						m_basePointer = nullptr;
+						m_basePointer = null;
 					}
 					inline Base* getBase() const {
 						return m_basePointer;

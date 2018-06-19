@@ -49,7 +49,7 @@ void appl::Windows::init() {
 	composition += "</sizer>\n";
 	
 	m_composer = ewol::widget::Composer::create();
-	if (m_composer == nullptr) {
+	if (m_composer == null) {
 		APPL_CRITICAL(" An error occured ... in the windows creatrion ...");
 		return;
 	}
@@ -69,13 +69,13 @@ void appl::Windows::onCallbackPlay() {
 	#if 0
 		APPL_INFO("Play Requested ...");
 		m_process = audio::blockEngine::Processing::create();
-		if (m_process == nullptr) {
+		if (m_process == null) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		APPL_INFO("Create Generator ...");
 		ememory::SharedPtr<audio::blockEngine::GeneratorFile> generator = audio::blockEngine::GeneratorFile::create();
-		if (generator == nullptr) {
+		if (generator == null) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
@@ -84,7 +84,7 @@ void appl::Windows::onCallbackPlay() {
 		
 		APPL_INFO("Create DECODER ...");
 		ememory::SharedPtr<audio::blockEngine::BlockDecoder> decoder = audio::blockEngine::BlockDecoder::create();
-		if (decoder == nullptr) {
+		if (decoder == null) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
@@ -93,7 +93,7 @@ void appl::Windows::onCallbackPlay() {
 		
 		APPL_INFO("Create Receiver ...");
 		ememory::SharedPtr<audio::blockEngine::ReceiverRtAudio> receiver = audio::blockEngine::ReceiverRtAudio::create();
-		if (receiver == nullptr) {
+		if (receiver == null) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
 		}
@@ -108,14 +108,14 @@ void appl::Windows::onCallbackPlay() {
 	#else
 		APPL_INFO("Play Requested ...");
 		m_process = audio::blockEngine::Processing::create();
-		if (m_process == nullptr) {
+		if (m_process == null) {
 			APPL_ERROR("can not create processing ...");
 			return;
 		}
 		m_process->propertyName.set("main Process");
 		APPL_INFO("Create Generator Sinus");
 		ememory::SharedPtr<audio::blockEngine::GeneratorSignal> generator = audio::blockEngine::GeneratorSignal::create();
-		if (generator == nullptr) {
+		if (generator == null) {
 			APPL_ERROR("can not create Generator ...");
 			return;
 		}
@@ -124,7 +124,7 @@ void appl::Windows::onCallbackPlay() {
 		
 		APPL_INFO("Create Receiver ...");
 		ememory::SharedPtr<audio::blockEngine::ReceiverRiver> receiver = audio::blockEngine::ReceiverRiver::create();
-		if (receiver == nullptr) {
+		if (receiver == null) {
 			APPL_ERROR("can not create Receiver ...");
 			return;
 		}
@@ -139,7 +139,7 @@ void appl::Windows::onCallbackPlay() {
 }
 
 void appl::Windows::onCallbackStop() {
-	if (m_process != nullptr) {
+	if (m_process != null) {
 		m_process->stop();
 	}
 }

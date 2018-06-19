@@ -75,7 +75,7 @@ namespace audio {
 					 * @return The block requested if it exist.
 					 */
 					virtual ememory::SharedPtr<audio::blockEngine::Block> getBlockNamed(const etk::String& _name) {
-						return nullptr;
+						return null;
 					}
 					ememory::SharedPtr<audio::blockEngine::flow::BaseReference> getFlowReference(const etk::String& _name);
 				public:

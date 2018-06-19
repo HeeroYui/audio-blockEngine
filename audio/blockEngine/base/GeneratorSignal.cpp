@@ -33,7 +33,7 @@ int32_t audio::blockEngine::GeneratorSignal::pull(double _currentTime, int32_t _
 	}
 	audio::blockEngine::BufferAudioRaw* buffer = dynamic_cast<audio::blockEngine::BufferAudioRaw*>(it->second.m_buffer);
 	//ABE_ERROR("Generate data, request : " << _request << " at time : " << _currentTime);
-	if (buffer == nullptr) {
+	if (buffer == null) {
 		// !! impossible case => a buffer can not be removed ...
 		ABE_ERROR("Buffer has been removed... OR change type ...");
 		return audio::blockEngine::ERR_FAIL;

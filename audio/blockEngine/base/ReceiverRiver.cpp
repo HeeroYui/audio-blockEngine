@@ -48,7 +48,7 @@ void audio::blockEngine::ReceiverRiver::onDataNeeded(void* _data,
 int32_t audio::blockEngine::ReceiverRiver::algoInit() {
 	ABE_DEBUG("Intanciate audio::river Manager ...");
 	m_manager = audio::river::Manager::create("eaudio-fx-output");
-	if (m_manager == nullptr) {
+	if (m_manager == null) {
 		ABE_ERROR("Can not intanciate RIVER interface");
 		return audio::blockEngine::ERR_FAIL;
 	}
@@ -60,8 +60,8 @@ int32_t audio::blockEngine::ReceiverRiver::algoInit() {
 	                                      channelMap,
 	                                      audio::format_int16,
 	                                      "speaker");
-	if(m_interface == nullptr) {
-		ABE_ERROR("nullptr interface");
+	if(m_interface == null) {
+		ABE_ERROR("null interface");
 		return audio::blockEngine::ERR_FAIL;
 	}
 	// set callback mode ...
@@ -79,8 +79,8 @@ int32_t audio::blockEngine::ReceiverRiver::algoInit() {
 
 int32_t audio::blockEngine::ReceiverRiver::algoUnInit() {
 	ABE_DEBUG("un-init Stream ...");
-	if(m_interface == nullptr) {
-		ABE_ERROR("nullptr interface");
+	if(m_interface == null) {
+		ABE_ERROR("null interface");
 		return audio::blockEngine::ERR_FAIL;
 	}
 	m_interface.reset();
@@ -90,8 +90,8 @@ int32_t audio::blockEngine::ReceiverRiver::algoUnInit() {
 
 int32_t audio::blockEngine::ReceiverRiver::algoStart() {
 	ABE_DEBUG("Start stream ...");
-	if(m_interface == nullptr) {
-		ABE_ERROR("nullptr interface");
+	if(m_interface == null) {
+		ABE_ERROR("null interface");
 		return audio::blockEngine::ERR_FAIL;
 	}
 	m_interface->start();
@@ -100,8 +100,8 @@ int32_t audio::blockEngine::ReceiverRiver::algoStart() {
 
 int32_t audio::blockEngine::ReceiverRiver::algoStop() {
 	ABE_DEBUG("Stop Stream ...");
-	if(m_interface == nullptr) {
-		ABE_ERROR("nullptr interface");
+	if(m_interface == null) {
+		ABE_ERROR("null interface");
 		return audio::blockEngine::ERR_FAIL;
 	}
 	m_interface->stop();

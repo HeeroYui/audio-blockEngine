@@ -40,7 +40,7 @@ namespace audio {
 				void set(const ememory::SharedPtr<audio::blockEngine::Buffer>& _data){
 					m_data.reset();
 					ememory::SharedPtr<T> check = ememory::dynamicPointerCast<T>(_data);
-					if (check == nullptr) {
+					if (check == null) {
 						ABE_ERROR("can not set buffer as flow (type uncompatible)");
 						return;
 					}
@@ -85,7 +85,7 @@ namespace audio {
 						ABE_INFO("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName);
 						ememory::SharedPtr<BaseReference> remoteFlow = Base::getFlowReference(m_blockName, m_flowName);
 						m_remoteFlow = remoteFlow;
-						if (remoteFlow == nullptr) {
+						if (remoteFlow == null) {
 							ABE_ERROR("    link flow : '" << Base::m_name << "' mode:'input' to " << m_blockName << ":" << m_flowName << " Error no Flow found");
 							return;
 						}
@@ -125,8 +125,8 @@ namespace audio {
 						list.pushBack(Base::getCapabilities());
 						for (auto &it : m_remoteFlow) {
 							ememory::SharedPtr<BaseReference> tmp = it.lock();
-							if (tmp != nullptr) {
-								if (tmp->getBase() != nullptr) {
+							if (tmp != null) {
+								if (tmp->getBase() != null) {
 									list.pushBack(tmp->getBase()->getCapabilities());
 								}
 							}
